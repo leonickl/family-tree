@@ -13,7 +13,7 @@ function PersonCard({
     return person ? (
         <div className="relative h-20 w-52 rounded-2xl border border-slate-400 bg-gray-50 p-3 text-center shadow-md">
             {topLine && (
-                <div className="absolute -top-[21px] left-1/2 h-5 w-0.5 bg-gray-300"></div>
+                <div className="absolute -top-[23px] left-1/2 h-[22px] w-[2px] bg-gray-300"></div>
             )}
 
             <div className="text-md font-semibold">{personLink(person)}</div>
@@ -76,7 +76,7 @@ function FamilyNode({
                     topLine={family.husband?.id === child?.id}
                 />
 
-                <div className="h-0.5 w-10 bg-gray-300"></div>
+                <div className="h-[2px] w-10 bg-gray-300"></div>
 
                 <PersonCard
                     person={family.wife}
@@ -85,30 +85,34 @@ function FamilyNode({
             </div>
 
             {(standaloneChildren.length > 0 || childFamilies.length > 0) && (
-                <div className="absolute top-10 h-[62px] w-0.5 bg-gray-300"></div>
+                <div className="absolute top-10 h-[62px] w-[2px] bg-gray-300"></div>
             )}
 
-            <div className="flex flex-row items-start gap-5 border-t-2 border-t-gray-300 pt-5">
-                {standaloneChildren.length > 0 &&
-                    standaloneChildren.map((child) => (
-                        <PersonCard key={child.id} person={child} topLine />
-                    ))}
+            <div className="flex flex-col gap-5 items-center">
+                <div className="w-[calc(100%-208px)] h-[2px] bg-gray-300" />
 
-                {childFamilies.length > 0 &&
-                    childFamilies.map(([child, childFamily]) => (
-                        <div
-                            key={childFamily.id}
-                            className="flex flex-col items-center"
-                        >
-                            <FamilyNode
-                                child={child}
-                                family={childFamily}
-                                families={families}
-                                level={level + 1}
-                                visited={branchVisited}
-                            />
-                        </div>
-                    ))}
+                <div className="flex flex-row items-start gap-5">
+                    {standaloneChildren.length > 0 &&
+                        standaloneChildren.map((child) => (
+                            <PersonCard key={child.id} person={child} topLine />
+                        ))}
+
+                    {childFamilies.length > 0 &&
+                        childFamilies.map(([child, childFamily]) => (
+                            <div
+                                key={childFamily.id}
+                                className="flex flex-col items-center"
+                            >
+                                <FamilyNode
+                                    child={child}
+                                    family={childFamily}
+                                    families={families}
+                                    level={level + 1}
+                                    visited={branchVisited}
+                                />
+                            </div>
+                        ))}
+                </div>
             </div>
         </div>
     );
