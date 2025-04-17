@@ -13,7 +13,7 @@ function PersonCard({
     return person ? (
         <div className="relative h-20 w-52 rounded-2xl border border-slate-400 bg-gray-50 p-3 text-center shadow-md">
             {topLine && (
-                <div className="absolute -top-[21px] left-1/2 h-5 w-0.5 bg-green-300"></div>
+                <div className="absolute -top-[21px] left-1/2 h-5 w-0.5 bg-gray-300"></div>
             )}
 
             <div className="text-md font-semibold">{personLink(person)}</div>
@@ -88,7 +88,7 @@ function FamilyNode({
                 <div className="absolute top-10 h-[62px] w-0.5 bg-gray-300"></div>
             )}
 
-            <div className="flex flex-row items-start gap-5 border-t-2 border-t-red-300 pt-5">
+            <div className="flex flex-row items-start gap-5 border-t-2 border-t-gray-300 pt-5">
                 {standaloneChildren.length > 0 &&
                     standaloneChildren.map((child) => (
                         <PersonCard key={child.id} person={child} topLine />
