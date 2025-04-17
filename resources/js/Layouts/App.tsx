@@ -6,7 +6,8 @@ import AuthenticatedLayout from './AuthenticatedLayout';
 export default function App({
     title,
     children,
-}: PropsWithChildren<{ title: string }>) {
+    full = false,
+}: PropsWithChildren<{ title: string; full?: boolean }>) {
     return (
         <AuthenticatedLayout
             header={
@@ -18,7 +19,9 @@ export default function App({
             <Head title={__(title)} />
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div
+                    className={`mx-auto ${full ? 'w-full' : 'max-w-7xl'} sm:px-6 lg:px-8`}
+                >
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             {children}
