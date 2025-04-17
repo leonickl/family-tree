@@ -3,47 +3,61 @@ import App from '@/Layouts/App';
 import { Family, PageProps, Person } from '@/types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-const PersonCard = React.memo(function PersonCard({
+function PersonCard({
     person,
+    topLine = false,
 }: {
     person: Person | null | undefined;
+    topLine?: boolean;
 }) {
-    if (!person) return null;
-    return (
-        <div className="w-52 rounded-2xl bg-gray-50 p-3 text-center shadow-md">
+    return person ? (
+        <div className="relative h-20 w-52 rounded-2xl border border-slate-400 bg-gray-50 p-3 text-center shadow-md">
+            {topLine && (
+                <div className="absolute -top-[21px] left-1/2 h-5 w-0.5 bg-green-300"></div>
+            )}
+
             <div className="text-md font-semibold">{personLink(person)}</div>
+
             <div className="text-xs text-gray-400">
                 {person.birth?.date?.date ? `${person.birth.date.date}` : ''}
                 {person.death?.date?.date ? ` - ${person.death.date.date}` : ''}
             </div>
         </div>
-    );
-});
+    ) : null;
+}
 
-const FamilyNode = React.memo(function FamilyNode({
+function FamilyNode({
     family,
     families,
     level = 0,
     visited = new Set<string>(),
+    child = undefined,
 }: {
     family: Family;
     families: { [key: string]: Family };
     level?: number;
     visited?: Set<string>;
+    child?: Person;
 }) {
     const branchVisited = new Set(visited);
+
     if (branchVisited.has(family.id)) {
         return null;
     }
+
     branchVisited.add(family.id);
 
     const childFamilies = useMemo(() => {
-        return Object.values(families).filter((f) => {
-            return family.children.some(
-                (child) =>
-                    child.id === f.husband?.id || child.id === f.wife?.id,
-            );
-        });
+        return Object.values(families)
+            .map((f): [Person | undefined, Family] => {
+                const child = family.children.find(
+                    (child) =>
+                        child.id === f.husband?.id || child.id === f.wife?.id,
+                );
+
+                return [child, f];
+            })
+            .filter(([child]) => child);
     }, [families, family.children]);
 
     const standaloneChildren = useMemo(() => {
@@ -55,53 +69,55 @@ const FamilyNode = React.memo(function FamilyNode({
     }, [families, family.children]);
 
     return (
-        <div className="flex flex-col items-center">
-            <div className="relative flex items-center space-x-6">
-                <PersonCard person={family.husband} />
-                <PersonCard person={family.wife} />
+        <div className="relative flex flex-col items-center">
+            <div className="relative mb-5 flex items-center">
+                <PersonCard
+                    person={family.husband}
+                    topLine={family.husband?.id === child?.id}
+                />
+
+                <div className="h-0.5 w-10 bg-gray-300"></div>
+
+                <PersonCard
+                    person={family.wife}
+                    topLine={family.wife?.id === child?.id}
+                />
             </div>
 
             {(standaloneChildren.length > 0 || childFamilies.length > 0) && (
-                <div className="h-6 w-0.5 bg-gray-300"></div>
+                <div className="absolute top-10 h-[62px] w-0.5 bg-gray-300"></div>
             )}
 
-            <div className="flex flex-col items-center">
-                {standaloneChildren.length > 0 && (
-                    <div className="mb-4 flex space-x-4">
-                        {standaloneChildren.map((child) => (
-                            <PersonCard key={child.id} person={child} />
-                        ))}
-                    </div>
-                )}
+            <div className="flex flex-row items-start gap-5 border-t-2 border-t-red-300 pt-5">
+                {standaloneChildren.length > 0 &&
+                    standaloneChildren.map((child) => (
+                        <PersonCard key={child.id} person={child} topLine />
+                    ))}
 
-                {childFamilies.length > 0 && (
-                    <div className="flex space-x-10 pt-4">
-                        {childFamilies.map((childFamily) => (
-                            <div
-                                key={childFamily.id}
-                                className="flex flex-col items-center"
-                            >
-                                <FamilyNode
-                                    family={childFamily}
-                                    families={families}
-                                    level={level + 1}
-                                    visited={branchVisited}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                )}
+                {childFamilies.length > 0 &&
+                    childFamilies.map(([child, childFamily]) => (
+                        <div
+                            key={childFamily.id}
+                            className="flex flex-col items-center"
+                        >
+                            <FamilyNode
+                                child={child}
+                                family={childFamily}
+                                families={families}
+                                level={level + 1}
+                                visited={branchVisited}
+                            />
+                        </div>
+                    ))}
             </div>
         </div>
     );
-});
+}
 
 export default function Tree({
     families,
-    people,
 }: PageProps<{
     families: { [key: string]: Family };
-    people: { [key: string]: Person };
 }>) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -114,9 +130,11 @@ export default function Tree({
             const isHusbandChild = Object.values(families).some((f) =>
                 f.children.some((child) => child.id === family.husband?.id),
             );
+
             const isWifeChild = Object.values(families).some((f) =>
                 f.children.some((child) => child.id === family.wife?.id),
             );
+
             return !isHusbandChild && !isWifeChild;
         });
     }, [families]);

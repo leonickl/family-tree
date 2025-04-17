@@ -8,7 +8,6 @@ class TreeController extends Controller
     {
         return inertia('Tree', [
             'families' => tree()->families()->toArray(),
-            'people' => tree()->people()->toArray(),
         ]);
     }
 }
