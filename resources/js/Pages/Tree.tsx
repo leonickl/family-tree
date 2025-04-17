@@ -7,9 +7,8 @@ function PersonCard({ person }: { person: Person | null | undefined }) {
     if (!person) return null;
 
     return (
-        <div className="w-40 rounded-2xl bg-gray-50 p-4 text-center shadow-md">
-            <div className="text-lg font-semibold">{personLink(person)}</div>
-            <div className="text-sm text-gray-500">{person.sex}</div>
+        <div className="w-52 rounded-2xl bg-gray-50 p-3 text-center shadow-md">
+            <div className="text-md font-semibold">{personLink(person)}</div>
             <div className="text-xs text-gray-400">
                 {person.birth?.date?.date ? `${person.birth.date.date}` : ''}
                 {person.death?.date?.date ? ` - ${person.death.date.date}` : ''}
@@ -20,7 +19,7 @@ function PersonCard({ person }: { person: Person | null | undefined }) {
 
 function FamilyComponent({ family }: { family: Family }) {
     return (
-        <div className="relative flex flex-col items-center space-y-6">
+        <div className="relative flex flex-col items-center space-y-6 border-b pb-10">
             <div className="relative z-10 flex space-x-6">
                 <PersonCard person={family.husband} />
                 <PersonCard person={family.wife} />
