@@ -19,27 +19,24 @@ class Person implements Arrayable
         return $this->indi->getUid();
     }
 
-    public function birthday()
+    public function birth()
     {
-        return $this->indi->getBirt();
+        return Birth::make($this->indi->getBirt());
     }
 
     public function burial()
     {
-        return $this->indi->getBuri();
+        return Burial::make($this->indi->getBuri());
     }
 
     public function death()
     {
-        return $this->indi->getDeat();
+        return Death::make($this->indi->getDeat());
     }
 
-    public function name()
+    public function names()
     {
-        $names = collect($this->indi->getName())
-            ->map(fn (\Gedcom\Record\Indi\Name $name) => new Name($name));
-
-        return new Names($names);
+        return new Names($this->indi->getName());
     }
 
     public function sex()
@@ -76,18 +73,17 @@ class Person implements Arrayable
 
     public function __toString()
     {
-        return $this->id().' - '.$this->name();
+        return $this->id().' - '.$this->names();
     }
 
     public function toArray()
     {
         return [
             'id' => $this->id(),
-            'uid' => $this->uid(),
-            'birthday' => $this->birthday(),
-            'burial' => $this->burial(),
-            'death' => $this->death(),
-            'name' => $this->name()->toArray(),
+            'birth' => $this->birth()?->toArray(),
+            'burial' => $this->burial()?->toArray(),
+            'death' => $this->death()?->toArray(),
+            'names' => $this->names()->toArray(),
             'sex' => $this->sex(),
             'attributes' => $this->attributes()->toArray(),
             'events' => $this->events()->toArray(),

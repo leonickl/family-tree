@@ -12,9 +12,9 @@ class Tree
 
     private function __construct(private Gedcom $parser) {}
 
-    public static function init(string $file)
+    public static function init(string $file = 'tree')
     {
-        return self::$instance = new self((new \Gedcom\Parser)->parse(storage_path($file)));
+        return self::$instance = new self((new \Gedcom\Parser)->parse(storage_path('trees/' . $file . '.ged')));
     }
 
     public static function make()

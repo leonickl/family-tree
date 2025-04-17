@@ -3,15 +3,15 @@
 namespace App;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
 
 class Names implements Arrayable
 {
-    public function __construct(private Collection $names) {}
+    public function __construct(private array $names) {}
 
     public function all()
     {
-        return $this->names;
+        return collect($this->names)
+            ->map(fn (\Gedcom\Record\Indi\Name $name) => new Name($name));
     }
 
     public function __toString()
