@@ -1,122 +1,38 @@
+import { person as personLink } from '@/functions';
+import App from '@/Layouts/App';
 import { Family, PageProps, Person } from '@/types';
+import { useEffect, useRef, useState } from 'react';
 
-type TreeNode = {
-    person: Person | null;
-    spouse: Person | null;
-    children: TreeNode[];
-};
+function PersonCard({ person }: { person: Person | null | undefined }) {
+    if (!person) return null;
 
-function buildTree(
-    rootFamilyId: string,
-    families: Record<string, Family>,
-): TreeNode {
-    const family = families[rootFamilyId];
-    if (!family) return { person: null, spouse: null, children: [] };
-
-    const children = family.children
-        .map((child) => {
-            const childFamily = Object.values(families).find(
-                (f) => f.husband?.id === child.id || f.wife?.id === child.id,
-            );
-            return buildTree(childFamily?.id ?? '', families);
-        })
-        .filter(Boolean);
-
-    return {
-        person: family.husband ?? null,
-        spouse: family.wife ?? null,
-        children,
-    };
+    return (
+        <div className="w-52 rounded-2xl bg-gray-50 p-3 text-center shadow-md">
+            <div className="text-md font-semibold">{personLink(person)}</div>
+            <div className="text-xs text-gray-400">
+                {person.birth?.date?.date ? `${person.birth.date.date}` : ''}
+                {person.death?.date?.date ? ` - ${person.death.date.date}` : ''}
+            </div>
+        </div>
+    );
 }
 
-const NODE_WIDTH = 140;
-const NODE_HEIGHT = 60;
-const SPACING_X = 40;
-const SPACING_Y = 100;
-
-function renderNode(
-    node: TreeNode,
-    x: number,
-    y: number,
-    depth: number = 0,
-): { elements: JSX.Element[]; width: number } {
-    const elements: JSX.Element[] = [];
-
-    // Render person + spouse side-by-side
-    const personName = node.person?.names[0]?.given ?? 'Unknown';
-    const spouseName = node.spouse?.names[0]?.given ?? 'Unknown';
-
-    const coupleX = x;
-    const coupleWidth = NODE_WIDTH * 2 + SPACING_X;
-
-    elements.push(
-        <g
-            key={`${personName}-${spouseName}`}
-            transform={`translate(${coupleX}, ${y})`}
-        >
-            <rect
-                width={NODE_WIDTH}
-                height={NODE_HEIGHT}
-                fill="#cce4ff"
-                rx={10}
-            />
-            <text x={10} y={30}>
-                {personName}
-            </text>
-
-            <rect
-                x={NODE_WIDTH + SPACING_X}
-                width={NODE_WIDTH}
-                height={NODE_HEIGHT}
-                fill="#ffcce0"
-                rx={10}
-            />
-            <text x={NODE_WIDTH + SPACING_X + 10} y={30}>
-                {spouseName}
-            </text>
-
-            {/* Marriage line */}
-            <line
-                x1={NODE_WIDTH}
-                y1={NODE_HEIGHT / 2}
-                x2={NODE_WIDTH + SPACING_X}
-                y2={NODE_HEIGHT / 2}
-                stroke="#999"
-            />
-        </g>,
+function FamilyComponent({ family }: { family: Family }) {
+    return (
+        <div className="relative flex flex-col items-center space-y-6 border-b pb-10">
+            <div className="relative z-10 flex space-x-6">
+                <PersonCard person={family.husband} />
+                <PersonCard person={family.wife} />
+            </div>
+            {family.children.length > 0 && (
+                <div className="relative z-10 mt-4 flex space-x-4">
+                    {family.children.map((child) => (
+                        <PersonCard key={child.id} person={child} />
+                    ))}
+                </div>
+            )}
+        </div>
     );
-
-    // Render children recursively
-    let childX = x;
-    let totalWidth = 0;
-
-    node.children.forEach((childNode, idx) => {
-        const result = renderNode(
-            childNode,
-            childX,
-            y + NODE_HEIGHT + SPACING_Y,
-            depth + 1,
-        );
-        elements.push(...result.elements);
-
-        // Connect parent to child
-        elements.push(
-            <line
-                key={`line-${depth}-${idx}`}
-                x1={coupleX + coupleWidth / 2}
-                y1={y + NODE_HEIGHT}
-                x2={childX + result.width / 2}
-                y2={y + NODE_HEIGHT + SPACING_Y}
-                stroke="#999"
-            />,
-        );
-
-        childX += result.width + SPACING_X;
-        totalWidth += result.width + SPACING_X;
-    });
-
-    totalWidth = Math.max(totalWidth, coupleWidth);
-    return { elements, width: totalWidth };
 }
 
 export default function Tree({
@@ -126,14 +42,61 @@ export default function Tree({
     families: { [key: string]: Family };
     people: { [key: string]: Person };
 }>) {
-    const rootFamilyId = Object.keys(families)[0]; // pick your starting point
-    const treeData = buildTree(rootFamilyId, families);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [origin, setOrigin] = useState<{ x: number; y: number }>({
+        x: 0,
+        y: 0,
+    });
+    const [translate, setTranslate] = useState<{ x: number; y: number }>({
+        x: 0,
+        y: 0,
+    });
 
-    const { elements } = renderNode(treeData, 50, 50);
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDragging) {
+                setTranslate((prev) => ({
+                    x: prev.x + e.movementX,
+                    y: prev.y + e.movementY,
+                }));
+            }
+        };
+
+        const handleMouseUp = () => setIsDragging(false);
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDragging]);
 
     return (
-        <svg width="4000" height="2000">
-            {elements}
-        </svg>
+        <App title="tree" full>
+            <div
+                ref={containerRef}
+                className="h-screen w-full cursor-grab select-none overflow-hidden active:cursor-grabbing"
+                onMouseDown={(e) => {
+                    setIsDragging(true);
+                    setOrigin({ x: e.clientX, y: e.clientY });
+                }}
+            >
+                <div
+                    className="relative transition-transform duration-100"
+                    style={{
+                        transform: `translate(${translate.x}px, ${translate.y}px)`,
+                    }}
+                >
+                    <div className="space-y-10 p-6">
+                        {Object.values(families).map((family) => (
+                            <FamilyComponent key={family.id} family={family} />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </App>
     );
 }
