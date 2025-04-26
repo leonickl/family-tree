@@ -7,7 +7,8 @@ class TreeController extends Controller
     public function index()
     {
         return inertia('Tree', [
-            'families' => tree()->families()->toArray(),
+            'families' => tree()->families()->values()->toArray(),
+            'people' => tree()->people()->values()->toArray(),
         ]);
     }
 }
