@@ -14,6 +14,6 @@ class Names
 
     public function __toString()
     {
-        return $this->all()->map(fn (Name $name) => (string) $name)->implode(', ');
+        return $this->all()->map(fn (Name $name) => (string) $name)->join(', ');
     }
 }

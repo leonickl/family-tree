@@ -3,6 +3,7 @@
 namespace App\Types;
 
 use Gedcom\Record\Fam;
+use App\Tree;
 
 class Family
 {
@@ -15,18 +16,18 @@ class Family
 
     public function husband()
     {
-        return tree()->person($this->fam->getHusb());
+        return Tree::make()->person($this->fam->getHusb());
     }
 
     public function wife()
     {
-        return tree()->person($this->fam->getWife());
+        return Tree::make()->person($this->fam->getWife());
     }
 
     public function children()
     {
         return c(...$this->fam->getChil())
-            ->map(fn (?string $id) => tree()->person($id));
+            ->map(fn (?string $id) => Tree::make()->person($id));
     }
 
     public function events()
@@ -43,6 +44,10 @@ class Family
 
     public function __toString()
     {
-        return $this->id();
+        $husband = $this->husband() ?? '---';
+        $wife = $this->wife() ?? '---';
+        $children = $this->children()->join(', ');
+
+        return $husband.' + '.$wife.($children ? ' = '.$children : '');
     }
 }

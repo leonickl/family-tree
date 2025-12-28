@@ -72,6 +72,10 @@ class Person
 
     public function __toString()
     {
-        return $this->id().' - '.$this->names();
+        if(trim($this->names()) === '') {
+            return '---';
+        }
+
+        return $this->names();
     }
 }
