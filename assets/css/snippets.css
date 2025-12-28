@@ -14,6 +14,12 @@
     gap: 1rem;
 }
 
+.column-4 {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 .end {
     justify-content: flex-end;
 }
@@ -37,6 +43,14 @@
 
 .p-0 {
     padding: 0;
+}
+
+.px-1 {
+    padding-inline: 1rem;
+}
+
+.py-05 {
+    padding-block: 0.5rem;
 }
 
 .mb {
@@ -100,4 +114,11 @@
 
 .overflow-x-auto {
     overflow-x: auto;
+}
+
+/**
+ * Border
+ */
+.border {
+    border: 1px var(--text-light) solid;
 }
