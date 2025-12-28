@@ -39,4 +39,11 @@ class TreeController extends Controller
 
         return view('families', compact('tree'));
     }
+
+    public function info(string $tree)
+    {
+        $tree = self::guard($tree);
+
+        return view('info', compact('tree'));
+    }
 }
