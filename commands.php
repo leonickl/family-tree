@@ -2,6 +2,8 @@
 
 use PXP\Core\Lib\Command;
 
+use App\Tree;
+
 Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {
     if ($file === null) {
         exit("Please enter a tree's name\n");
@@ -38,4 +40,24 @@ Command::new('reidentify', function (?string $file = null, ?string $postfix = nu
     file_put_contents(path("database/trees/$file.ged"), $tree);
 
     echo "\nnew tree written\n";
+});
+
+Command::new('check', function(?string $file = null) {
+    if ($file === null) {
+        exit("Please enter a tree's name\n");
+    }
+
+    $tree = Tree::init($file);
+
+    foreach($tree->people() as $person) {
+        $backward = $person->families()->map(fn($family) => $family->id())->toArray();
+        $forward = c(...[...$person->childFamilies(), ...$person->spousalFamilies()])->map(fn($family) => $family->id())->toArray();
+
+        sort($backward);
+        sort($forward);
+
+        if($backward != $forward) {
+            echo json_encode($backward), json_encode($forward);
+        }
+    }
 });
