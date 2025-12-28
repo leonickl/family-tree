@@ -3,7 +3,6 @@
 namespace App;
 
 use Gedcom\Record\Indi;
-use Illuminate\Contracts\Support\Arrayable;
 
 class Person
 {
