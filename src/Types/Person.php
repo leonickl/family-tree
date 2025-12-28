@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Types;
 
 use Gedcom\Record\Indi;
 

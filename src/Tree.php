@@ -5,6 +5,8 @@ namespace App;
 use Gedcom\Gedcom;
 use Gedcom\Record\Fam;
 use Gedcom\Record\Indi;
+use App\Types\Person;
+use App\Types\Family;
 
 class Tree
 {
