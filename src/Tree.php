@@ -29,7 +29,7 @@ class Tree
 
     public function families()
     {
-        return collect($this->parser->getFam())
+        return c(...$this->parser->getFam())
             ->map(fn (Fam $fam) => new Family($fam));
     }
 
@@ -40,7 +40,7 @@ class Tree
 
     public function people()
     {
-        return collect($this->parser->getIndi())
+        return c(...$this->parser->getIndi())
             ->map(fn (Indi $indi) => new Person($indi));
     }
 

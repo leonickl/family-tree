@@ -8,7 +8,7 @@ class Names
 
     public function all()
     {
-        return collect($this->names)
+        return c(...$this->names)
             ->map(fn (\Gedcom\Record\Indi\Name $name) => new Name($name));
     }
 

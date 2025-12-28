@@ -45,19 +45,19 @@ class Person
 
     public function attributes()
     {
-        return collect($this->indi->getAllAttr());
+        return c(...$this->indi->getAllAttr());
     }
 
     public function events()
     {
-        return collect($this->indi->getAllEven())
+        return c(...$this->indi->getAllEven())
             ->flatten()
             ->map(fn ($event) => new Event($event));
     }
 
     public function associates()
     {
-        return collect($this->indi->getAsso());
+        return c(...$this->indi->getAsso());
     }
 
     public function reference()
