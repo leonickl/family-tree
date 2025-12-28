@@ -10,8 +10,8 @@ class TreeController extends Controller
 {
     public static function guard(string $tree)
     {
-        if(! in_array($tree, ['Nickl', 'Bauer'])) {
-            throw new Exception("Illegal tree name {$tree}");
+        if (! preg_match('/^[a-zA-Z-]+$/', $tree)) {
+            throw new Exception("Invalid tree name '{$tree}'");
         }
 
         return Tree::init($tree);
