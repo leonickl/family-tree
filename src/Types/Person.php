@@ -71,6 +71,20 @@ class Person
         return $this->indi->getNote();
     }
 
+    public function childFamilies()
+    {
+        return c(...$this->indi->getFamc())
+            ->map(fn($fam) => ChildFamily::make($fam)?->family())
+            ->filter();
+    }
+
+    public function spousalFamilies()
+    {
+        return c(...$this->indi->getFams())
+            ->map(fn($fam) => SpousalFamily::make($fam)?->family())
+            ->filter();
+    }
+
     public function families()
     {
         return Tree::make()->families()->filter(function ($family) {
