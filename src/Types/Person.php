@@ -3,6 +3,7 @@
 namespace App\Types;
 
 use Gedcom\Record\Indi;
+use App\Tree;
 
 class Person
 {
@@ -68,6 +69,28 @@ class Person
     public function notes()
     {
         return $this->indi->getNote();
+    }
+
+
+    public function families()
+    {
+        return Tree::make()->families()->filter(function($family) {
+            if($family->husband()?->id() === $this->id()) {
+                return true;
+            }
+
+            if($family->wife()?->id() === $this->id()) {
+                return true;
+            }
+
+            foreach($family->children() as $child) {
+                if($child->id() === $this->id()) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
     }
 
     public function __toString()

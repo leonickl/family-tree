@@ -12,14 +12,14 @@ class Tree
 {
     private static Tree $instance;
 
-    private function __construct(private Gedcom $parser) {}
+    private function __construct(private Gedcom $parser, public string $file) {}
 
     public static function init(string $file = 'tree')
     {
         $parsed = new \Gedcom\Parser()
             ->parse(path('database/trees/'.$file.'.ged'));
 
-        return self::$instance = new self($parsed);
+        return self::$instance = new self($parsed, $file);
     }
 
     public static function make()

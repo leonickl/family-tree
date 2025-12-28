@@ -1,12 +1,8 @@
 <?php
 
-use App\Tree;
+use App\Link;
 
-function tree(?string $file = null)
+function lnk()
 {
-    if ($file) {
-        return Tree::init($file);
-    }
-
-    return Tree::make();
+    return new Link();
 }

@@ -44,9 +44,11 @@ class Family
 
     public function __toString()
     {
-        $husband = $this->husband() ?? '---';
-        $wife = $this->wife() ?? '---';
-        $children = $this->children()->join(', ');
+        $husband = lnk()->tree($this->husband());
+        $wife = lnk()->tree($this->wife());
+        $children = $this->children()
+            ->map(fn($child) => lnk()->tree($child))
+            ->join(', ');
 
         return $husband.' + '.$wife.($children ? ' = '.$children : '');
     }
