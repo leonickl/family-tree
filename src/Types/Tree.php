@@ -15,7 +15,7 @@ class Tree
     public static function init(string $file = 'tree')
     {
         $parsed = new \Gedcom\Parser()
-            ->parse(storage_path('trees/'.$file.'.ged'));
+            ->parse(path('database/trees/'.$file.'.ged'));
 
         return self::$instance = new self($parsed);
     }
