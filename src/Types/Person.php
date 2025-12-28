@@ -73,16 +73,30 @@ class Person
 
     public function childFamilies()
     {
-        return c(...$this->indi->getFamc())
-            ->map(fn($fam) => ChildFamily::make($fam)?->family())
-            ->filter();
+        return Tree::make()->families()->filter(function ($family) {
+            foreach ($family->children() as $child) {
+                if ($child->id() === $this->id()) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
     }
 
     public function spousalFamilies()
     {
-        return c(...$this->indi->getFams())
-            ->map(fn($fam) => SpousalFamily::make($fam)?->family())
-            ->filter();
+        return Tree::make()->families()->filter(function ($family) {
+            if ($family->husband()?->id() === $this->id()) {
+                return true;
+            }
+
+            if ($family->wife()?->id() === $this->id()) {
+                return true;
+            }
+
+            return false;
+        });
     }
 
     public function families()
