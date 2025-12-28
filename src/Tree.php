@@ -5,6 +5,7 @@ namespace App;
 use App\Types\Family;
 use App\Types\Person;
 use Gedcom\Gedcom;
+use Gedcom\Parser;
 use Gedcom\Record\Fam;
 use Gedcom\Record\Indi;
 
@@ -16,7 +17,7 @@ class Tree
 
     public static function init(string $file = 'tree')
     {
-        $parsed = new \Gedcom\Parser()
+        $parsed = new Parser()
             ->parse(path('database/trees/'.$file.'.ged'));
 
         return self::$instance = new self($parsed, $file);
