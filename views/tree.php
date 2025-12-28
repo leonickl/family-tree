@@ -6,13 +6,13 @@
     <?php foreach($families as $family): ?>
         <div class="column items-center">
             <div class="row">
-                <div class="border px-1 py-05 rounded"><?= lnk()->tree($family->husband()) ?></div>
-                <div class="border px-1 py-05 rounded"><?= lnk()->tree($family->wife()) ?></div>
+                <?= view('person', ['person' => $family->husband(), 'start' => $start])->render() ?>
+                <?= view('person', ['person' => $family->wife(), 'start' => $start])->render() ?>
             </div>
 
             <div class ="row">
                 <?php foreach($family->children() as $child): ?>
-                    <div class="border px-1 py-05 rounded"><?= lnk()->tree($child) ?></div>
+                    <?= view('person', ['person' => $child, 'start' => $start])->render() ?>
                 <?php endforeach ?>
             </div>
         </div>
