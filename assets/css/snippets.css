@@ -119,6 +119,11 @@
 /**
  * Border
  */
+
 .border {
     border: 1px var(--text-light) solid;
+}
+
+.rounded {
+    border-radius: 1em;
 }
