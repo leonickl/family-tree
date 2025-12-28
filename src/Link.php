@@ -8,7 +8,7 @@ class Link
 {
     public function tree(?Person $person)
     {
-        if($person === null) {
+        if ($person === null) {
             return '---';
         }
 

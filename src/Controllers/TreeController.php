@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use PXP\Core\Controllers\Controller;
-use Exception;
 use App\Tree;
+use Exception;
+use PXP\Core\Controllers\Controller;
 
 class TreeController extends Controller
 {
@@ -24,9 +24,9 @@ class TreeController extends Controller
         $start = Tree::make()->person(request('start'));
 
         // select random person if none is given
-        if($start === null) {
+        if ($start === null) {
             $people = Tree::make()->people()->values();
-            $index = random_int(0, count($people) - 1);            
+            $index = random_int(0, count($people) - 1);
             $start = $people[$index];
         }
 

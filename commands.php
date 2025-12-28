@@ -1,14 +1,13 @@
 <?php
 
 use PXP\Core\Lib\Command;
-use App\Tree;
 
-Command::new('reidentify', function(?string $file = null, ?string $postfix = null) {
-    if($file === null) {
+Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {
+    if ($file === null) {
         exit("Please enter a tree's name\n");
     }
 
-    if($postfix === null) {
+    if ($postfix === null) {
         exit("Please enter a postfix\n");
     }
 
@@ -20,8 +19,8 @@ Command::new('reidentify', function(?string $file = null, ?string $postfix = nul
 
     $new = [];
 
-    foreach($identifiers as $identifier) {
-        if(! array_key_exists($identifier[1], $new)) {
+    foreach ($identifiers as $identifier) {
+        if (! array_key_exists($identifier[1], $new)) {
             $new[$identifier[1]] = [];
         }
 
@@ -30,8 +29,8 @@ Command::new('reidentify', function(?string $file = null, ?string $postfix = nul
 
     echo json_encode($new, JSON_PRETTY_PRINT), "\n";
 
-    foreach($new as $category) {
-        foreach($category as $old => $new) {
+    foreach ($new as $category) {
+        foreach ($category as $old => $new) {
             $tree = str_replace($old, $new, $tree);
         }
     }

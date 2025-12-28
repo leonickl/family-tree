@@ -2,8 +2,8 @@
 
 namespace App\Types;
 
-use Gedcom\Record\Fam;
 use App\Tree;
+use Gedcom\Record\Fam;
 
 class Family
 {
@@ -47,7 +47,7 @@ class Family
         $husband = lnk()->tree($this->husband());
         $wife = lnk()->tree($this->wife());
         $children = $this->children()
-            ->map(fn($child) => lnk()->tree($child))
+            ->map(fn ($child) => lnk()->tree($child))
             ->join(', ');
 
         return $husband.' + '.$wife.($children ? ' = '.$children : '');

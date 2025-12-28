@@ -2,11 +2,11 @@
 
 namespace App;
 
+use App\Types\Family;
+use App\Types\Person;
 use Gedcom\Gedcom;
 use Gedcom\Record\Fam;
 use Gedcom\Record\Indi;
-use App\Types\Person;
-use App\Types\Family;
 
 class Tree
 {

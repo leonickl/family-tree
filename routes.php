@@ -1,8 +1,8 @@
 <?php
 
+use App\Controllers\AssetController;
 use App\Controllers\ExampleController;
 use App\Controllers\TreeController;
-use App\Controllers\AssetController;
 use PXP\Core\Lib\Route;
 
 Route::get('/')->do(ExampleController::class, 'index');

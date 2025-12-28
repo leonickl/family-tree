@@ -2,8 +2,8 @@
 
 namespace App\Types;
 
-use Gedcom\Record\Indi;
 use App\Tree;
+use Gedcom\Record\Indi;
 
 class Person
 {
@@ -71,20 +71,19 @@ class Person
         return $this->indi->getNote();
     }
 
-
     public function families()
     {
-        return Tree::make()->families()->filter(function($family) {
-            if($family->husband()?->id() === $this->id()) {
+        return Tree::make()->families()->filter(function ($family) {
+            if ($family->husband()?->id() === $this->id()) {
                 return true;
             }
 
-            if($family->wife()?->id() === $this->id()) {
+            if ($family->wife()?->id() === $this->id()) {
                 return true;
             }
 
-            foreach($family->children() as $child) {
-                if($child->id() === $this->id()) {
+            foreach ($family->children() as $child) {
+                if ($child->id() === $this->id()) {
                     return true;
                 }
             }
@@ -95,7 +94,7 @@ class Person
 
     public function __toString()
     {
-        if(trim($this->names()) === '') {
+        if (trim($this->names()) === '') {
             return '---';
         }
 
