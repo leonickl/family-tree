@@ -179,20 +179,64 @@ class Parser
                                 $subsubContent = array_merge($subsubContent, ...$subsubValue);
                             }
 
-                            $subContent[$subsubLabel][] = array_filter($subsubContent);
+                            $subContent[$subsubLabel][] = $this->simplifyAttributes($subsubContent);
                         }
                     }
 
-                    $entityNew[$subLabel][] = array_filter($subContent);
+                    $entityNew[$subLabel][] = $this->simplifyAttributes($subContent);
                 }
             }
 
-            $entities[] = array_filter($entityNew);
+            $entities[] = $this->simplifyAttributes($entityNew);
         }
 
         $this->parsed = $entities;
 
         return $this;
+    }
+
+    private function simplifyAttributes(array $attributes)
+    {
+        $attributes = array_filter($attributes);
+
+        $values = array_map(function($key, $value) {
+            if(!is_array($value)) {
+                return $value;
+            }
+
+            if(in_array($key, ['id', 'type', 'BIRT', 'DEAT', 'DATA', 'NAME'])) {
+                if(count($value) > 1) {
+                    throw new Exception("too many nodes found for '$key'");
+                }
+
+                return $value[0];
+            }
+
+            if(in_array($key, [
+                'VERS', 'FORM', 'CHAR', 'LANG', 'DEST', 'DATE', 'CORP', 'DATE',
+                'FILE', '_PROJECT_GUID', 'GIVN', 'SURN', '_MARNM', 'SEX', 'AGE',
+                'RIN', 'PLAC', 'PAGE', 'QUAY', 'HUSB', 'WIFE', 'TYPE', 'AUTH',
+                'TITL', 'TEXT', '_TYPE', '_MEDI', 'CAUS'
+            ])) {
+                if(count($value) > 1 || count($value[0]) > 1) {
+                    throw new Exception("too many nodes found for '$key'");
+                }
+
+                if(! array_key_exists('.', $value[0])) {
+                    throw new Exception("key '.' not found");
+                }
+
+                return $value[0]['.'];
+            }
+
+            if(in_array($key, ['FAMC', 'FAMS', '_UID', 'CONC', 'CHIL'])) {
+                return array_map(fn($item) => $item['.'], $value);
+            }
+
+            return $value;
+        }, array_keys($attributes), array_values($attributes));
+
+        return array_combine(array_keys($attributes), $values);
     }
 
     public function get()
