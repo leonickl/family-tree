@@ -33,7 +33,7 @@ class Family
 
     public function id()
     {
-        return @$this->entity->ID;
+        return @substr($this->entity->id, 1, -1);
     }
 
     public function husband()
@@ -49,7 +49,8 @@ class Family
     public function children()
     {
         return c(...@$this->entity->CHIL ?? [])
-            ->map(fn (?string $id) => Person::find($id));
+            ->map(fn (?string $id) => Person::find($id))
+            ->filter();
     }
 
     public function events()
@@ -68,5 +69,10 @@ class Family
             ->join(', ');
 
         return $husband.' + '.$wife.($children ? ' = '.$children : '');
+    }
+
+    public function dd()
+    {
+        dd($this);
     }
 }

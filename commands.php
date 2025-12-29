@@ -4,6 +4,7 @@ use PXP\Core\Lib\Command;
 
 use App\Tree;
 use App\Types\Person;
+use App\Types\Family;
 
 Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {
     if ($file === null) {
@@ -50,15 +51,47 @@ Command::new('check', function(?string $file = null) {
 
     $tree = Tree::init($file);
 
-    foreach(Person::all() as $person) {
-        $backward = $person->families()->map(fn($family) => $family->id())->toArray();
-        $forward = c(...[...$person->childFamilies(), ...$person->spousalFamilies()])->map(fn($family) => $family->id())->toArray();
+    foreach(Person::all() as $i => $person) {
+        $childFamiliesForward = $person->childFamilies()
+            ->map(fn(Family $family) => $family->id())->toArray();
+        $childFamiliesBackward = Family::all()->filter(function (Family $family) use ($person) {
+            foreach ($family->children() as $child) {
+                if ($child->id() === $person->id()) {
+                    return true;
+                }
+            }
 
-        sort($backward);
-        sort($forward);
+            return false;
+        })
+            ->map(fn(Family $family) => $family->id())->toArray();
+        
+        $spousalFamiliesForward = $person->childFamilies()
+            ->map(fn(Family $family) => $family->id())->toArray();
+        $spousalFamiliesBackward = Family::all()->filter(function (Family $family) use ($person) {
+            if ($family->husband()?->id() === $person->id()) {
+                return true;
+            }
 
-        if($backward != $forward) {
-            echo json_encode($backward), json_encode($forward);
+            if ($family->wife()?->id() === $person->id()) {
+                return true;
+            }
+
+            return false;
+        })
+            ->map(fn(Family $family) => $family->id())->toArray();
+
+        sort($childFamiliesForward);
+        sort($childFamiliesBackward);
+
+        sort($spousalFamiliesForward);
+        sort($spousalFamiliesBackward);
+
+        if($childFamiliesForward != $childFamiliesBackward) {
+            echo $person->id(), ': ', json_encode($childFamiliesForward), json_encode($childFamiliesBackward), "\n\n";
+        }
+
+        if($spousalFamiliesForward != $spousalFamiliesBackward) {
+            echo $person->id(), ': ', json_encode($spousalFamiliesForward), json_encode($spousalFamiliesBackward), "\n\n";
         }
     }
 });

@@ -80,65 +80,16 @@ class Person
 
     public function childFamilies()
     {
-        return Family::all()->filter(function ($family) {
-            foreach ($family->children() as $child) {
-                if ($child->id() === $this->id()) {
-                    return true;
-                }
-            }
-
-            return false;
-        });
-    }
-
-    public function childFamilies2()
-    {
-        return c(...$this->entity->getFamc())
-            ->map(fn($fam) => ChildFamily::make($fam)?->family())
+        return c(...@$this->entity->FAMC ?? [])
+            ->map(fn($fam) => Family::find($fam))
             ->filter();
     }
 
     public function spousalFamilies()
     {
-        return Family::all()->filter(function ($family) {
-            if ($family->husband()?->id() === $this->id()) {
-                return true;
-            }
-
-            if ($family->wife()?->id() === $this->id()) {
-                return true;
-            }
-
-            return false;
-        });
-    }
-
-    public function spousalFamilies2()
-    {
-        return c(...$this->entity->getFams())
-            ->map(fn($fam) => SpousalFamily::make($fam)?->family())
+        return c(...@$this->entity->FAMS ?? [])
+            ->map(fn($fam) => Family::find($fam))
             ->filter();
-    }
-
-    public function families()
-    {
-        return Family::all()->filter(function ($family) {
-            if ($family->husband()?->id() === $this->id()) {
-                return true;
-            }
-
-            if ($family->wife()?->id() === $this->id()) {
-                return true;
-            }
-
-            foreach ($family->children() as $child) {
-                if ($child->id() === $this->id()) {
-                    return true;
-                }
-            }
-
-            return false;
-        });
     }
 
     public function __toString()
@@ -148,5 +99,10 @@ class Person
         }
 
         return $this->names();
+    }
+
+    public function dd()
+    {
+        dd($this);
     }
 }
