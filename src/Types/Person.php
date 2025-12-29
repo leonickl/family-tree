@@ -18,11 +18,17 @@ class Person
 
     public static function find(?string $id)
     {
-        return $id
-            ? Person::all()
-                ->filter(fn(Person $person) => $person->id() === $id)[0]
-                    ?? null
-            : null;
+        if($id === null) {
+            return null;
+        }
+        
+        if($id[0] === '@') {
+            $id = substr($id, 1, -1);
+        }
+
+        return Person::all()
+            ->filter(fn(Person $person) => $person->id() === $id)
+            ->values()[0] ?? null;
     }
 
     public function id()
@@ -94,7 +100,7 @@ class Person
 
     public function spousalFamilies()
     {
-        return Tree::make()->families()->filter(function ($family) {
+        return Family::all()->filter(function ($family) {
             if ($family->husband()?->id() === $this->id()) {
                 return true;
             }

@@ -18,11 +18,17 @@ class Family
 
     public static function find(?string $id)
     {
-        return $id
-            ? Family::all()
-                ->filter(fn(Family $family) => $family->id() === $id)[0]
-                    ?? null
-            : null;
+        if($id === null) {
+            return null;
+        }
+
+        if($id[0] === '@') {
+            $id = substr($id, 1, -1);
+        }
+
+        return Family::all()
+            ->filter(fn(Family $family) => $family->id() === $id)
+            ->values()[0] ?? null;
     }
 
     public function id()
