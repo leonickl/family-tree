@@ -48,7 +48,11 @@ class Parser
                 $this->parsed[] = $this->state;
             }
 
-            $this->state = ['id' => $parts[1], 'type' => $parts[2] ?? '---'];
+            $this->state = ['id' => $parts[1]];
+
+            if(isset($parts[2])) {
+                $this->state['type'] = $parts[2];
+            }
         }
 
         elseif($parts[0] === '1') {
@@ -60,7 +64,7 @@ class Parser
             $this->saveSubSubState();
             $this->saveSubState();
 
-            $this->substate = [$parts[1] => $parts[2] ?? '---'];
+            $this->substate = [$parts[1] => $parts[2] ?? null];
         }
 
         elseif($parts[0] === '2') {
@@ -75,7 +79,7 @@ class Parser
             $this->saveSubSubSubState();
             $this->saveSubSubState();
 
-            $this->subsubstate = [$parts[1] => $parts[2] ?? '---'];
+            $this->subsubstate = [$parts[1] => $parts[2] ?? null];
         }
 
         elseif($parts[0] === '3') {
@@ -93,7 +97,7 @@ class Parser
 
             $this->saveSubSubSubState();
 
-            $this->subsubsubstate = [$parts[1] => $parts[2]];
+            $this->subsubsubstate = [$parts[1] => $parts[2] ?? null];
         }
 
         else {
@@ -168,7 +172,7 @@ class Parser
                                         }
                                     }
 
-                                    $subContent[$subsubLabel][] = $subsubContent;
+                                    $subContent[$subsubLabel][] = array_filter($subsubContent);
                                 }
                             }
 
@@ -177,7 +181,7 @@ class Parser
                             }
                         }
 
-                        $entityNew[$subLabel][] = $subContent;
+                        $entityNew[$subLabel][] = array_filter($subContent);
                     }
                 }
                 
@@ -186,7 +190,7 @@ class Parser
                 }
             }
 
-            $entities[] = $entityNew;
+            $entities[] = array_filter($entityNew);
         }
 
         $this->parsed = $entities;
