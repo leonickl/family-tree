@@ -15,6 +15,6 @@ class Link
         $tree = Tree::make();
         $id = $person->id();
 
-        return "<a href=\"/tree/$tree->file?start=$id\">$person</a>";
+        return "<a href=\"/trees/$tree->file?start=$id\">$person</a>";
     }
 }
