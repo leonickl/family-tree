@@ -4,7 +4,7 @@ namespace App;
 
 use Exception;
 
-class Parser
+class Converter
 {
     private array $parsed = [];
     private ?array $state = null;
@@ -30,16 +30,16 @@ class Parser
         return new self(explode("\n", $raw));
     }
 
-    public function parse()
+    public function convert()
     {
         foreach($this->lines as $line) {
-            $this->parseLine($line);
+            $this->convertLine($line);
         }
 
         return $this;
     }
 
-    private function parseLine(string $line)
+    private function convertLine(string $line)
     {
         $parts = explode(' ', $line, 3);
 
