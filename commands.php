@@ -3,6 +3,7 @@
 use PXP\Core\Lib\Command;
 
 use App\Tree;
+use App\Types\Person;
 
 Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {
     if ($file === null) {
@@ -49,7 +50,7 @@ Command::new('check', function(?string $file = null) {
 
     $tree = Tree::init($file);
 
-    foreach($tree->people() as $person) {
+    foreach(Person::all() as $person) {
         $backward = $person->families()->map(fn($family) => $family->id())->toArray();
         $forward = c(...[...$person->childFamilies(), ...$person->spousalFamilies()])->map(fn($family) => $family->id())->toArray();
 

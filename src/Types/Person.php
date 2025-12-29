@@ -8,6 +8,23 @@ class Person
 {
     public function __construct(private object $entity) {}
 
+    public static function all()
+    {
+        return Tree::make()
+            ->entities()
+            ->filter(fn($entity) => @$entity->type === 'INDI')
+            ->map(fn ($entity) => new Person($entity));
+    }
+
+    public static function find(?string $id)
+    {
+        return $id
+            ? Person::all()
+                ->filter(fn(Person $person) => $person->id() === $id)[0]
+                    ?? null
+            : null;
+    }
+
     public function id()
     {
         return substr($this->entity->id, 1, -1);
@@ -57,7 +74,7 @@ class Person
 
     public function childFamilies()
     {
-        return Tree::make()->families()->filter(function ($family) {
+        return Family::all()->filter(function ($family) {
             foreach ($family->children() as $child) {
                 if ($child->id() === $this->id()) {
                     return true;
@@ -99,7 +116,7 @@ class Person
 
     public function families()
     {
-        return Tree::make()->families()->filter(function ($family) {
+        return Family::all()->filter(function ($family) {
             if ($family->husband()?->id() === $this->id()) {
                 return true;
             }

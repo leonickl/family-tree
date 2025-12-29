@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Tree;
+use App\Types\Person;
+use App\Types\Family;
 use Exception;
 use PXP\Core\Controllers\Controller;
 
@@ -21,11 +23,11 @@ class TreeController extends Controller
     {
         $tree = self::guard($tree);
 
-        $start = Tree::make()->person(request('start'));
+        $start = Person::find(request('start'));
 
         // select random person if none is given
         if ($start === null) {
-            $people = Tree::make()->people()->values();
+            $people = Person::all()->values();
             $index = random_int(0, count($people) - 1);
             $start = $people[$index];
         }
@@ -33,17 +35,22 @@ class TreeController extends Controller
         return view('tree', compact('tree', 'start'));
     }
 
-    public function families(string $tree)
-    {
-        $tree = self::guard($tree);
-
-        return view('families', compact('tree'));
-    }
-
     public function info(string $tree)
     {
-        $tree = self::guard($tree);
+        self::guard($tree);
 
-        return view('info', compact('tree'));
+        return view('info', [
+            'families' => Family::all(),
+            'people' => Person::all(),
+        ]);
+    }
+
+    public function families(string $tree)
+    {
+        self::guard($tree);
+
+        return view('families', [
+            'families' => Family::all(),
+        ]);
     }
 }

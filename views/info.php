@@ -1,4 +1,4 @@
 <h1>Tree info of <em><?= $tree->file ?></em></h1>
 
-<p><?= $tree->families()->count() ?> Families</p>
-<p><?= $tree->people()->count() ?> People</p>
+<p><?= $families->count() ?> Families</p>
+<p><?= $people->count() ?> People</p>

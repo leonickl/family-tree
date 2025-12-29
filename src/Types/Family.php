@@ -8,6 +8,23 @@ class Family
 {
     public function __construct(private object $entity) {}
 
+    public static function all()
+    {
+        return Tree::make()
+            ->entities()
+            ->filter(fn($entity) => @$entity->type === 'FAM')
+            ->map(fn ($entity) => new Family($entity));
+    }
+
+    public static function find(?string $id)
+    {
+        return $id
+            ? Family::all()
+                ->filter(fn(Family $family) => $family->id() === $id)[0]
+                    ?? null
+            : null;
+    }
+
     public function id()
     {
         return @$this->entity->ID;
@@ -15,18 +32,18 @@ class Family
 
     public function husband()
     {
-        return Tree::make()->person(@$this->entity->HUSB);
+        return Person::find(@$this->entity->HUSB);
     }
 
     public function wife()
     {
-        return Tree::make()->person(@$this->entity->WIFE);
+        return Person::find(@$this->entity->WIFE);
     }
 
     public function children()
     {
         return c(...@$this->entity->CHIL ?? [])
-            ->map(fn (?string $id) => Tree::make()->person($id));
+            ->map(fn (?string $id) => Person::find($id));
     }
 
     public function events()

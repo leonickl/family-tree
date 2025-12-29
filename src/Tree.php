@@ -31,42 +31,8 @@ class Tree
         return self::$instance;
     }
 
-    private function entities()
+    public function entities()
     {
         return c(...$this->tree);
-    }
-
-    public function families()
-    {
-        return $this->entities()
-            ->filter(fn($entity) => @$entity->type === 'FAM')
-            ->map(fn ($entity) => new Family($entity));
-    }
-
-    public function family(?string $id)
-    {
-        if(! $id) {
-            return null;
-        }
-
-        return $this->families()
-            ->filter(fn(Family $family) => $family->id() === $id)[0] ?? null;
-    }
-
-    public function people()
-    {
-        return $this->entities()
-            ->filter(fn($entity) => @$entity->type === 'INDI')
-            ->map(fn ($entity) => new Person($entity));
-    }
-
-    public function person(?string $id)
-    {
-        if(! $id) {
-            return null;
-        }
-
-        return $this->people()
-            ->filter(fn(Person $person) => $person->id() === $id)[0] ?? null;
     }
 }
