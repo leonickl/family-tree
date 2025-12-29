@@ -4,20 +4,20 @@ namespace App\Types;
 
 class Event
 {
-    public function __construct(private \Gedcom\Record\Indi\Even|\Gedcom\Record\Fam\Even $even) {}
+    public function __construct(private object $event) {}
 
     public function type()
     {
-        return $this->even->getType();
+        return @$this->event->TYPE;
     }
 
     public function date()
     {
-        return $this->even->getDate();
+        return Date::make(@$this->event->DATE);
     }
 
     public function place()
     {
-        return $this->even->getPlac();
+        return @$this->event->PLAC;
     }
 }

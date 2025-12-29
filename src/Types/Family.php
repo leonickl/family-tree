@@ -3,43 +3,37 @@
 namespace App\Types;
 
 use App\Tree;
-use Gedcom\Record\Fam;
 
 class Family
 {
-    public function __construct(private Fam $fam) {}
+    public function __construct(private object $entity) {}
 
     public function id()
     {
-        return $this->fam->getId();
+        return @$this->entity->ID;
     }
 
     public function husband()
     {
-        return Tree::make()->person($this->fam->getHusb());
+        return Tree::make()->person(@$this->entity->HUSB);
     }
 
     public function wife()
     {
-        return Tree::make()->person($this->fam->getWife());
+        return Tree::make()->person(@$this->entity->WIFE);
     }
 
     public function children()
     {
-        return c(...$this->fam->getChil())
+        return c(...@$this->entity->CHIL ?? [])
             ->map(fn (?string $id) => Tree::make()->person($id));
     }
 
     public function events()
     {
-        return c(...$this->fam->getAllEven())
+        return c(...@$this->entity->EVEN ?? [])
             ->flatten()
             ->map(fn ($event) => new Event($event));
-    }
-
-    public function notes()
-    {
-        return c(...$this->fam->getNote());
     }
 
     public function __toString()

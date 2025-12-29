@@ -4,15 +4,20 @@ namespace App\Types;
 
 class Death
 {
-    private function __construct(private \Gedcom\Record\Deat $death) {}
+    private function __construct(private object $death) {}
 
-    public static function make(?\Gedcom\Record\Deat $death)
+    public static function make(object|array|null $death)
     {
-        return $death ? new self($death) : null;
+        return $death ? new self((object)$death) : null;
     }
 
     public function date()
     {
-        return Date::make($this->death->getDate());
+        return Date::make(@$this->death->DATE);
+    }
+
+    public function place()
+    {
+        return @$this->death->PLAC;
     }
 }

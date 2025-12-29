@@ -3,72 +3,56 @@
 namespace App\Types;
 
 use App\Tree;
-use Gedcom\Record\Indi;
 
 class Person
 {
-    public function __construct(private Indi $indi) {}
+    public function __construct(private object $entity) {}
 
     public function id()
     {
-        return $this->indi->getId();
-    }
-
-    public function uid()
-    {
-        return $this->indi->getUid();
+        return substr($this->entity->id, 1, -1);
     }
 
     public function birth()
     {
-        return Birth::make($this->indi->getBirt());
+        return Birth::make(@$this->entity->BIRT);
     }
 
     public function burial()
     {
-        return Burial::make($this->indi->getBuri());
+        return Burial::make(@$this->entity->BURI);
     }
 
     public function death()
     {
-        return Death::make($this->indi->getDeat());
+        return Death::make(@$this->entity->DEAT);
     }
 
     public function names()
     {
-        return new Names($this->indi->getName());
+        return new Names(@$this->entity->NAME);
     }
 
     public function sex()
     {
-        return $this->indi->getSex();
+        return @$this->entity->SEX;
     }
 
     public function attributes()
     {
-        return c(...$this->indi->getAllAttr());
-    }
-
-    public function events()
-    {
-        return c(...$this->indi->getAllEven())
-            ->flatten()
-            ->map(fn ($event) => new Event($event));
-    }
-
-    public function associates()
-    {
-        return c(...$this->indi->getAsso());
-    }
-
-    public function reference()
-    {
-        return $this->indi->getRfn();
+        return c(...$this->entity->ATTR ?? []);
     }
 
     public function notes()
     {
-        return $this->indi->getNote();
+        return @$this->entity->NOTES;
+    }
+
+    public function events()
+    {
+        return c(...$this->entity->EVEN ?? [])
+            ->flatten()
+            ->map(fn ($event) => new Event($event));
     }
 
     public function childFamilies()
@@ -84,6 +68,13 @@ class Person
         });
     }
 
+    public function childFamilies2()
+    {
+        return c(...$this->entity->getFamc())
+            ->map(fn($fam) => ChildFamily::make($fam)?->family())
+            ->filter();
+    }
+
     public function spousalFamilies()
     {
         return Tree::make()->families()->filter(function ($family) {
@@ -97,6 +88,13 @@ class Person
 
             return false;
         });
+    }
+
+    public function spousalFamilies2()
+    {
+        return c(...$this->entity->getFams())
+            ->map(fn($fam) => SpousalFamily::make($fam)?->family())
+            ->filter();
     }
 
     public function families()

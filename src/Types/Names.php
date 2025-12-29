@@ -4,16 +4,31 @@ namespace App\Types;
 
 class Names
 {
-    public function __construct(private array $names) {}
+    public function __construct(private object $names) {}
 
     public function all()
     {
-        return c(...$this->names)
-            ->map(fn (\Gedcom\Record\Indi\Name $name) => new Name($name));
+        return c(...(array)$this->names)
+            ->map(fn (string $name, string $type) => new Name($type, $name));
+    }
+
+    public function full()
+    {
+        return $this->all()['.'];
+    }
+
+    public function given()
+    {
+        return $this->all()['GIVN'];
+    }
+
+    public function surname()
+    {
+        return $this->all()['SURN'];
     }
 
     public function __toString()
     {
-        return $this->all()->map(fn (Name $name) => (string) $name)->join(', ');
+        return $this->full();
     }
 }

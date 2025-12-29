@@ -4,25 +4,20 @@ namespace App\Types;
 
 class Name
 {
-    public function __construct(private \Gedcom\Record\Indi\Name $name) {}
+    public function __construct(private string $type, private string $name) {}
+
+    public function type()
+    {
+        return $this->type;
+    }
 
     public function name()
     {
-        return $this->name->getName();
-    }
-
-    public function given()
-    {
-        return $this->name->getGivn();
-    }
-
-    public function surname()
-    {
-        return $this->name->getSurn();
+        return $this->name;
     }
 
     public function __toString()
     {
-        return $this->given().' '.$this->surname();
+        return $this->name();
     }
 }

@@ -205,7 +205,11 @@ class Converter
                 return $value;
             }
 
-            if(in_array($key, ['id', 'type', 'BIRT', 'DEAT', 'DATA', 'NAME'])) {
+            if($key === 'NAME') {
+                $value[0]['.'] = trim(str_replace('/', '', $value[0]['.']));
+            }
+
+            if(in_array($key, ['id', 'type', 'BIRT', 'BURI', 'DEAT', 'DATA', 'NAME'])) {
                 if(count($value) > 1) {
                     throw new Exception("too many nodes found for '$key'");
                 }
@@ -217,7 +221,7 @@ class Converter
                 'VERS', 'FORM', 'CHAR', 'LANG', 'DEST', 'DATE', 'CORP', 'DATE',
                 'FILE', '_PROJECT_GUID', 'GIVN', 'SURN', '_MARNM', 'SEX', 'AGE',
                 'RIN', 'PLAC', 'PAGE', 'QUAY', 'HUSB', 'WIFE', 'TYPE', 'AUTH',
-                'TITL', 'TEXT', '_TYPE', '_MEDI', 'CAUS'
+                'TITL', 'TEXT', '_TYPE', '_MEDI', 'CAUS', 'NPFX', 'NSFX',
             ])) {
                 if(count($value) > 1 || count($value[0]) > 1) {
                     throw new Exception("too many nodes found for '$key'");
