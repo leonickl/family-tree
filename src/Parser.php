@@ -78,11 +78,11 @@ class Parser
             }
 
             if($this->subsubstate !== null) {
-                if(! array_key_exists('sub', $this->state)) {
-                    $this->state['sub'] = [];
+                if(! array_key_exists('subsub', $this->state)) {
+                    $this->state['subsub'] = [];
                 }
 
-                $this->substate['sub'][] = $this->subsubstate;
+                $this->substate['subsub'][] = $this->subsubstate;
             }
 
             $this->subsubstate = [$parts[1] => $parts[2] ?? '---'];
@@ -102,14 +102,14 @@ class Parser
             }
 
             if($this->subsubsubstate !== null) {
-                if(! array_key_exists('sub', $this->state)) {
-                    $this->state['sub'] = [];
+                if(! array_key_exists('subsubsub', $this->state)) {
+                    $this->state['subsubsub'] = [];
                 }
 
-                $this->subsubstate['sub'][] = $this->subsubsubstate;
+                $this->subsubstate['subsubsub'][] = $this->subsubsubstate;
             }
 
-            $this->subsubsubstate = [$parts[1] => $parts[2] ?? '---'];
+            $this->subsubsubstate = [$parts[1] => $parts[2]];
         }
 
         else {
