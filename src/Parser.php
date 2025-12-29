@@ -40,7 +40,7 @@ class Parser
         return $this;
     }
 
-    public function parseLine(string $line)
+    private function parseLine(string $line)
     {
         $parts = explode(' ', $line, 3);
 
