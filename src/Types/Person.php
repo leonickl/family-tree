@@ -92,6 +92,19 @@ class Person
             ->filter();
     }
 
+    public function partners()
+    {
+        return $this->spousalFamilies()
+            ->map(fn($fam) => $fam->husband()?->id() === $this->id() ? $fam->wife() : $fam->husband());
+    }
+
+    public function siblings()
+    {
+        return $this->childFamilies()
+            ->map(fn($fam) => $fam->children()->filter(fn($child) => $child?->id() !== $this->id()))
+            ->flatten();
+    }
+
     public function __toString()
     {
         if (trim($this->names()) === '') {
