@@ -133,60 +133,57 @@ class Parser
     {
         $entities = [];
 
+        // loop over [head, ...people, ...families, ...sources, ...]
         foreach($this->parsed as $entity) {
             $entityNew = [];
 
+            // loop over attributes [id, name, sex, ...]
             foreach($entity as $attributeKey => $attributeValue) {
-                if($attributeKey === 'sub') {                    
-                    foreach($attributeValue as $sub) {
-                        $subLabel = null;
-                        $subContent = null;
-                        $subFirst = true;
+                if($attributeKey !== 'sub') {
+                    $entityNew[$attributeKey][] = $attributeValue;
 
-                        foreach($sub as $subKey => $subValue) {
-                            if($subFirst) {
-                                $subLabel = $subKey;
-                                $subContent = ['.' => $subValue];
-                                $subFirst = false;
-                            }
+                    continue;
+                }
 
-                            elseif($subKey === 'subsub') {
-                                foreach($subValue as $subsub) {
-                                    $subsubLabel = null;
-                                    $subsubContent = null;
-                                    $subsubFirst = true;
+                // flatten out nested attributes of first order
+                foreach($attributeValue as $sub) {
+                    $subLabel = null;
+                    $subContent = null;
 
-                                    foreach($subsub as $subsubKey => $subsubValue) {
-                                        if($subsubFirst) {
-                                            $subsubLabel = $subsubKey;
-                                            $subsubContent = ['.' => $subsubValue];
-                                            $subsubFirst = false;
-                                        }
+                    foreach($sub as $subKey => $subValue) {
+                        if($subKey !== 'subsub') {
+                            $subLabel = $subKey;
+                            $subContent = ['.' => $subValue];
+                            $subFirst = false;
 
-                                        elseif($subsubKey === 'subsubsub') {
-                                            $subsubContent = [...$subsubContent, ...$subsubValue];
-                                        }
-
-                                        else {
-                                            throw new Exception("unexpected key '$subsubKey'");
-                                        }
-                                    }
-
-                                    $subContent[$subsubLabel][] = array_filter($subsubContent);
-                                }
-                            }
-
-                            else {
-                                throw new Exception("unexpected key '$subKey'");
-                            }
+                            continue;
                         }
 
-                        $entityNew[$subLabel][] = array_filter($subContent);
+                        // flatten out second-order-nesting
+                        foreach($subValue as $subsub) {
+                            $subsubLabel = null;
+                            $subsubContent = null;
+                            $subsubFirst = true;
+
+                            // flatten out third-order-nesting
+                            foreach($subsub as $subsubKey => $subsubValue) {
+                                if($subsubKey !== 'subsubsub') {
+                                    $subsubLabel = $subsubKey;
+                                    $subsubContent = ['.' => $subsubValue];
+                                    $subsubFirst = false;
+
+                                    continue;
+                                }
+
+                                // third order is always scalar (no more nesting)
+                                $subsubContent = array_merge($subsubContent, ...$subsubValue);
+                            }
+
+                            $subContent[$subsubLabel][] = array_filter($subsubContent);
+                        }
                     }
-                }
-                
-                else {
-                    $entityNew[$attributeKey][] = $attributeValue;
+
+                    $entityNew[$subLabel][] = array_filter($subContent);
                 }
             }
 
