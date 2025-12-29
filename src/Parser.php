@@ -57,13 +57,9 @@ class Parser
                 throw new Exception('cannot have 1 at null-state');
             }
 
-            if($this->substate !== null) {
-                if(! array_key_exists('props', $this->state)) {
-                    $this->state['props'] = [];
-                }
-
-                $this->state['props'][] = $this->substate;
-            }
+            $this->saveSubSubSubState();
+            $this->saveSubSubState();
+            $this->saveSubState();
 
             $this->substate = [$parts[1] => $parts[2] ?? '---'];
         }
@@ -77,13 +73,8 @@ class Parser
                 throw new Exception('cannot have 2 at null-substate');
             }
 
-            if($this->subsubstate !== null) {
-                if(! array_key_exists('subsub', $this->state)) {
-                    $this->state['subsub'] = [];
-                }
-
-                $this->substate['subsub'][] = $this->subsubstate;
-            }
+            $this->saveSubSubSubState();
+            $this->saveSubSubState();
 
             $this->subsubstate = [$parts[1] => $parts[2] ?? '---'];
         }
@@ -101,19 +92,49 @@ class Parser
                 throw new Exception('cannot have 2 at null-subsubstate');
             }
 
-            if($this->subsubsubstate !== null) {
-                if(! array_key_exists('subsubsub', $this->state)) {
-                    $this->state['subsubsub'] = [];
-                }
-
-                $this->subsubstate['subsubsub'][] = $this->subsubsubstate;
-            }
+            $this->saveSubSubSubState();
 
             $this->subsubsubstate = [$parts[1] => $parts[2]];
         }
 
         else {
             throw new Exception('illegal indentation level');
+        }
+    }
+
+    private function saveSubSubSubState()
+    {
+        if($this->subsubsubstate !== null) {
+            if(! array_key_exists('subsubsub', $this->state)) {
+                $this->state['subsubsub'] = [];
+            }
+
+            $this->subsubstate['subsubsub'][] = $this->subsubsubstate;
+            $this->subsubsubstate = null;
+        }
+    }
+
+    private function saveSubSubState()
+    {
+        if($this->subsubstate !== null) {
+            if(! array_key_exists('subsub', $this->state)) {
+                $this->state['subsub'] = [];
+            }
+
+            $this->substate['subsub'][] = $this->subsubstate;
+            $this->subsubstate = null;
+        }
+    }
+
+    private function saveSubState()
+    {
+        if($this->substate !== null) {
+            if(! array_key_exists('props', $this->state)) {
+                $this->state['props'] = [];
+            }
+
+            $this->state['props'][] = $this->substate;
+            $this->substate = null;
         }
     }
 
