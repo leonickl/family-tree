@@ -65,7 +65,7 @@ Command::new('check', function(?string $file = null) {
         })
             ->map(fn(Family $family) => $family->id())->toArray();
         
-        $spousalFamiliesForward = $person->childFamilies()
+        $spousalFamiliesForward = $person->spousalFamilies()
             ->map(fn(Family $family) => $family->id())->toArray();
         $spousalFamiliesBackward = Family::all()->filter(function (Family $family) use ($person) {
             if ($family->husband()?->id() === $person->id()) {
@@ -87,11 +87,11 @@ Command::new('check', function(?string $file = null) {
         sort($spousalFamiliesBackward);
 
         if($childFamiliesForward != $childFamiliesBackward) {
-            echo $person->id(), ': ', json_encode($childFamiliesForward), json_encode($childFamiliesBackward), "\n\n";
+            echo $person->id(), ' - child: ', json_encode($childFamiliesForward), json_encode($childFamiliesBackward), "\n\n";
         }
 
         if($spousalFamiliesForward != $spousalFamiliesBackward) {
-            echo $person->id(), ': ', json_encode($spousalFamiliesForward), json_encode($spousalFamiliesBackward), "\n\n";
+            echo $person->id(), ' - spousal: ', json_encode($spousalFamiliesForward), json_encode($spousalFamiliesBackward), "\n\n";
         }
     }
 });
