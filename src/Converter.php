@@ -42,8 +42,9 @@ class Converter
     private function convertLine(string $line)
     {
         $parts = explode(' ', $line, 3);
+        $level = trim($parts[0], "\u{feff}");
 
-        if($parts[0] === '0') {
+        if($level === '0') {
             if($this->state !== null) {
                 $this->parsed[] = $this->state;
             }
@@ -55,7 +56,7 @@ class Converter
             }
         }
 
-        elseif($parts[0] === '1') {
+        elseif($level === '1') {
             if($this->state === null) {
                 throw new Exception('cannot have 1 at null-state');
             }
@@ -67,7 +68,7 @@ class Converter
             $this->substate = [$parts[1] => $parts[2] ?? null];
         }
 
-        elseif($parts[0] === '2') {
+        elseif($level === '2') {
             if($this->state === null) {
                 throw new Exception('cannot have 2 at null-state');
             }
@@ -82,7 +83,7 @@ class Converter
             $this->subsubstate = [$parts[1] => $parts[2] ?? null];
         }
 
-        elseif($parts[0] === '3') {
+        elseif($level === '3') {
             if($this->state === null) {
                 throw new Exception('cannot have 3 at null-state');
             }
@@ -101,7 +102,7 @@ class Converter
         }
 
         else {
-            throw new Exception('illegal indentation level');
+            throw new Exception("illegal indentation level '$level'");
         }
     }
 
