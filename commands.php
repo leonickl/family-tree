@@ -61,3 +61,21 @@ Command::new('check', function(?string $file = null) {
         }
     }
 });
+
+Command::new('convert', function(?string $file = null) {
+    if ($file === null) {
+        exit("Please enter a tree's name\n");
+    }
+
+    $object = App\Converter::read(path("database/trees/$file.ged"))
+        ->convert()
+        ->simplify()
+        ->get();
+
+    file_put_contents(
+        path("database/trees/$file.json"), 
+        json_encode($object, JSON_PRETTY_PRINT),
+    );
+
+    echo "converted gedcom to json\n";
+});
