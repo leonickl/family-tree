@@ -104,10 +104,6 @@ class Parser
     private function saveSubSubSubState()
     {
         if($this->subsubsubstate !== null) {
-            if(! array_key_exists('subsubsub', $this->state)) {
-                $this->state['subsubsub'] = [];
-            }
-
             $this->subsubstate['subsubsub'][] = $this->subsubsubstate;
             $this->subsubsubstate = null;
         }
@@ -116,10 +112,6 @@ class Parser
     private function saveSubSubState()
     {
         if($this->subsubstate !== null) {
-            if(! array_key_exists('subsub', $this->state)) {
-                $this->state['subsub'] = [];
-            }
-
             $this->substate['subsub'][] = $this->subsubstate;
             $this->subsubstate = null;
         }
@@ -128,13 +120,78 @@ class Parser
     private function saveSubState()
     {
         if($this->substate !== null) {
-            if(! array_key_exists('props', $this->state)) {
-                $this->state['props'] = [];
-            }
-
-            $this->state['props'][] = $this->substate;
+            $this->state['sub'][] = $this->substate;
             $this->substate = null;
         }
+    }
+
+    public function simplify()
+    {
+        $entities = [];
+
+        foreach($this->parsed as $entity) {
+            $entityNew = [];
+
+            foreach($entity as $attributeKey => $attributeValue) {
+                if($attributeKey === 'sub') {                    
+                    foreach($attributeValue as $sub) {
+                        $subLabel = null;
+                        $subContent = null;
+                        $subFirst = true;
+
+                        foreach($sub as $subKey => $subValue) {
+                            if($subFirst) {
+                                $subLabel = $subKey;
+                                $subContent = ['.' => $subValue];
+                                $subFirst = false;
+                            }
+
+                            elseif($subKey === 'subsub') {
+                                foreach($subValue as $subsub) {
+                                    $subsubLabel = null;
+                                    $subsubContent = null;
+                                    $subsubFirst = true;
+
+                                    foreach($subsub as $subsubKey => $subsubValue) {
+                                        if($subsubFirst) {
+                                            $subsubLabel = $subsubKey;
+                                            $subsubContent = ['.' => $subsubValue];
+                                            $subsubFirst = false;
+                                        }
+
+                                        elseif($subsubKey === 'subsubsub') {
+                                            $subsubContent = [...$subsubContent, ...$subsubValue];
+                                        }
+
+                                        else {
+                                            throw new Exception("unexpected key '$subsubKey'");
+                                        }
+                                    }
+
+                                    $subContent[$subsubLabel][] = $subsubContent;
+                                }
+                            }
+
+                            else {
+                                throw new Exception("unexpected key '$subKey'");
+                            }
+                        }
+
+                        $entityNew[$subLabel][] = $subContent;
+                    }
+                }
+                
+                else {
+                    $entityNew[$attributeKey][] = $attributeValue;
+                }
+            }
+
+            $entities[] = $entityNew;
+        }
+
+        $this->parsed = $entities;
+
+        return $this;
     }
 
     public function get()
