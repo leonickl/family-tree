@@ -11,7 +11,6 @@ class Parser
     private ?array $substate = null;
     private ?array $subsubstate = null;
     private ?array $subsubsubstate = null;
-    private array $log = [];
 
     private function __construct(private array $lines) {}
 
