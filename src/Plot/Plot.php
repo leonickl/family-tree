@@ -27,10 +27,10 @@ class Plot
                 $this->person->id() === $family->husband()?->id()
                     ? $family->wife() : $family->husband(),
                 y: 2,
-                x: $x + floor(count($family->children()) / 2),
+                x: $parent = $x + floor(count($family->children()) / 2),
             );
 
-            $parentEnd = $x + floor(count($family->children()) / 2) + 1;
+            $objects[] = new VerticalLine(y: 2, x: $parent);
 
             foreach($family->children() as $j => $child) {
                 $objects[] = new Person($child, y: 3, x: $x++);
@@ -42,7 +42,7 @@ class Plot
 
             $objects[] = new HorizontalLine(
                 y: 2,
-                x: $parentEnd ?: $x,
+                x: $parent + 1,
                 xTo: $x + ($spousalFamilies->has($i + 1)
                     ? $spousalFamilies[$i + 1]?->children()->count() ?? 1 : 1),
             );
@@ -57,6 +57,7 @@ class Plot
 
             $objects[] = new Person($family->husband(), y: 1, x: $x + floor(count($family->children()) / 2) - 1);
             $objects[] = new HorizontalLine(y: 1, x: $x + floor(count($family->children()) / 2));
+            $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2));
             $objects[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
 
             foreach($family->children()->filter(fn($child) => $child->id() !== $this->person->id()) as $child) {
