@@ -1,4 +1,4 @@
-<h1><em><?= $start ?></em> is member in these families</h1>
+<h1>Family tree of <em><?= $start ?></em></h1>
 
 <div class="column items-center">
     <?= $plot ?>
