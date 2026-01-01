@@ -50,7 +50,7 @@ class Plot
                 y: 2,
                 x: $parent + 1,
                 xTo: $x + ($spousalFamilies->has($i + 1)
-                    ? $spousalFamilies[$i + 1]?->children()->count() ?? 1 : 1),
+                    ? ($spousalFamilies[$i + 1]?->children()->count() ?? 1) + 1 : 1),
             );
         }
 
