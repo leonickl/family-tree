@@ -8,8 +8,7 @@ class Plot
 
     public function __toString()
     {
-        $people = [];
-        $lines = [];
+        $objects = [];
 
         $spousalFamilies = $this->person->spousalFamilies();
         $childFamilies = $this->person->childFamilies();
@@ -24,7 +23,7 @@ class Plot
         $x = 1;
 
         foreach($spousalFamilies as $i => $family) {
-            $people[] = new Person(
+            $objects[] = new Person(
                 $this->person->id() === $family->husband()?->id()
                     ? $family->wife() : $family->husband(),
                 y: 2,
@@ -34,14 +33,14 @@ class Plot
             $parentEnd = $x + floor(count($family->children()) / 2) + 1;
 
             foreach($family->children() as $j => $child) {
-                $people[] = new Person($child, y: 3, x: $x++);
+                $objects[] = new Person($child, y: 3, x: $x++);
 
                 if($j < count($family->children()) - 1) {
-                    $lines[] = new Line(y: 3, x: $x);
+                    $objects[] = new HorizontalLine(y: 3, x: $x);
                 }
             }
 
-            $lines[] = new Line(
+            $objects[] = new HorizontalLine(
                 y: 2,
                 x: $parentEnd ?: $x,
                 xTo: $x + ($spousalFamilies->has($i + 1)
@@ -49,26 +48,23 @@ class Plot
             );
         }
 
-        $people[] = new Person($this->person, y: 2, x: $x++, highlight: true);
+        $objects[] = new Person($this->person, y: 2, x: $x++, highlight: true);
 
         foreach($childFamilies as $family) {
             if(count($family->children()) > 1) {
-                $lines[] = new Line(y: 2, x: $x);
+                $objects[] = new HorizontalLine(y: 2, x: $x);
             }
 
-            $people[] = new Person($family->husband(), y: 1, x: $x + floor(count($family->children()) / 2) - 1);
-            $lines[] = new Line(y: 1, x: $x + floor(count($family->children()) / 2));
-            $people[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
+            $objects[] = new Person($family->husband(), y: 1, x: $x + floor(count($family->children()) / 2) - 1);
+            $objects[] = new HorizontalLine(y: 1, x: $x + floor(count($family->children()) / 2));
+            $objects[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
 
             foreach($family->children()->filter(fn($child) => $child->id() !== $this->person->id()) as $child) {
-                $lines[] = new Line(y: 2, x: $x);
-                $people[] = new Person($child, y: 2, x: $x++);
+                $objects[] = new HorizontalLine(y: 2, x: $x);
+                $objects[] = new Person($child, y: 2, x: $x++);
             }
         }
 
-        return '<div class="family">'
-            .implode($people)
-            .implode($lines)
-            .'</div>';
+        return '<div class="family">'.implode($objects).'</div>';
     }
 }

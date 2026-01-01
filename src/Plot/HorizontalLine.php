@@ -2,7 +2,7 @@
 
 namespace App\Plot;
 
-readonly class Line
+readonly class HorizontalLine
 {
     public function __construct(private int $y, private int $x, private ?int $xTo = null) {}
 
