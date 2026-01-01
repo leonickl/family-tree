@@ -4,7 +4,7 @@ namespace App\Plot;
 
 class Person
 {
-    public function __construct(private \App\Types\Person $person, private int $y, private int $x, private bool $highlight = false) {}
+    public function __construct(private ?\App\Types\Person $person, private int $y, private int $x, private bool $highlight = false) {}
 
     public function __toString()
     {
