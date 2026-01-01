@@ -1,6 +1,8 @@
 <h1><em><?= $start ?></em> is member in these families</h1>
 
-<?= $plot ?>
+<div class="column items-center">
+    <?= $plot ?>
+</div>
 
 <style>
     .horizontal-connector {
@@ -16,7 +18,8 @@
         grid-template-columns: repeat(<?= $width ?>, min(10rem));
         grid-template-rows: repeat(<?= $height ?>, max-content);
         gap: 1rem;
-        width: 100%;
+        width: max-content;
+        max-width: 100%;
         overflow-x: auto;
     }
 </style>
