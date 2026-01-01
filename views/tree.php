@@ -38,11 +38,25 @@
 </div>
 
 <style>
+    .family {
+        display: grid;
+        grid-template-columns: repeat(<?= $plot->width ?>, min(var(--column-size)));
+        grid-template-rows: repeat(3, max-content);
+        gap: var(--gap-size);
+        width: max-content;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .person {
+        width: var(--column-size);
+    }
+
     .horizontal-connector {
         height: 1px;
         background: var(--text-light);
         position: relative;
-        left: -5rem;
+        left: calc(-1*calc(var(--column-size)/2));
         top: 50%;
     }
 
@@ -50,17 +64,7 @@
         width: 1px;
         background: var(--text-light);
         position: relative;
-        left: 5rem;
+        left: calc(var(--column-size)/2);
         top: 50%;
-    }
-
-    .family {
-        display: grid;
-        grid-template-columns: repeat(<?= $width ?>, min(10rem));
-        grid-template-rows: repeat(<?= $height ?>, max-content);
-        gap: 1rem;
-        width: max-content;
-        max-width: 100%;
-        overflow-x: auto;
     }
 </style>

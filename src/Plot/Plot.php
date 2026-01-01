@@ -4,6 +4,8 @@ namespace App\Plot;
 
 class Plot
 {
+    public int $width = 0;
+
     public function __construct(private \App\Types\Person $person) {}
 
     public function __toString()
@@ -13,9 +15,7 @@ class Plot
         $spousalFamilies = $this->person->spousalFamilies();
         $childFamilies = $this->person->childFamilies();
 
-        $height = 3;
-
-        $width = array_sum(
+        $this->width = array_sum(
             $spousalFamilies->map(fn($family) => max(1, count($family->children())))
                 ->toArray(),
         );

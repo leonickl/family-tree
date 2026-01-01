@@ -14,11 +14,11 @@ class Person
         $styles = "grid-area: $area; z-index: 10";
 
         if ($this->highlight) {
-            return "<div class=\"$classes bg-primary\" style=\"$styles; width: 10rem; color: #f9fafb\">$this->person</div>";
+            return "<div class=\"person $classes bg-primary\" style=\"$styles; color: #f9fafb\">$this->person</div>";
         }
 
         $link = lnk()->tree($this->person);
 
-        return "<div class=\"$classes border\" style=\"$styles; background: var(--main-background); width: 10rem\">$link</div>";
+        return "<div class=\"person $classes border\" style=\"$styles; background: var(--main-background)\">$link</div>";
     }
 }

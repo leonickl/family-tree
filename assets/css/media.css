@@ -14,6 +14,11 @@
         padding: 2rem;
         max-width: 90%;
     }
+
+    .family {
+        --gap-size: 1rem;
+        --column-size: 10rem;
+    }
 }
 
 /**
@@ -32,5 +37,11 @@
         padding: 1.5rem;
         max-width: 100%;
         height: 100%;
+    }
+
+    .family {
+        --gap-size: 0.5rem;
+        --column-size: 5rem;
+        font-size: .7rem;
     }
 }
