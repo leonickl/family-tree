@@ -33,7 +33,7 @@ class TreeController extends Controller
             $start = $people[$index];
         }
 
-        $plot = new Plot($tree);
+        $plot = new Plot($start);
 
         return view('tree', compact('tree', 'start', 'plot'));
     }

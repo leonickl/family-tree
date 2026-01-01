@@ -4,7 +4,7 @@ namespace App\Plot;
 
 class Plot
 {
-    public function __construct(private App\Types\Person $person) {}
+    public function __construct(private \App\Types\Person $person) {}
 
     public function __toString()
     {
