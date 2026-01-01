@@ -57,7 +57,7 @@ class Plot
 
             $objects[] = new Person($family->husband(), y: 1, x: $x + floor(count($family->children()) / 2) - 1);
             $objects[] = new HorizontalLine(y: 1, x: $x + floor(count($family->children()) / 2));
-            $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2));
+            $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2) - 1);
             $objects[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
 
             foreach($family->children()->filter(fn($child) => $child->id() !== $this->person->id()) as $child) {
