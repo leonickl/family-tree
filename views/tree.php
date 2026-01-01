@@ -1,3 +1,10 @@
+<div class="row end mb">
+    <a href="/" class="btn" type="submit">Home</a>
+    <a href="/trees/<?= $tree ?>" class="btn" type="submit">Start of Tree</a>
+    <a href="/trees/<?= $tree ?>?start=random " class="btn" type="submit">Random</a>
+    <a href="/logout?__method=post" class="btn" type="submit" style="background-color: red">Logout</a>
+</div>
+
 <h1>Family tree of <em><?= $start ?></em></h1>
 
 <div class="column items-center">

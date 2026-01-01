@@ -8,6 +8,7 @@ use App\Types\Family;
 use Exception;
 use PXP\Core\Controllers\Controller;
 use App\Plot\Plot;
+use PXP\Core\Lib\Router;
 
 class TreeController extends Controller
 {
@@ -22,10 +23,15 @@ class TreeController extends Controller
 
     public function tree(string $tree)
     {
-        $tree = self::guard($tree);
+        self::guard($tree);
 
         $start = Person::find(request('start'))
+            ?? Person::find(perma("tree.$tree.start"))
             ?? Person::all()->sample()->first();
+
+        if(request('start') === 'random') {
+            $start = Person::all()->sample()->first();
+        }
 
         $plot = new Plot($start);
 
@@ -57,6 +63,25 @@ class TreeController extends Controller
 
         $person = Person::find($id);
 
+        if($person === null) {
+            throw new Exception("Person with id '$id' not found");
+        }
+
         return view('person', compact('person'));
+    }
+
+    public function setStart(string $tree, string $id)
+    {
+        self::guard($tree);
+
+        $person = Person::find($id);
+
+        if($person === null) {
+            throw new Exception("Person with id '$id' not found");
+        }
+
+        perma(["tree.$tree.start" => $id]);
+
+        Router::redirect("/trees/$tree");
     }
 }
