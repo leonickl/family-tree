@@ -44,7 +44,7 @@ class Plot
             $lines[] = new Line(
                 y: 2,
                 x: $parentEnd ?: $x,
-                xTo: $x + ($spousalFamilies->keys()->includes($i + 1)
+                xTo: $x + ($spousalFamilies->has($i + 1)
                     ? $spousalFamilies[$i + 1]?->children()->count() ?? 1 : 1),
             );
         }

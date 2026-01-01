@@ -24,14 +24,8 @@ class TreeController extends Controller
     {
         $tree = self::guard($tree);
 
-        $start = Person::find(request('start'));
-
-        // select random person if none is given
-        if ($start === null) {
-            $people = Person::all()->values();
-            $index = random_int(0, count($people) - 1);
-            $start = $people[$index];
-        }
+        $start = Person::find(request('start'))
+            ?? Person::all()->sample()->first();
 
         $plot = new Plot($start);
 
