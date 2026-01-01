@@ -12,6 +12,6 @@ class Person
             'person' => $this->person,
             'start' => $start,
             'area' => [$this->y, $this->x, $this->y + 1, $this->x + 1],
-        ])->render();
+        ]);
     }
 }

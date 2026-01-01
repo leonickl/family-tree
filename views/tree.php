@@ -15,13 +15,13 @@ $x = 1;
 <div class="family">
     <?php foreach($spousalFamilies as $i => $family): ?>
         <?= view('person', [
-                'person' => $start->id() === $family->husband()?->id() ? $family->wife() : $family->husband(),
-                'start' => $start,
-                'area' => [2, $x + floor(count($family->children()) / 2), 3, $parentEnd = $x + floor(count($family->children()) / 2) + 1],
-            ])->render() ?>
+            'person' => $start->id() === $family->husband()?->id() ? $family->wife() : $family->husband(),
+            'start' => $start,
+            'area' => [2, $x + floor(count($family->children()) / 2), 3, $parentEnd = $x + floor(count($family->children()) / 2) + 1],
+        ]) ?>
 
         <?php foreach($family->children() as $j => $child): ?>
-            <?= view('person', ['person' => $child, 'start' => $start, 'area' => [3, $x++, 4, $x]])->render() ?>
+            <?= view('person', ['person' => $child, 'start' => $start, 'area' => [3, $x++, 4, $x]]) ?>
 
             <?php if($j < count($family->children()) - 1): ?>
                 <div class="horizontal-connector" style="grid-area: <?= implode(' / ', [3, $x, 4, $x + 1]) ?>"></div>
@@ -32,7 +32,7 @@ $x = 1;
             $x + ($spousalFamilies->keys()->includes($i + 1) ? $spousalFamilies[$i + 1]?->children()->count() ?? 1 : 1)]) ?>"></div>
     <?php endforeach ?>
 
-    <?= view('person', ['person' => $start, 'start' => $start, 'area' => [2,  $x++, 3,$x]])->render() ?>
+    <?= view('person', ['person' => $start, 'start' => $start, 'area' => [2,  $x++, 3,$x]]) ?>
 
     <?php foreach($childFamilies as $family): ?>
         <?php if(count($family->children()) > 1): ?>
@@ -40,10 +40,10 @@ $x = 1;
         <?php endif ?>
 
         <?= view('person', [
-                'person' => $family->husband(),
-                'start' => $start,
-                'area' => [1, $x + floor(count($family->children()) / 2) - 1, 2, $x + floor(count($family->children()) / 2)],
-            ])->render() ?>
+            'person' => $family->husband(),
+            'start' => $start,
+            'area' => [1, $x + floor(count($family->children()) / 2) - 1, 2, $x + floor(count($family->children()) / 2)],
+        ]) ?>
 
         <div class="horizontal-connector"
             style="grid-area: <?= implode(' / ', [1, $x + floor(count($family->children()) / 2), 2,
@@ -51,15 +51,15 @@ $x = 1;
         </div>
 
         <?= view('person', [
-                'person' => $family->wife(),
-                'start' => $start,
-                'area' => [1, $x + floor(count($family->children()) / 2), 2, $x + floor(count($family->children()) / 2) + 1],
-            ])->render() ?>
+            'person' => $family->wife(),
+            'start' => $start,
+            'area' => [1, $x + floor(count($family->children()) / 2), 2, $x + floor(count($family->children()) / 2) + 1],
+        ]) ?>
 
         <?php foreach($family->children()->filter(fn($child) => $child->id() !== $start->id()) as $child): ?>
             <div class="horizontal-connector" style="grid-area: <?= implode(' / ', [2, $x, 3, $x + 1]) ?>"></div>
 
-            <?= view('person', ['person' => $child, 'start' => $start, 'area' => [2, $x++, 3, $x]])->render() ?>
+            <?= view('person', ['person' => $child, 'start' => $start, 'area' => [2, $x++, 3, $x]]) ?>
         <?php endforeach ?>
     <?php endforeach ?>
 </div>
