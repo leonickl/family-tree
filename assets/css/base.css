@@ -16,7 +16,6 @@ body {
 main {
     background: var(--main-background);
     width: max-content;
-    max-width: 90%;
     border-radius: 12px;
     box-shadow: 0 10px 30px var(--shadow);
 }
