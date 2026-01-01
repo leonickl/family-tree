@@ -30,7 +30,9 @@ class Plot
                 x: $parent = $x + floor(count($family->children()) / 2),
             );
 
-            $objects[] = new VerticalLine(y: 2, x: $parent);
+            if(count($family->children()) > 0) {
+                $objects[] = new VerticalLine(y: 2, x: $parent);
+            }
 
             foreach($family->children() as $j => $child) {
                 $objects[] = new Person($child, y: 3, x: $x++);
@@ -38,6 +40,10 @@ class Plot
                 if($j < count($family->children()) - 1) {
                     $objects[] = new HorizontalLine(y: 3, x: $x);
                 }
+            }
+
+            if(count($family->children()) === 0) {
+                $x++;
             }
 
             $objects[] = new HorizontalLine(
@@ -66,6 +72,6 @@ class Plot
             }
         }
 
-        return '<div class="family">'.implode($objects).'</div>';
+        return "<div class=\"family\">\n".implode("\n", $objects)."\n</div>";
     }
 }
