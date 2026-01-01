@@ -64,6 +64,8 @@ $x = 1;
     <?php endforeach ?>
 </div>
 
+<?= $plot ?>
+
 <style>
     .horizontal-connector {
         height: 1px;

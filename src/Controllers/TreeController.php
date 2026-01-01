@@ -7,6 +7,7 @@ use App\Types\Person;
 use App\Types\Family;
 use Exception;
 use PXP\Core\Controllers\Controller;
+use App\Plot\Plot;
 
 class TreeController extends Controller
 {
@@ -32,7 +33,9 @@ class TreeController extends Controller
             $start = $people[$index];
         }
 
-        return view('tree', compact('tree', 'start'));
+        $plot = new Plot($tree);
+
+        return view('tree', compact('tree', 'start', 'plot'));
     }
 
     public function info(string $tree)
