@@ -22,9 +22,8 @@
     <main>
         <?php if(App\Auth::auth()): ?>
             <div class="row end mb">
-                <form action="/logout" method="post">
-                    <button class="btn" type="submit" style="background-color: red">Logout</button>
-                </form>
+                <a href="/" class="btn" type="submit">Home</a>
+                <a href="/logout?__method=post" class="btn" type="submit" style="background-color: red">Logout</a>
             </div>
         <?php endif ?>
 
