@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Family Tree',
-    'domain' => 'localhost',
-    'port' => 8085,
+    'domain' => env('HOST', 'localhost'),
+    'port' => env('PORT', 8085),
     'users' => json_decode(env('USERS')),
 ];
