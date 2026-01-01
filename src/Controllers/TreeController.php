@@ -50,4 +50,13 @@ class TreeController extends Controller
             'families' => Family::all(),
         ]);
     }
+
+    public function person(string $tree, string $id)
+    {
+        self::guard($tree);
+
+        $person = Person::find($id);
+
+        return view('person', compact('person'));
+    }
 }
