@@ -60,6 +60,7 @@ textarea {
 
 @media (max-width: 600px) {
     input[type="text"],
+    input[type="password"],
     textarea {
         font-size: 1rem;
     }
@@ -71,6 +72,7 @@ textarea {
     }
 
     input[type="text"],
+    input[type="password"],
     textarea {
         background-color: #1f2937;
         border-color: #4b5563;
