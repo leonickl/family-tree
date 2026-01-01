@@ -4,13 +4,13 @@ namespace App\Plot;
 
 class Person
 {
-    public function __construct(private \App\Types\Person $person, int $x, int $y) {}
+    public function __construct(private \App\Types\Person $person, private int $y, private int $x, private bool $highlight = false) {}
 
     public function __toString()
     {
         return view('person', [
             'person' => $this->person,
-            'start' => $start,
+            'highlight' => $this->highlight,
             'area' => [$this->y, $this->x, $this->y + 1, $this->x + 1],
         ]);
     }
