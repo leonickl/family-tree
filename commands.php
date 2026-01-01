@@ -113,3 +113,23 @@ Command::new('convert', function(?string $file = null) {
 
     echo "converted gedcom to json\n";
 });
+
+Command::new('create-user', function(?string $username, ?string $password) {
+    if ($username === null) {
+        exit("Please enter a username\n");
+    }
+
+    if ($username === null) {
+        exit("Please enter a password\n");
+    }
+
+    $json = json_encode(['username' => $username, 'password_hash' => password_hash($password, PASSWORD_DEFAULT)]);
+
+    if(file_exists(path('.env')) && trim(file_get_contents(path('.env'))) !== '') {
+        exit("Environment file already exists. Please add this user manually to the array in there:\n$json\n");
+    }
+
+    file_put_contents(path('.env'), "USERS=[$json]");
+
+    echo "created initial user\n";
+});
