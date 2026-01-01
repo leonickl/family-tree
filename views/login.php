@@ -1,0 +1,11 @@
+<h1>Log in to Family Tree</h1>
+
+<form action="/login" method="post">
+    <label for="username" class="required">Username</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password" class="required">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit" class="btn mt-2">Login</button>
+</form>

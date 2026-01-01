@@ -16,11 +16,7 @@
         grid-template-columns: repeat(<?= $width ?>, min(10rem));
         grid-template-rows: repeat(<?= $height ?>, max-content);
         gap: 1rem;
-        width: max-content;
-    }
-
-    main {
-        width: max-content !important;
-        max-width: 100vw !important;
+        width: 100%;
+        overflow-x: auto;
     }
 </style>

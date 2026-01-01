@@ -20,6 +20,14 @@
 
 <body>
     <main>
+        <?php if(App\Auth::auth()): ?>
+            <div class="row end mb">
+                <form action="/logout" method="post">
+                    <button class="btn" type="submit" style="background-color: red">Logout</button>
+                </form>
+            </div>
+        <?php endif ?>
+
         <?= $slot ?>
     </main>
 </body>
