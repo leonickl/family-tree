@@ -2,21 +2,30 @@
 
 namespace App;
 
+use App\Models\User;
+use PXP\Core\Lib\Session;
+
 class Auth
 {
     public static function login(string $username, string $password): bool
     {
-        $users = config('users', []);
+        $user = User::findByOrNull('username', $username);
 
-        foreach($users as $user) {
-            if($user->username === $username && password_verify($password, $user->password_hash)) {
-                session_regenerate_id();
-                $_SESSION['username'] =  $username;
-                return true;
-            }
+        if($user === null) {
+            Session::set('errors', ['Login data incorrect']);
+            return false;
         }
 
-        return false;
+        if(! password_verify($password, $user->password_hash)) {
+            Session::set('errors', ['Login data incorrect']);
+            return false;
+        }
+
+        session_regenerate_id();
+
+        Session::set('username', $username);
+
+        return true;
     }
 
     public static function logout(): void

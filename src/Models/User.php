@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use PXP\Core\Lib\Model;
+
+/**
+ * @property int $id
+ * @property string $username
+ * @property string $password_hash
+ */
+class User extends Model
+{
+    protected string $table = 'users';
+
+    public function setPasswordHash(string $password)
+    {
+        $this->password_hash = password_hash($password, PASSWORD_DEFAULT);
+    }
+}
