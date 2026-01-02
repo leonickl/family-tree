@@ -4,8 +4,7 @@
     "type": "project",
     "require": {
         "ext-pdo": "*",
-        "leonickl/pxp-core": "^1.13",
-        "familytree365/php-gedcom": "^1.4"
+        "leonickl/pxp-core": "^1.13"
     },
     "autoload": {
         "psr-4": {
