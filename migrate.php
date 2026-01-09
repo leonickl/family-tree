@@ -33,3 +33,7 @@ $db->create('child_relations', [
     'family_identifier' => 'text not null references families(identifier)',
 ]);
 
+$db->create('users', [
+    'username' => 'text not null',
+    'password_hash' => 'text not null',
+]);
