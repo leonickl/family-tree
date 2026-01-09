@@ -128,3 +128,14 @@ Command::new('create-user', function(?string $username, ?string $password) {
 
     echo "created user with id $user->id\n";
 });
+
+Command::new('import', function(?string $file = null) {
+    if ($file === null) {
+        exit("Please enter a tree's name\n");
+    }
+
+    $importer = new \App\Importer($file);
+
+    $importer->people();
+    $importer->families();
+});

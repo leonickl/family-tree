@@ -1,5 +1,10 @@
 # Family Tree
 
+> [!WARNING]
+> The tree import is unstable as it does not support all GEDCOM fields.
+> The original file will be untouched, but not all data  might be transferred
+> into the database.
+
 This project allows you to run a web-app where you can view and manage your family tree.
 
 ## Installation
@@ -11,7 +16,10 @@ This project allows you to run a web-app where you can view and manage your fami
 ## Setup
 
 - Copy a GEDCOM file with your family tree to `database/trees/<tree-name>.ged`
-- Run `./run convert` to convert the GEDCOM file to a JSON-based format, which will be stored next to the original file.
+- Run `./run convert <tree-name>` to convert the GEDCOM file to a JSON-based format, which will be stored next to the original file.
+- Run `./run migrate` to initialize the database.
+- Run `./run import <tree-name>` to import the converted tree into the database.
+  Not all fields will be transferred here; please see `src/App/Importer.php` for more details.
 - Create a user by running `./run create-user <username> <password>`. This will initialize the environment file `.env`
 - Run the app with `./run server` and open the shown URL in your browser.
 
