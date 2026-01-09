@@ -6,7 +6,7 @@ class Plot
 {
     public int $width = 0;
 
-    public function __construct(private \App\Types\Person $person) {}
+    public function __construct(private \App\Models\Person $person) {}
 
     public function __toString()
     {

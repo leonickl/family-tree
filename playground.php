@@ -1,13 +1,10 @@
 <?php
 
-use App\Tree;
-use App\Types\Person;
-use App\Types\Family;
+use App\Models\Person;
+use App\Models\Family;
 
 // Playground.
 // Can be executed with `./run play`
-
-Tree::init('Tree');
 
 //
 

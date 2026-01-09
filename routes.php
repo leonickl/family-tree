@@ -9,15 +9,15 @@ use App\Middleware\AuthMiddleware as Auth;
 
 Route::get('/')->do(MainController::class, 'index')
     ->middleware(Auth::class);
-Route::get('/trees/{tree}')->do(TreeController::class, 'tree')
+Route::get('/tree')->do(TreeController::class, 'tree')
     ->middleware(Auth::class);
-Route::get('/trees/{tree}/families')->do(TreeController::class, 'families')
+Route::get('/tree/families')->do(TreeController::class, 'families')
     ->middleware(Auth::class);
-Route::get('/trees/{tree}/info')->do(TreeController::class, 'info')
+Route::get('/tree/info')->do(TreeController::class, 'info')
     ->middleware(Auth::class);
-Route::get('/trees/{tree}/people/{id}')->do(TreeController::class, 'person')
+Route::get('/tree/people/{id}')->do(TreeController::class, 'person')
     ->middleware(Auth::class);
-Route::get('/trees/{tree}/people/{id}/set-as-start')->do(TreeController::class, 'setStart')
+Route::get('/tree/people/{id}/set-as-start')->do(TreeController::class, 'setStart')
     ->middleware(Auth::class);
 
 Route::get('/login')->do(LoginController::class, 'form');

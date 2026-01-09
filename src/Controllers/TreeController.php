@@ -2,9 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Tree;
-use App\Types\Person;
-use App\Types\Family;
+use App\Models\Person;
+use App\Models\Family;
 use Exception;
 use PXP\Core\Controllers\Controller;
 use App\Plot\Plot;
@@ -12,21 +11,10 @@ use PXP\Core\Lib\Router;
 
 class TreeController extends Controller
 {
-    public static function guard(string $tree)
+    public function tree()
     {
-        if (! preg_match('/^[a-zA-Z-]+$/', $tree)) {
-            throw new Exception("Invalid tree name '{$tree}'");
-        }
-
-        return Tree::init($tree);
-    }
-
-    public function tree(string $tree)
-    {
-        self::guard($tree);
-
-        $start = Person::find(request('start'))
-            ?? Person::find(perma("tree.$tree.start"))
+        $start = Person::findByOrNull('identifier', request('start'))
+            ?? Person::findByOrNull('identifier', perma('tree.start'))
             ?? Person::all()->sample()->first();
 
         if(request('start') === 'random') {
@@ -35,33 +23,27 @@ class TreeController extends Controller
 
         $plot = new Plot($start);
 
-        return view('tree', compact('tree', 'start', 'plot'));
+        return view('tree', compact('start', 'plot'));
     }
 
-    public function info(string $tree)
+    public function info()
     {
-        self::guard($tree);
-
         return view('info', [
             'families' => Family::all(),
             'people' => Person::all(),
         ]);
     }
 
-    public function families(string $tree)
+    public function families()
     {
-        self::guard($tree);
-
         return view('families', [
             'families' => Family::all(),
         ]);
     }
 
-    public function person(string $tree, string $id)
+    public function person(string $id)
     {
-        self::guard($tree);
-
-        $person = Person::find($id);
+        $person = Person::findByOrNull('identifier', $id);
 
         if($person === null) {
             throw new Exception("Person with id '$id' not found");
@@ -70,18 +52,16 @@ class TreeController extends Controller
         return view('person', compact('person'));
     }
 
-    public function setStart(string $tree, string $id)
+    public function setStart(string $id)
     {
-        self::guard($tree);
-
-        $person = Person::find($id);
+        $person = Person::findByOrNull('identifier', $id);
 
         if($person === null) {
             throw new Exception("Person with id '$id' not found");
         }
 
-        perma(["tree.$tree.start" => $id]);
+        perma(['tree.start' => $id]);
 
-        Router::redirect("/trees/$tree");
+        Router::redirect("/tree");
     }
 }

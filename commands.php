@@ -2,7 +2,6 @@
 
 use PXP\Core\Lib\Command;
 
-use App\Tree;
 use App\Types\Person;
 use App\Types\Family;
 use App\Models\User;
@@ -45,13 +44,7 @@ Command::new('reidentify', function (?string $file = null, ?string $postfix = nu
     echo "\nnew tree written\n";
 });
 
-Command::new('check', function(?string $file = null) {
-    if ($file === null) {
-        exit("Please enter a tree's name\n");
-    }
-
-    $tree = Tree::init($file);
-
+Command::new('check', function() {
     foreach(Person::all() as $i => $person) {
         $childFamiliesForward = $person->childFamilies()
             ->map(fn(Family $family) => $family->id())->toArray();

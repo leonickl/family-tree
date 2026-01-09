@@ -4,6 +4,7 @@ namespace App;
 
 use App\Types\Family;
 use App\Types\Person;
+use Exception;
 
 class Tree
 {

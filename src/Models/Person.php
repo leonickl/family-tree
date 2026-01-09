@@ -25,4 +25,43 @@ use PXP\Core\Lib\Model;
 class Person extends Model
 {
     protected string $table = 'people';
+
+    public function id()
+    {
+        return $this->identifier;
+    }
+
+    public function name()
+    {
+        return c(
+            $this->name_prefix,
+            $this->name_first,
+            $this->name_last,
+            $this->name_marriage,
+            $this->name_suffix,
+        )
+            ->filter(fn($name) => $name !== null && trim($name) !== '')
+            ->join(' ');
+    }
+
+    public function childFamilies()
+    {
+        return ChildRelation::findAllBy('child_identifier', $this->identifier)
+            ->map(fn($relation) => Family::findBy('identifier', $relation->family_identifier));
+    }
+
+    public function spousalFamilies()
+    {
+        return Family::findAllBy('husband_identifier', $this->identifier)
+            ->with(...Family::findAllBy('wife_identifier', $this->identifier));
+    }
+
+    public function __toString()
+    {
+        if (trim($this->name()) === '') {
+            return '---';
+        }
+
+        return $this->name();
+    }
 }

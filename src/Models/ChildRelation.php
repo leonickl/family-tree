@@ -6,8 +6,8 @@ use PXP\Core\Lib\Model;
 
 /**
  * @property int $id
- * @property ?string $child_identifier
- * @property ?string $family_identifier
+ * @property string $child_identifier
+ * @property string $family_identifier
  */
 class ChildRelation extends Model
 {

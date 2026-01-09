@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Types\Person;
+use App\Models\Person;
 
 class Link
 {
@@ -12,9 +12,8 @@ class Link
             return '---';
         }
 
-        $tree = Tree::make();
         $id = $person->id();
 
-        return "<a href=\"/trees/$tree->file?start=$id\">$person</a>";
+        return "<a href=\"/tree?start=$id\">$person</a>";
     }
 }

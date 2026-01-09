@@ -24,8 +24,8 @@ $db->create('people', [
 
 $db->create('families', [
     'identifier' => 'text not null unique',
-    'husband' => 'text references people(identifier)',
-    'wife' => 'text references people(identifier)',
+    'husband_identifier' => 'text references people(identifier)',
+    'wife_identifier' => 'text references people(identifier)',
 ]);
 
 $db->create('child_relations', [

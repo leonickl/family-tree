@@ -114,8 +114,8 @@ class Importer
 
                 $families[] = \App\Models\Family::new(
                     identifier: $entity->id,
-                    husband: @$entity->HUSB,
-                    wife: @$entity->WIFE,
+                    husband_identifier: @$entity->HUSB,
+                    wife_identifier: @$entity->WIFE,
                 );
 
                 foreach(@$entity->CHIL ?? [] as $child) {

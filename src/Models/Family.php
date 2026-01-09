@@ -16,12 +16,12 @@ class Family extends Model
 
     public function husband()
     {
-        return Person::findBy('identifier', $this->husband_identifier);
+        return Person::findByOrNull('identifier', $this->husband_identifier);
     }
 
     public function wife()
     {
-        return Person::findBy('identifier', $this->wife_identifier);
+        return Person::findByOrNull('identifier', $this->wife_identifier);
     }
 
     public function children()
