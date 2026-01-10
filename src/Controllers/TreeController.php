@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Models\Person;
 use App\Models\Family;
+use App\Models\Person;
+use App\Plot\Plot;
 use Exception;
 use PXP\Core\Controllers\Controller;
-use App\Plot\Plot;
 use PXP\Core\Lib\Router;
 
 class TreeController extends Controller
@@ -17,7 +17,7 @@ class TreeController extends Controller
             ?? Person::findByOrNull('identifier', perma('tree.start'))
             ?? Person::all()->sample()->first();
 
-        if(request('start') === 'random') {
+        if (request('start') === 'random') {
             $start = Person::all()->sample()->first();
         }
 
@@ -45,7 +45,7 @@ class TreeController extends Controller
     {
         $person = Person::findByOrNull('identifier', $id);
 
-        if($person === null) {
+        if ($person === null) {
             throw new Exception("Person with id '$id' not found");
         }
 
@@ -56,12 +56,12 @@ class TreeController extends Controller
     {
         $person = Person::findByOrNull('identifier', $id);
 
-        if($person === null) {
+        if ($person === null) {
             throw new Exception("Person with id '$id' not found");
         }
 
         perma(['tree.start' => $id]);
 
-        Router::redirect("/tree");
+        Router::redirect('/tree');
     }
 }

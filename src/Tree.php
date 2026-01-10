@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Types\Family;
-use App\Types\Person;
 use Exception;
 
 class Tree
@@ -16,7 +14,7 @@ class Tree
     {
         $tree = json_decode(file_get_contents(path("database/trees/$file.json")));
 
-        if($tree === false || ! is_array($tree)) {
+        if ($tree === false || ! is_array($tree)) {
             throw new Exception('invalid json');
         }
 
@@ -25,7 +23,7 @@ class Tree
 
     public static function make()
     {
-        if(! isset(self::$instance)) {
+        if (! isset(self::$instance)) {
             throw new Exception('initialize tree before usage');
         }
 

@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use PXP\Core\Controllers\Controller;
 use App\Auth;
-use PXP\Core\Lib\Router;
+use PXP\Core\Controllers\Controller;
 use PXP\Core\Exceptions\ValidationException;
+use PXP\Core\Lib\Router;
 
 class LoginController extends Controller
 {
@@ -18,11 +18,11 @@ class LoginController extends Controller
     {
         $request = request(['username', 'password']);
 
-        if(! is_string($request->username)) {
+        if (! is_string($request->username)) {
             throw new ValidationException('username must be a string');
         }
 
-        if(! is_string($request->password)) {
+        if (! is_string($request->password)) {
             throw new ValidationException('password must be a string');
         }
 

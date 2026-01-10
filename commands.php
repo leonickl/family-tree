@@ -1,10 +1,9 @@
 <?php
 
-use PXP\Core\Lib\Command;
-
-use App\Types\Person;
-use App\Types\Family;
 use App\Models\User;
+use App\Types\Family;
+use App\Types\Person;
+use PXP\Core\Lib\Command;
 
 Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {
     if ($file === null) {
@@ -44,10 +43,10 @@ Command::new('reidentify', function (?string $file = null, ?string $postfix = nu
     echo "\nnew tree written\n";
 });
 
-Command::new('check', function() {
-    foreach(Person::all() as $i => $person) {
+Command::new('check', function () {
+    foreach (Person::all() as $i => $person) {
         $childFamiliesForward = $person->childFamilies()
-            ->map(fn(Family $family) => $family->id())->toArray();
+            ->map(fn (Family $family) => $family->id())->toArray();
         $childFamiliesBackward = Family::all()->filter(function (Family $family) use ($person) {
             foreach ($family->children() as $child) {
                 if ($child->id() === $person->id()) {
@@ -57,10 +56,10 @@ Command::new('check', function() {
 
             return false;
         })
-            ->map(fn(Family $family) => $family->id())->toArray();
-        
+            ->map(fn (Family $family) => $family->id())->toArray();
+
         $spousalFamiliesForward = $person->spousalFamilies()
-            ->map(fn(Family $family) => $family->id())->toArray();
+            ->map(fn (Family $family) => $family->id())->toArray();
         $spousalFamiliesBackward = Family::all()->filter(function (Family $family) use ($person) {
             if ($family->husband()?->id() === $person->id()) {
                 return true;
@@ -72,7 +71,7 @@ Command::new('check', function() {
 
             return false;
         })
-            ->map(fn(Family $family) => $family->id())->toArray();
+            ->map(fn (Family $family) => $family->id())->toArray();
 
         sort($childFamiliesForward);
         sort($childFamiliesBackward);
@@ -80,17 +79,17 @@ Command::new('check', function() {
         sort($spousalFamiliesForward);
         sort($spousalFamiliesBackward);
 
-        if($childFamiliesForward != $childFamiliesBackward) {
+        if ($childFamiliesForward != $childFamiliesBackward) {
             echo $person->id(), ' - child: ', json_encode($childFamiliesForward), json_encode($childFamiliesBackward), "\n\n";
         }
 
-        if($spousalFamiliesForward != $spousalFamiliesBackward) {
+        if ($spousalFamiliesForward != $spousalFamiliesBackward) {
             echo $person->id(), ' - spousal: ', json_encode($spousalFamiliesForward), json_encode($spousalFamiliesBackward), "\n\n";
         }
     }
 });
 
-Command::new('convert', function(?string $file = null) {
+Command::new('convert', function (?string $file = null) {
     if ($file === null) {
         exit("Please enter a tree's name\n");
     }
@@ -101,14 +100,14 @@ Command::new('convert', function(?string $file = null) {
         ->get();
 
     file_put_contents(
-        path("database/trees/$file.json"), 
+        path("database/trees/$file.json"),
         json_encode($object, JSON_PRETTY_PRINT),
     );
 
     echo "converted gedcom to json\n";
 });
 
-Command::new('create-user', function(?string $username, ?string $password) {
+Command::new('create-user', function (?string $username, ?string $password) {
     if ($username === null) {
         exit("Please enter a username\n");
     }
@@ -122,7 +121,7 @@ Command::new('create-user', function(?string $username, ?string $password) {
     echo "created user with id $user->id\n";
 });
 
-Command::new('import', function(?string $file = null) {
+Command::new('import', function (?string $file = null) {
     if ($file === null) {
         exit("Please enter a tree's name\n");
     }

@@ -16,13 +16,13 @@ class Plot
         $childFamilies = $this->person->childFamilies();
 
         $this->width = array_sum(
-            $spousalFamilies->map(fn($family) => max(1, count($family->children())))
+            $spousalFamilies->map(fn ($family) => max(1, count($family->children())))
                 ->toArray(),
         );
 
         $x = 1;
 
-        foreach($spousalFamilies as $i => $family) {
+        foreach ($spousalFamilies as $i => $family) {
             $objects[] = new Person(
                 $this->person->id() === $family->husband()?->id()
                     ? $family->wife() : $family->husband(),
@@ -30,19 +30,19 @@ class Plot
                 x: $parent = $x + floor(count($family->children()) / 2),
             );
 
-            if(count($family->children()) > 0) {
+            if (count($family->children()) > 0) {
                 $objects[] = new VerticalLine(y: 2, x: $parent);
             }
 
-            foreach($family->children() as $j => $child) {
+            foreach ($family->children() as $j => $child) {
                 $objects[] = new Person($child, y: 3, x: $x++);
 
-                if($j < count($family->children()) - 1) {
+                if ($j < count($family->children()) - 1) {
                     $objects[] = new HorizontalLine(y: 3, x: $x);
                 }
             }
 
-            if(count($family->children()) === 0) {
+            if (count($family->children()) === 0) {
                 $x++;
             }
 
@@ -56,8 +56,8 @@ class Plot
 
         $objects[] = new Person($this->person, y: 2, x: $x++, highlight: true);
 
-        foreach($childFamilies as $family) {
-            if(count($family->children()) > 1) {
+        foreach ($childFamilies as $family) {
+            if (count($family->children()) > 1) {
                 $objects[] = new HorizontalLine(y: 2, x: $x);
             }
 
@@ -66,7 +66,7 @@ class Plot
             $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2) - 1);
             $objects[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
 
-            foreach($family->children()->filter(fn($child) => $child->id() !== $this->person->id()) as $child) {
+            foreach ($family->children()->filter(fn ($child) => $child->id() !== $this->person->id()) as $child) {
                 $objects[] = new HorizontalLine(y: 2, x: $x);
                 $objects[] = new Person($child, y: 2, x: $x++);
             }

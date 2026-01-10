@@ -7,9 +7,13 @@ use Exception;
 class Converter
 {
     private array $parsed = [];
+
     private ?array $state = null;
+
     private ?array $substate = null;
+
     private ?array $subsubstate = null;
+
     private ?array $subsubsubstate = null;
 
     private function __construct(private array $lines) {}
@@ -18,8 +22,8 @@ class Converter
     {
         $raw = @file_get_contents($file);
 
-        if(! $raw) {
-            die("File '$file' not found\n");
+        if (! $raw) {
+            exit("File '$file' not found\n");
         }
 
         return self::raw($raw);
@@ -32,7 +36,7 @@ class Converter
 
     public function convert()
     {
-        foreach($this->lines as $line) {
+        foreach ($this->lines as $line) {
             $this->convertLine($line);
         }
 
@@ -44,20 +48,18 @@ class Converter
         $parts = explode(' ', $line, 3);
         $level = trim($parts[0], "\u{feff}");
 
-        if($level === '0') {
-            if($this->state !== null) {
+        if ($level === '0') {
+            if ($this->state !== null) {
                 $this->parsed[] = $this->state;
             }
 
             $this->state = ['id' => $parts[1]];
 
-            if(isset($parts[2])) {
+            if (isset($parts[2])) {
                 $this->state['type'] = $parts[2];
             }
-        }
-
-        elseif($level === '1') {
-            if($this->state === null) {
+        } elseif ($level === '1') {
+            if ($this->state === null) {
                 throw new Exception('cannot have 1 at null-state');
             }
 
@@ -66,14 +68,12 @@ class Converter
             $this->saveSubState();
 
             $this->substate = [$parts[1] => $parts[2] ?? null];
-        }
-
-        elseif($level === '2') {
-            if($this->state === null) {
+        } elseif ($level === '2') {
+            if ($this->state === null) {
                 throw new Exception('cannot have 2 at null-state');
             }
 
-            if($this->substate === null) {
+            if ($this->substate === null) {
                 throw new Exception('cannot have 2 at null-substate');
             }
 
@@ -81,34 +81,30 @@ class Converter
             $this->saveSubSubState();
 
             $this->subsubstate = [$parts[1] => $parts[2] ?? null];
-        }
-
-        elseif($level === '3') {
-            if($this->state === null) {
+        } elseif ($level === '3') {
+            if ($this->state === null) {
                 throw new Exception('cannot have 3 at null-state');
             }
 
-            if($this->substate === null) {
+            if ($this->substate === null) {
                 throw new Exception('cannot have 2 at null-substate');
             }
 
-            if($this->subsubstate === null) {
+            if ($this->subsubstate === null) {
                 throw new Exception('cannot have 2 at null-subsubstate');
             }
 
             $this->saveSubSubSubState();
 
             $this->subsubsubstate = [$parts[1] => $parts[2] ?? null];
-        }
-
-        else {
+        } else {
             throw new Exception("illegal indentation level '$level'");
         }
     }
 
     private function saveSubSubSubState()
     {
-        if($this->subsubsubstate !== null) {
+        if ($this->subsubsubstate !== null) {
             $this->subsubstate['subsubsub'][] = $this->subsubsubstate;
             $this->subsubsubstate = null;
         }
@@ -116,7 +112,7 @@ class Converter
 
     private function saveSubSubState()
     {
-        if($this->subsubstate !== null) {
+        if ($this->subsubstate !== null) {
             $this->substate['subsub'][] = $this->subsubstate;
             $this->subsubstate = null;
         }
@@ -124,7 +120,7 @@ class Converter
 
     private function saveSubState()
     {
-        if($this->substate !== null) {
+        if ($this->substate !== null) {
             $this->state['sub'][] = $this->substate;
             $this->substate = null;
         }
@@ -135,24 +131,24 @@ class Converter
         $entities = [];
 
         // loop over [head, ...people, ...families, ...sources, ...]
-        foreach($this->parsed as $entity) {
+        foreach ($this->parsed as $entity) {
             $entityNew = [];
 
             // loop over attributes [id, name, sex, ...]
-            foreach($entity as $attributeKey => $attributeValue) {
-                if($attributeKey !== 'sub') {
+            foreach ($entity as $attributeKey => $attributeValue) {
+                if ($attributeKey !== 'sub') {
                     $entityNew[$attributeKey][] = $attributeValue;
 
                     continue;
                 }
 
                 // flatten out nested attributes of first order
-                foreach($attributeValue as $sub) {
+                foreach ($attributeValue as $sub) {
                     $subLabel = null;
                     $subContent = null;
 
-                    foreach($sub as $subKey => $subValue) {
-                        if($subKey !== 'subsub') {
+                    foreach ($sub as $subKey => $subValue) {
+                        if ($subKey !== 'subsub') {
                             $subLabel = $subKey;
                             $subContent = ['.' => $subValue];
                             $subFirst = false;
@@ -161,14 +157,14 @@ class Converter
                         }
 
                         // flatten out second-order-nesting
-                        foreach($subValue as $subsub) {
+                        foreach ($subValue as $subsub) {
                             $subsubLabel = null;
                             $subsubContent = null;
                             $subsubFirst = true;
 
                             // flatten out third-order-nesting
-                            foreach($subsub as $subsubKey => $subsubValue) {
-                                if($subsubKey !== 'subsubsub') {
+                            foreach ($subsub as $subsubKey => $subsubValue) {
+                                if ($subsubKey !== 'subsubsub') {
                                     $subsubLabel = $subsubKey;
                                     $subsubContent = ['.' => $subsubValue];
                                     $subsubFirst = false;
@@ -200,42 +196,42 @@ class Converter
     {
         $attributes = array_filter($attributes);
 
-        $values = array_map(function($key, $value) {
-            if(!is_array($value)) {
+        $values = array_map(function ($key, $value) {
+            if (! is_array($value)) {
                 return $value;
             }
 
-            if($key === 'NAME') {
+            if ($key === 'NAME') {
                 $value[0]['.'] = trim(str_replace('/', '', $value[0]['.']));
             }
 
-            if(in_array($key, ['id', 'type', 'BIRT', 'BURI', 'DEAT', 'DATA', 'NAME'])) {
-                if(count($value) > 1) {
+            if (in_array($key, ['id', 'type', 'BIRT', 'BURI', 'DEAT', 'DATA', 'NAME'])) {
+                if (count($value) > 1) {
                     throw new Exception("too many nodes found for '$key'");
                 }
 
                 return $value[0];
             }
 
-            if(in_array($key, [
+            if (in_array($key, [
                 'VERS', 'FORM', 'CHAR', 'LANG', 'DEST', 'DATE', 'CORP', 'DATE',
                 'FILE', '_PROJECT_GUID', 'GIVN', 'SURN', '_MARNM', 'SEX', 'AGE',
                 'RIN', 'PLAC', 'PAGE', 'QUAY', 'HUSB', 'WIFE', 'TYPE', 'AUTH',
                 'TITL', 'TEXT', '_TYPE', '_MEDI', 'CAUS', 'NPFX', 'NSFX',
             ])) {
-                if(count($value) > 1 || count($value[0]) > 1) {
+                if (count($value) > 1 || count($value[0]) > 1) {
                     throw new Exception("too many nodes found for '$key'");
                 }
 
-                if(! array_key_exists('.', $value[0])) {
+                if (! array_key_exists('.', $value[0])) {
                     throw new Exception("key '.' not found");
                 }
 
                 return $value[0]['.'];
             }
 
-            if(in_array($key, ['FAMC', 'FAMS', '_UID', 'CONC', 'CHIL'])) {
-                return array_map(fn($item) => $item['.'], $value);
+            if (in_array($key, ['FAMC', 'FAMS', '_UID', 'CONC', 'CHIL'])) {
+                return array_map(fn ($item) => $item['.'], $value);
             }
 
             return $value;

@@ -11,13 +11,15 @@ class Auth
     {
         $user = User::findByOrNull('username', $username);
 
-        if($user === null) {
+        if ($user === null) {
             Session::set('errors', ['Login data incorrect']);
+
             return false;
         }
 
-        if(! password_verify($password, $user->password_hash)) {
+        if (! password_verify($password, $user->password_hash)) {
             Session::set('errors', ['Login data incorrect']);
+
             return false;
         }
 
@@ -40,15 +42,15 @@ class Auth
 
     public static function user(): ?object
     {
-        if(! self::auth()) {
+        if (! self::auth()) {
             return null;
         }
 
         $users = (array) config('users', []);
         $username = session('username');
 
-        foreach($users as $user) {
-            if($user->username === $username) {
+        foreach ($users as $user) {
+            if ($user->username === $username) {
                 return $user;
             }
         }

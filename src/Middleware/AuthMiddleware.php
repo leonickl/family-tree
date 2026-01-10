@@ -2,10 +2,9 @@
 
 namespace App\Middleware;
 
-use PXP\Core\Middleware\Middleware;
 use App\Auth;
-use PXP\Core\Lib\Router;
 use PXP\Core\Lib\Session;
+use PXP\Core\Middleware\Middleware;
 
 class AuthMiddleware extends Middleware
 {

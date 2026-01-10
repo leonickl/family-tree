@@ -1,11 +1,11 @@
 <?php
 
 use App\Controllers\AssetController;
+use App\Controllers\LoginController;
 use App\Controllers\MainController;
 use App\Controllers\TreeController;
-use App\Controllers\LoginController;
-use PXP\Core\Lib\Route;
 use App\Middleware\AuthMiddleware as Auth;
+use PXP\Core\Lib\Route;
 
 Route::get('/')->do(MainController::class, 'index')
     ->middleware(Auth::class);

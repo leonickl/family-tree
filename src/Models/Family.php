@@ -27,6 +27,6 @@ class Family extends Model
     public function children()
     {
         return ChildRelation::findAllBy('family_identifier', $this->identifier)
-            ->map(fn($relation) => $relation->child());
+            ->map(fn ($relation) => $relation->child());
     }
 }

@@ -18,11 +18,11 @@ class Importer
         $attributes = [];
         $people = [];
 
-        foreach($this->tree as $entity) {
-            if(@$entity->type === 'INDI') {
+        foreach ($this->tree as $entity) {
+            if (@$entity->type === 'INDI') {
                 $attributes = array_merge($attributes, $this->keys($entity));
 
-                if($entity->NAME->{'.'} !== trim(@$entity->NAME->GIVN.' '.@$entity->NAME->SURN)) {
+                if ($entity->NAME->{'.'} !== trim(@$entity->NAME->GIVN.' '.@$entity->NAME->SURN)) {
                     exit("$entity->NAME has an illegal name attribute\n");
                 }
 
@@ -53,49 +53,49 @@ class Importer
         sort($attributes);
 
         $allowed_attributes = [
-            "BIRT",
-            "BIRT/DATE",
-            "BIRT/PLAC",
-            "BURI",
-            "BURI/PLAC",
-            "DEAT",
-            "DEAT/.",
-            "DEAT/AGE",
-            "DEAT/CAUS",
-            "DEAT/DATE",
-            "DEAT/PLAC",
-            "EDUC",
-            "EVEN",
-            "FAMC",
-            "FAMS",
-            "IMMI",
-            "NAME",
-            "NAME/.",
-            "NAME/GIVN",
-            "NAME/NPFX",
-            "NAME/NSFX",
-            "NAME/SURN",
-            "NAME/_MARNM",
-            "NOTE",
-            "OCCU",
-            "RESI",
-            "RIN",
-            "SEX",
-            "SOUR",
-            "_PROJECT_GUID",
-            "_UID",
-            "_UPD",
-            "id",
-            "type"
+            'BIRT',
+            'BIRT/DATE',
+            'BIRT/PLAC',
+            'BURI',
+            'BURI/PLAC',
+            'DEAT',
+            'DEAT/.',
+            'DEAT/AGE',
+            'DEAT/CAUS',
+            'DEAT/DATE',
+            'DEAT/PLAC',
+            'EDUC',
+            'EVEN',
+            'FAMC',
+            'FAMS',
+            'IMMI',
+            'NAME',
+            'NAME/.',
+            'NAME/GIVN',
+            'NAME/NPFX',
+            'NAME/NSFX',
+            'NAME/SURN',
+            'NAME/_MARNM',
+            'NOTE',
+            'OCCU',
+            'RESI',
+            'RIN',
+            'SEX',
+            'SOUR',
+            '_PROJECT_GUID',
+            '_UID',
+            '_UPD',
+            'id',
+            'type',
         ];
 
         $illegal_attributes = c(...$attributes)->without(...$allowed_attributes);
 
-        if($illegal_attributes->count() > 0) {
-            exit("illegal attributes ".json_encode($illegal_attributes)."\n");
+        if ($illegal_attributes->count() > 0) {
+            exit('illegal attributes '.json_encode($illegal_attributes)."\n");
         }
 
-        foreach($people as $person) {
+        foreach ($people as $person) {
             $person->save();
         }
     }
@@ -106,8 +106,8 @@ class Importer
         $families = [];
         $child_relationships = [];
 
-        foreach($this->tree as $entity) {
-            if(@$entity->type === 'FAM') {
+        foreach ($this->tree as $entity) {
+            if (@$entity->type === 'FAM') {
                 $attributes = array_merge($attributes, $this->keys($entity));
 
                 // TODO: implement "DIV", "EVEN", "MARR"
@@ -118,7 +118,7 @@ class Importer
                     wife_identifier: @$entity->WIFE,
                 );
 
-                foreach(@$entity->CHIL ?? [] as $child) {
+                foreach (@$entity->CHIL ?? [] as $child) {
                     $child_relationships[] = \App\Models\ChildRelation::new(
                         child_identifier: $child,
                         family_identifier: $entity->id,
@@ -132,41 +132,41 @@ class Importer
         sort($attributes);
 
         $allowed_attributes = [
-            "CHIL",
-            "DIV",
-            "EVEN",
-            "HUSB",
-            "MARR",
-            "RIN",
-            "WIFE",
-            "_UID",
-            "id",
-            "type",
+            'CHIL',
+            'DIV',
+            'EVEN',
+            'HUSB',
+            'MARR',
+            'RIN',
+            'WIFE',
+            '_UID',
+            'id',
+            'type',
         ];
 
         $illegal_attributes = c(...$attributes)->without(...$allowed_attributes);
 
-        if($illegal_attributes->count() > 0) {
-            exit("illegal attributes ".json_encode($illegal_attributes)."\n");
+        if ($illegal_attributes->count() > 0) {
+            exit('illegal attributes '.json_encode($illegal_attributes)."\n");
         }
 
-        foreach($families as $family) {
+        foreach ($families as $family) {
             $family->save();
         }
 
-        foreach($child_relationships as $child_relationship) {
+        foreach ($child_relationships as $child_relationship) {
             $child_relationship->save();
         }
     }
-    
+
     private function keys(object $object, string $prefix = '')
     {
         $keys = [];
 
-        foreach($object as $key => $value) {
+        foreach ($object as $key => $value) {
             $keys[] = $prefix ? "$prefix/$key" : $key;
 
-            if(is_object($value)) {
+            if (is_object($value)) {
                 $keys = array_merge($keys, $this->keys($value, $prefix ? "$prefix/$key" : $key));
             }
         }

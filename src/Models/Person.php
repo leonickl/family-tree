@@ -40,14 +40,14 @@ class Person extends Model
             $this->name_marriage,
             $this->name_suffix,
         )
-            ->filter(fn($name) => $name !== null && trim($name) !== '')
+            ->filter(fn ($name) => $name !== null && trim($name) !== '')
             ->join(' ');
     }
 
     public function childFamilies()
     {
         return ChildRelation::findAllBy('child_identifier', $this->identifier)
-            ->map(fn($relation) => Family::findBy('identifier', $relation->family_identifier));
+            ->map(fn ($relation) => Family::findBy('identifier', $relation->family_identifier));
     }
 
     public function spousalFamilies()
