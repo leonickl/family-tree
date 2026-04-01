@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use App\Types\Family;
-use App\Types\Person;
+use App\Models\Family;
+use App\Models\Person;
 use PXP\Console\Command;
 
 Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {
@@ -43,52 +43,6 @@ Command::new('reidentify', function (?string $file = null, ?string $postfix = nu
     echo "\nnew tree written\n";
 });
 
-Command::new('check', function () {
-    foreach (Person::all() as $i => $person) {
-        $childFamiliesForward = $person->childFamilies()
-            ->map(fn (Family $family) => $family->id())->toArray();
-        $childFamiliesBackward = Family::all()->filter(function (Family $family) use ($person) {
-            foreach ($family->children() as $child) {
-                if ($child->id() === $person->id()) {
-                    return true;
-                }
-            }
-
-            return false;
-        })
-            ->map(fn (Family $family) => $family->id())->toArray();
-
-        $spousalFamiliesForward = $person->spousalFamilies()
-            ->map(fn (Family $family) => $family->id())->toArray();
-        $spousalFamiliesBackward = Family::all()->filter(function (Family $family) use ($person) {
-            if ($family->husband()?->id() === $person->id()) {
-                return true;
-            }
-
-            if ($family->wife()?->id() === $person->id()) {
-                return true;
-            }
-
-            return false;
-        })
-            ->map(fn (Family $family) => $family->id())->toArray();
-
-        sort($childFamiliesForward);
-        sort($childFamiliesBackward);
-
-        sort($spousalFamiliesForward);
-        sort($spousalFamiliesBackward);
-
-        if ($childFamiliesForward != $childFamiliesBackward) {
-            echo $person->id(), ' - child: ', json_encode($childFamiliesForward), json_encode($childFamiliesBackward), "\n\n";
-        }
-
-        if ($spousalFamiliesForward != $spousalFamiliesBackward) {
-            echo $person->id(), ' - spousal: ', json_encode($spousalFamiliesForward), json_encode($spousalFamiliesBackward), "\n\n";
-        }
-    }
-});
-
 Command::new('convert', function (?string $file = null) {
     if ($file === null) {
         exit("Please enter a tree's name\n");
@@ -107,7 +61,7 @@ Command::new('convert', function (?string $file = null) {
     echo "converted gedcom to json\n";
 });
 
-Command::new('create-user', function (?string $username, ?string $password) {
+Command::new('create-user', function (?string $username = null, ?string $password = null) {
     if ($username === null) {
         exit("Please enter a username\n");
     }
@@ -116,7 +70,10 @@ Command::new('create-user', function (?string $username, ?string $password) {
         exit("Please enter a password\n");
     }
 
-    $user = User::create(username: $username, password_hash: password_hash($password, PASSWORD_DEFAULT));
+    $user = User::create(
+        username: $username,
+        password_hash: password_hash($password, PASSWORD_DEFAULT),
+    );
 
     echo "created user with id $user->id\n";
 });
