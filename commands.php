@@ -78,6 +78,27 @@ Command::new('create-user', function (?string $username = null, ?string $passwor
     echo "created user with id $user->id\n";
 });
 
+Command::new('change-password', function (?string $username = null, ?string $password = null) {
+    if ($username === null) {
+        exit("Please enter a username\n");
+    }
+
+    if ($password === null) {
+        exit("Please enter a password\n");
+    }
+
+    $user = User::findByOrNull('username', $username);
+
+    if ($user === null) {
+        exit("User not found\n");
+    }
+
+    $user->setPasswordHash($password);
+    $user->save();
+
+    echo "Changed password for $user->username\n";
+});
+
 Command::new('import', function (?string $file = null) {
     if ($file === null) {
         exit("Please enter a tree's name\n");
