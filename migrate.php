@@ -2,7 +2,7 @@
 
 require __DIR__.'/vendor/autoload.php';
 
-$db = \PXP\Core\Lib\DB::init();
+$db = \PXP\Data\DB::init();
 
 $db->create('people', [
     'identifier' => 'text not null unique',

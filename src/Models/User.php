@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use PXP\Core\Lib\Model;
+use PXP\Data\Model;
 
 /**
  * @property int $id

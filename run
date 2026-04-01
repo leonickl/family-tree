@@ -3,7 +3,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use \PXP\Core\Lib\CommandRunner;
+use \PXP\Console\CommandRunner;
 
 $runner = new CommandRunner;
 

@@ -4,8 +4,8 @@ use App\Controllers\AssetController;
 use App\Controllers\LoginController;
 use App\Controllers\MainController;
 use App\Controllers\TreeController;
-use App\Middleware\AuthMiddleware as Auth;
-use PXP\Core\Lib\Route;
+use PXP\Http\Middleware\InteractiveAuth as Auth;
+use PXP\Router\Route;
 
 Route::get('/')->do(MainController::class, 'index')
     ->middleware(Auth::class);

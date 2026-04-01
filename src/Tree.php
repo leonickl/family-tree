@@ -32,6 +32,6 @@ class Tree
 
     public function entities()
     {
-        return c(...$this->tree);
+        return v(...$this->tree);
     }
 }

@@ -6,8 +6,10 @@ use App\Models\Family;
 use App\Models\Person;
 use App\Plot\Plot;
 use Exception;
-use PXP\Core\Controllers\Controller;
-use PXP\Core\Lib\Router;
+use PXP\Lib\Auth;
+use PXP\Http\Controllers\Controller;
+use PXP\Exceptions\ValidationException;
+use PXP\Router\Router;
 
 class TreeController extends Controller
 {

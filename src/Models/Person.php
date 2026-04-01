@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use PXP\Core\Lib\Model;
+use PXP\Data\Model;
 
 /**
  * @property int $id
@@ -33,7 +33,7 @@ class Person extends Model
 
     public function name()
     {
-        return c(
+        return v(
             $this->name_prefix,
             $this->name_first,
             $this->name_last,

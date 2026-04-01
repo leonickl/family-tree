@@ -3,7 +3,7 @@
 use App\Models\User;
 use App\Types\Family;
 use App\Types\Person;
-use PXP\Core\Lib\Command;
+use PXP\Console\Command;
 
 Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {
     if ($file === null) {

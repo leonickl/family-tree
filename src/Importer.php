@@ -89,7 +89,7 @@ class Importer
             'type',
         ];
 
-        $illegal_attributes = c(...$attributes)->without(...$allowed_attributes);
+        $illegal_attributes = v(...$attributes)->without(...$allowed_attributes);
 
         if ($illegal_attributes->count() > 0) {
             exit('illegal attributes '.json_encode($illegal_attributes)."\n");
@@ -144,7 +144,7 @@ class Importer
             'type',
         ];
 
-        $illegal_attributes = c(...$attributes)->without(...$allowed_attributes);
+        $illegal_attributes = v(...$attributes)->without(...$allowed_attributes);
 
         if ($illegal_attributes->count() > 0) {
             exit('illegal attributes '.json_encode($illegal_attributes)."\n");

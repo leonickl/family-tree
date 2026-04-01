@@ -2,7 +2,10 @@
 
 namespace App\Controllers;
 
-use PXP\Core\Controllers\Controller;
+use PXP\Lib\Auth;
+use PXP\Http\Controllers\Controller;
+use PXP\Exceptions\ValidationException;
+use PXP\Router\Router;
 
 class MainController extends Controller
 {

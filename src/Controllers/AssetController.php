@@ -2,7 +2,12 @@
 
 namespace App\Controllers;
 
-class AssetController
+use PXP\Lib\Auth;
+use PXP\Http\Controllers\Controller;
+use PXP\Exceptions\ValidationException;
+use PXP\Router\Router;
+
+class AssetController extends Controller
 {
     public function css(string $file)
     {
