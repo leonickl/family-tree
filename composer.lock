@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d973a995fb683518ae44db18147d781",
+    "content-hash": "c19dfbad3223df60caac7f75576ca4f4",
     "packages": [
         {
             "name": "leonickl/pxp-core",
-            "version": "v1.16.0",
+            "version": "v2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leonickl/pxp-core.git",
-                "reference": "0b5679b2a5ad77bcfbd20a79047bc3bc5f22c538"
+                "reference": "e7f7369c6d5355d5ca7a9bdb7b4d073c0da4c567"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/0b5679b2a5ad77bcfbd20a79047bc3bc5f22c538",
-                "reference": "0b5679b2a5ad77bcfbd20a79047bc3bc5f22c538",
+                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/e7f7369c6d5355d5ca7a9bdb7b4d073c0da4c567",
+                "reference": "e7f7369c6d5355d5ca7a9bdb7b4d073c0da4c567",
                 "shasum": ""
             },
             "require": {
-                "php": "8.4.*"
+                "php": "^8.4"
             },
             "require-dev": {
                 "laravel/pint": "^1.24"
@@ -32,7 +32,7 @@
                     "functions.php"
                 ],
                 "psr-4": {
-                    "PXP\\Core\\": "src/"
+                    "PXP\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -45,24 +45,24 @@
             "description": "Core functionality for leonickl/pxp",
             "support": {
                 "issues": "https://github.com/leonickl/pxp-core/issues",
-                "source": "https://github.com/leonickl/pxp-core/tree/v1.16.0"
+                "source": "https://github.com/leonickl/pxp-core/tree/v2.4.1"
             },
-            "time": "2026-01-01T14:32:42+00:00"
+            "time": "2026-03-29T22:16:53+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "laravel/pint",
-            "version": "v1.26.0",
+            "version": "v1.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "69dcca060ecb15e4b564af63d1f642c81a241d6f"
+                "reference": "bdec963f53172c5e36330f3a400604c69bf02d39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/69dcca060ecb15e4b564af63d1f642c81a241d6f",
-                "reference": "69dcca060ecb15e4b564af63d1f642c81a241d6f",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/bdec963f53172c5e36330f3a400604c69bf02d39",
+                "reference": "bdec963f53172c5e36330f3a400604c69bf02d39",
                 "shasum": ""
             },
             "require": {
@@ -73,13 +73,14 @@
                 "php": "^8.2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.90.0",
-                "illuminate/view": "^12.40.1",
-                "larastan/larastan": "^3.8.0",
-                "laravel-zero/framework": "^12.0.4",
+                "friendsofphp/php-cs-fixer": "^3.94.2",
+                "illuminate/view": "^12.54.1",
+                "larastan/larastan": "^3.9.3",
+                "laravel-zero/framework": "^12.0.5",
                 "mockery/mockery": "^1.6.12",
-                "nunomaduro/termwind": "^2.3.3",
-                "pestphp/pest": "^3.8.4"
+                "nunomaduro/termwind": "^2.4.0",
+                "pestphp/pest": "^3.8.6",
+                "shipfastlabs/agent-detector": "^1.1.0"
             },
             "bin": [
                 "builds/pint"
@@ -116,15 +117,15 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2025-11-25T21:15:52+00:00"
+            "time": "2026-03-12T15:51:39+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.33",
+            "version": "2.1.46",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9e800e6bee7d5bd02784d4c6069b48032d16224f",
-                "reference": "9e800e6bee7d5bd02784d4c6069b48032d16224f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a193923fc2d6325ef4e741cf3af8c3e8f54dbf25",
+                "reference": "a193923fc2d6325ef4e741cf3af8c3e8f54dbf25",
                 "shasum": ""
             },
             "require": {
@@ -169,7 +170,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-12-05T10:24:31+00:00"
+            "time": "2026-04-01T09:25:14+00:00"
         }
     ],
     "aliases": [],
@@ -181,5 +182,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
