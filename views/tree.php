@@ -33,9 +33,14 @@
 <h1 class="desktop-only">Family tree of <em><?= $start ?></em></h1>
 <h1 class="mobile-only"><em><?= $start ?></em></h1>
 
-<div class="column items-center">
+<div class="column items-center pb-2">
     <?= $plot ?>
 </div>
+
+<p class="mt-2">
+    To the left of the current person, their partners are shown with the respective children.
+    On the right, there are the families where the person stems from (can be multiple). Each of those can have parents and children.
+</p>
 
 <style>
     .family {

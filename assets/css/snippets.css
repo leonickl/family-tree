@@ -62,6 +62,10 @@
     padding-block: 0.5rem;
 }
 
+.pb-2 {
+    padding-bottom: 2rem;
+}
+
 .mb {
     margin-bottom: 1rem;
 }

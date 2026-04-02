@@ -56,20 +56,22 @@ class Plot
 
         $objects[] = new Person($this->person, y: 2, x: $x++, highlight: true);
 
-        foreach ($childFamilies as $family) {
-            if (count($family->children()) > 1) {
-                $objects[] = new SiblingLine(y: 2, x: $x);
-            }
-
+        foreach ($childFamilies as $i => $family) {
             $objects[] = new Person($family->husband(), y: 1, x: $x + floor(count($family->children()) / 2) - 1);
             $objects[] = new PartnerLine(y: 1, x: $x + floor(count($family->children()) / 2));
-            $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2) - 1);
+            if ($family->children()->count() > 1) {
+                $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2) - 1);
+            }
             $objects[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
 
-            foreach ($family->children()->filter(fn ($child) => $child->id !== $this->person->id) as $child) {
-                $objects[] = new SiblingLine(y: 2, x: $x);
+            foreach ($family->children()->filter(fn ($child) => $child->id !== $this->person->id) as $j => $child) {
+                if ($i === 0 || $j > 0) {
+                    $objects[] = new SiblingLine(y: 2, x: $x);
+                }
                 $objects[] = new Person($child, y: 2, x: $x++);
             }
+
+            $x++;
         }
 
         return "<div class=\"family\">\n".implode("\n", $objects)."\n</div>";
