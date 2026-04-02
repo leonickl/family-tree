@@ -6,8 +6,8 @@ use PXP\Data\Model;
 
 /**
  * @property int $id
- * @property string $child_identifier
- * @property string $family_identifier
+ * @property int $child_id
+ * @property int $family_id
  */
 class ChildRelation extends Model
 {
@@ -15,11 +15,11 @@ class ChildRelation extends Model
 
     public function child()
     {
-        return Person::findBy('identifier', $this->child_identifier);
+        return Person::find($this->child_id);
     }
 
     public function family()
     {
-        return Family::findBy('identifier', $this->family_identifier);
+        return Family::find($this->family_id);
     }
 }

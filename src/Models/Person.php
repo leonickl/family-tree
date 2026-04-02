@@ -7,7 +7,6 @@ use PXP\Ds\Vector;
 
 /**
  * @property int $id
- * @property ?string $identifier
  * @property ?string $name_prefix
  * @property ?string $name_first
  * @property ?string $name_last
@@ -26,11 +25,6 @@ use PXP\Ds\Vector;
 class Person extends Model
 {
     protected string $table = 'people';
-
-    public function id(): string
-    {
-        return $this->identifier;
-    }
 
     public function name(): string
     {
@@ -62,14 +56,14 @@ class Person extends Model
 
     public function childFamilies(): Vector
     {
-        return ChildRelation::findAllBy('child_identifier', $this->identifier)
-            ->map(fn ($relation) => Family::findBy('identifier', $relation->family_identifier));
+        return ChildRelation::findAllBy('child_id', $this->id)
+            ->map(fn ($relation) => Family::findBy('id', $relation->family_id));
     }
 
     public function spousalFamilies(): Vector
     {
-        return Family::findAllBy('husband_identifier', $this->identifier)
-            ->with(...Family::findAllBy('wife_identifier', $this->identifier));
+        return Family::findAllBy('husband_id', $this->id)
+            ->with(...Family::findAllBy('wife_id', $this->id));
     }
 
     public function families(): Vector

@@ -7,9 +7,9 @@ use PXP\Http\Controllers\Controller;
 
 class PersonController extends Controller
 {
-    public function show(string $id)
+    public function show(int $id)
     {
-        $person = Person::findByOrNull('identifier', $id);
+        $person = Person::findOrNull($id);
 
         if ($person === null) {
             throw new Exception("Person with id '$id' not found");

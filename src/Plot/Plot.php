@@ -24,7 +24,7 @@ class Plot
 
         foreach ($spousalFamilies as $i => $family) {
             $objects[] = new Person(
-                $this->person->id() === $family->husband()?->id()
+                $this->person->id === $family->husband()?->id
                     ? $family->wife() : $family->husband(),
                 y: 2,
                 x: $parent = $x + floor(count($family->children()) / 2),
@@ -66,7 +66,7 @@ class Plot
             $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2) - 1);
             $objects[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
 
-            foreach ($family->children()->filter(fn ($child) => $child->id() !== $this->person->id()) as $child) {
+            foreach ($family->children()->filter(fn ($child) => $child->id !== $this->person->id) as $child) {
                 $objects[] = new SiblingLine(y: 2, x: $x);
                 $objects[] = new Person($child, y: 2, x: $x++);
             }

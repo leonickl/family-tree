@@ -29,7 +29,7 @@ class Importer
                 // TODO: implement "EDUC", "EVEN", "IMMI", "NOTE", "OCCU", "RESI"
 
                 $people[] = \App\Models\Person::new(
-                    identifier: trim($entity->id, '@'),
+                    id: trim($entity->id, '@'),
                     name_prefix: @$entity->NAME->PRFX,
                     name_first: @$entity->NAME->GIVN,
                     name_last: @$entity->NAME->SURN,
@@ -113,15 +113,15 @@ class Importer
                 // TODO: implement "DIV", "EVEN", "MARR"
 
                 $families[] = \App\Models\Family::new(
-                    identifier: trim($entity->id, '@'),
-                    husband_identifier: trim(@$entity->HUSB, '@'),
-                    wife_identifier: trim(@$entity->WIFE, '@'),
+                    id: trim($entity->id, '@'),
+                    husband_id: trim(@$entity->HUSB, '@'),
+                    wife_id: trim(@$entity->WIFE, '@'),
                 );
 
                 foreach (@$entity->CHIL ?? [] as $child) {
                     $child_relationships[] = \App\Models\ChildRelation::new(
-                        child_identifier: trim($child, '@'),
-                        family_identifier: trim($entity->id, '@'),
+                        child_id: trim($child, '@'),
+                        family_id: trim($entity->id, '@'),
                     );
                 }
             }

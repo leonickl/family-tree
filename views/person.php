@@ -1,6 +1,6 @@
 <div class="row end mb">
     <a href="/" class="btn nowrap">Home</a>
-    <a href="/tree?start=<?= $person->id() ?>" class="btn nowrap">Tree</a>
+    <a href="/tree?start=<?= $person->id ?>" class="btn nowrap">Tree</a>
 </div>
 
 <h1><?= $person->name() ?></h1>
@@ -40,9 +40,9 @@
 
                 <div class="row end">
                     <?php if ($family->husband() === null || $family->wife() === null): ?>    
-                        <a href="/tree/families/<?= $family->id() ?>/add-parent" class="btn small secondary nowrap">+ Parent</a>
+                        <a href="/tree/families/<?= $family->id ?>/add-parent" class="btn small secondary nowrap">+ Parent</a>
                     <?php endif ?>
-                    <a href="/tree/families/<?= $family->id() ?>/add-child" class="btn small secondary nowrap">+ Sibling</a>
+                    <a href="/tree/families/<?= $family->id ?>/add-child" class="btn small secondary nowrap">+ Sibling</a>
                 </div>
             </div>
         <?php endforeach ?>
@@ -53,9 +53,9 @@
 
                 <div class="row end">
                     <?php if ($family->husband() === null || $family->wife() === null): ?>   
-                        <a href="/tree/families/<?= $family->id() ?>/add-parent" class="btn small secondary nowrap">+ Partner</a>
+                        <a href="/tree/families/<?= $family->id ?>/add-parent" class="btn small secondary nowrap">+ Partner</a>
                     <?php endif ?>
-                    <a href="/tree/families/<?= $family->id() ?>/add-child" class="btn small secondary nowrap">+ Child</a>
+                    <a href="/tree/families/<?= $family->id ?>/add-child" class="btn small secondary nowrap">+ Child</a>
                 </div>
             </div>
         <?php endforeach ?>

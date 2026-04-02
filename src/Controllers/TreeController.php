@@ -17,7 +17,7 @@ class TreeController extends Controller
         if (request('start') === 'random') {
             $start = Person::all()->sample()->first();
         } else {
-            $start = Person::findByOrNull('identifier', request('start'))
+            $start = Person::findOrNull(request('start'))
                 ?? Auth::user()?->person()
                 ?? Person::all()->sample()->first();
         }
@@ -33,18 +33,5 @@ class TreeController extends Controller
             'families' => Family::all(),
             'people' => Person::all(),
         ]);
-    }
-
-    public function setStart(string $id)
-    {
-        $person = Person::findByOrNull('identifier', $id);
-
-        if ($person === null) {
-            throw new Exception("Person with id '$id' not found");
-        }
-
-        perma(['tree.start' => $id]);
-
-        Router::redirect('/tree');
     }
 }

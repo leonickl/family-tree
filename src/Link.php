@@ -12,7 +12,7 @@ class Link
             return '---';
         }
 
-        $id = $person->id();
+        $id = $person->id;
 
         return "<a href=\"/tree?start=$id\">$person</a>";
     }
@@ -23,7 +23,7 @@ class Link
             return '---';
         }
 
-        $id = $person->id();
+        $id = $person->id;
 
         return "<a href=\"/tree/people/$id\">
             <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-person-lines-fill\" viewBox=\"0 0 16 16\">

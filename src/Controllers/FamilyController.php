@@ -15,9 +15,9 @@ class FamilyController extends Controller
         ]);
     }
 
-    public function show(string $id)
+    public function show(int $id)
     {
-        $family = Family::findByOrNull('identifier', $id);
+        $family = Family::findOrNull($id);
 
         if ($family === null) {
             throw new Exception("Family with id '$id' not found");

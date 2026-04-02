@@ -5,7 +5,6 @@ require __DIR__.'/vendor/autoload.php';
 $db = \PXP\Data\DB::init();
 
 $db->create('people', [
-    'identifier' => 'text not null unique',
     'name_prefix' => 'text',
     'name_first' => 'text',
     'name_last' => 'text',
@@ -23,21 +22,18 @@ $db->create('people', [
 ]);
 
 $db->create('families', [
-    'identifier' => 'text not null unique',
-    'husband_identifier' => 'text references people(identifier)',
-    'wife_identifier' => 'text references people(identifier)',
+    'id' => 'int not null unique',
+    'husband_id' => 'int references people(id)',
+    'wife_id' => 'int references people(id)',
 ]);
 
 $db->create('child_relations', [
-    'child_identifier' => 'text not null references people(identifier)',
-    'family_identifier' => 'text not null references families(identifier)',
+    'child_id' => 'int not null references people(id)',
+    'family_id' => 'int not null references families(id)',
 ]);
 
 $db->create('users', [
     'username' => 'text not null',
     'password_hash' => 'text not null',
-]);
-
-$db->addColumns('users', [
-    'person_identifier' => 'text',
+    'person_id' => 'int',
 ]);
