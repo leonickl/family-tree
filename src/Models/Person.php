@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PXP\Data\Model;
+use PXP\Ds\Vector;
 
 /**
  * @property int $id
@@ -26,12 +27,12 @@ class Person extends Model
 {
     protected string $table = 'people';
 
-    public function id()
+    public function id(): string
     {
         return $this->identifier;
     }
 
-    public function name()
+    public function name(): string
     {
         return v(
             $this->name_prefix,
@@ -44,19 +45,34 @@ class Person extends Model
             ->join(' ');
     }
 
-    public function childFamilies()
+    public function gender(): string
+    {
+        return match ($this->gender) {
+            'M' => 'male',
+            'F' => 'female',
+            'U' => 'unknown',
+            default => $this->gender,
+        };
+    }
+
+    public function death(): bool
+    {
+        return $this->death === 'Y';
+    }
+
+    public function childFamilies(): Vector
     {
         return ChildRelation::findAllBy('child_identifier', $this->identifier)
             ->map(fn ($relation) => Family::findBy('identifier', $relation->family_identifier));
     }
 
-    public function spousalFamilies()
+    public function spousalFamilies(): Vector
     {
         return Family::findAllBy('husband_identifier', $this->identifier)
             ->with(...Family::findAllBy('wife_identifier', $this->identifier));
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         if (trim($this->name()) === '') {
             return '---';

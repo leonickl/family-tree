@@ -52,6 +52,11 @@
         width: var(--column-size);
     }
 
+    .person-highlight,
+    .person-highlight svg {
+        color: #f9fafb;
+    }
+
     .horizontal-connector {
         height: 1px;
         background: var(--text-light);
