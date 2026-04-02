@@ -125,7 +125,7 @@ Command::new('import', function (?string $file = null) {
 });
 
 
-Command::new('create-user', function (?string $username = null, ?string $password = null) {
+Command::new('create-user', function (?string $username = null, ?string $password = null, ?int $person_id = null) {
     if ($username === null) {
         exit("Please enter a username\n");
     }
@@ -134,12 +134,17 @@ Command::new('create-user', function (?string $username = null, ?string $passwor
         exit("Please enter a password\n");
     }
 
+    if ($person_id === null) {
+        exit("Please enter a person id\n");
+    }
+
     $user = User::create(
         username: $username,
         password_hash: password_hash($password, PASSWORD_DEFAULT),
+        person_id: $person_id,
     );
 
-    echo "created user with id $user->id\n";
+    exit("created user with id $user->id\n");
 });
 
 Command::new('change-password', function (?string $username = null, ?string $password = null) {
@@ -160,5 +165,5 @@ Command::new('change-password', function (?string $username = null, ?string $pas
     $user->setPasswordHash($password);
     $user->save();
 
-    echo "Changed password for $user->username\n";
+    exit("Changed password for $user->username\n");
 });
