@@ -66,13 +66,13 @@ Command::new('numerify-ids', function (?string $file = null) {
     foreach ($identifiers as $identifier) {
         $prefix = $identifier[0];
 
-        if(! array_key_exists($prefix, $counters)) {
+        if (! array_key_exists($prefix, $counters)) {
             $counters[$prefix] = 1;
         }
 
         $new_id = $counters[$prefix]++;
 
-        if(! array_key_exists($identifier, $new_ids)) {
+        if (! array_key_exists($identifier, $new_ids)) {
             $new_ids[$identifier] = $new_id;
         }
     }
@@ -123,7 +123,6 @@ Command::new('import', function (?string $file = null) {
 
     exit("tree imported\n");
 });
-
 
 Command::new('create-user', function (?string $username = null, ?string $password = null, ?int $person_id = null) {
     if ($username === null) {
