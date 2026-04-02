@@ -25,22 +25,16 @@ class FamilyController extends Controller
 
     public function addParent(int $id)
     {
-        $family = Family::find($id);
-
-        $parent = Person::create();
-
-        $family->addParent($parent);
+        Family::find($id)
+            ->addParent($parent = Person::create());
 
         Router::redirect("/people/$parent->id/edit");
     }
 
     public function addChild(int $id)
     {
-        $family = Family::find($id);
-
-        $child = Person::create();
-
-        $family->addChild($child);
+        Family::find($id)
+            ->addChild($child = Person::create());
 
         Router::redirect("/people/$child->id/edit");
     }
@@ -50,7 +44,7 @@ class FamilyController extends Controller
         $person = Person::find((int)request('person_id'));
 
         Family::create()
-            ->addParent($person);
+            ->addChild($person);
 
         Router::redirect("/people/$person->id");
     }
@@ -60,7 +54,7 @@ class FamilyController extends Controller
         $person = Person::find((int)request('person_id'));
 
         Family::create()
-            ->addChild($person);
+            ->addParent($person);
 
         Router::redirect("/people/$person->id");
     }
