@@ -38,7 +38,7 @@ class Plot
                 $objects[] = new Person($child, y: 3, x: $x++);
 
                 if ($j < count($family->children()) - 1) {
-                    $objects[] = new HorizontalLine(y: 3, x: $x);
+                    $objects[] = new SiblingLine(y: 3, x: $x);
                 }
             }
 
@@ -46,7 +46,7 @@ class Plot
                 $x++;
             }
 
-            $objects[] = new HorizontalLine(
+            $objects[] = new PartnerLine(
                 y: 2,
                 x: $parent + 1,
                 xTo: $x + ($spousalFamilies->has($i + 1)
@@ -58,16 +58,16 @@ class Plot
 
         foreach ($childFamilies as $family) {
             if (count($family->children()) > 1) {
-                $objects[] = new HorizontalLine(y: 2, x: $x);
+                $objects[] = new SiblingLine(y: 2, x: $x);
             }
 
             $objects[] = new Person($family->husband(), y: 1, x: $x + floor(count($family->children()) / 2) - 1);
-            $objects[] = new HorizontalLine(y: 1, x: $x + floor(count($family->children()) / 2));
+            $objects[] = new PartnerLine(y: 1, x: $x + floor(count($family->children()) / 2));
             $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2) - 1);
             $objects[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
 
             foreach ($family->children()->filter(fn ($child) => $child->id() !== $this->person->id()) as $child) {
-                $objects[] = new HorizontalLine(y: 2, x: $x);
+                $objects[] = new SiblingLine(y: 2, x: $x);
                 $objects[] = new Person($child, y: 2, x: $x++);
             }
         }

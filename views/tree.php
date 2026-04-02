@@ -62,7 +62,14 @@
         background: var(--text-light);
         position: relative;
         left: calc(-1*calc(var(--column-size)/2));
-        top: 50%;
+    }
+
+    .horizontal-connector.sibling {
+        top: 10%;
+    }
+
+    .horizontal-connector.partner {
+        top: 90%;
     }
 
     .vertical-connector {

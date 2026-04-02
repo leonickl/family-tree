@@ -2,7 +2,7 @@
 
 namespace App\Plot;
 
-readonly class HorizontalLine
+abstract class HorizontalLine
 {
     public function __construct(private int $y, private int $x, private ?int $xTo = null) {}
 
@@ -15,6 +15,6 @@ readonly class HorizontalLine
             $this->xTo ?? ($this->x + 1),
         ]);
 
-        return "<div class=\"horizontal-connector\" style=\"grid-area: $location\"></div>";
+        return "<div class=\"horizontal-connector $this->align\" style=\"grid-area: $location\"></div>";
     }
 }
