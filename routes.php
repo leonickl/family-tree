@@ -17,6 +17,10 @@ Route::get('/tree/families')->do(FamilyController::class, 'index')
     ->middleware(Auth::class);
 Route::get('/tree/families/{id}')->do(FamilyController::class, 'show')
     ->middleware(Auth::class);
+Route::get('/tree/families/{id}/add-parent')->do(FamilyController::class, 'addParent')
+    ->middleware(Auth::class);
+Route::get('/tree/families/{id}/add-child')->do(FamilyController::class, 'addChild')
+    ->middleware(Auth::class);
 Route::get('/tree/info')->do(TreeController::class, 'info')
     ->middleware(Auth::class);
 Route::get('/tree/people/{id}')->do(PersonController::class, 'show')

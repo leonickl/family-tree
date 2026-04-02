@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Person;
 use App\Models\Family;
 use PXP\Http\Controllers\Controller;
 
@@ -24,4 +25,9 @@ class FamilyController extends Controller
 
         return view('family', compact('family'));
     }
+
+
+    public function addParent(string $id) {}
+
+    public function addChild(string $id) {}
 }
