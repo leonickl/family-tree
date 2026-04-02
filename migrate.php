@@ -22,7 +22,6 @@ $db->create('people', [
 ]);
 
 $db->create('families', [
-    'id' => 'int not null unique',
     'husband_id' => 'int references people(id)',
     'wife_id' => 'int references people(id)',
 ]);

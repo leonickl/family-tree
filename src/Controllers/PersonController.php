@@ -45,6 +45,6 @@ class PersonController extends Controller
             ->fill(...(array)$request)
             ->save();
 
-        Router::redirect("/tree/people/$person->id");
+        Router::redirect("/people/$person->id");
     }
 }

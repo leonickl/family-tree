@@ -9,25 +9,23 @@ use App\Controllers\TreeController;
 use PXP\Http\Middleware\InteractiveAuth as Auth;
 use PXP\Router\Route;
 
-Route::get('/')->do(MainController::class, 'index')
-    ->middleware(Auth::class);
-Route::get('/tree')->do(TreeController::class, 'tree')
-    ->middleware(Auth::class);
-Route::get('/tree/families')->do(FamilyController::class, 'index')
-    ->middleware(Auth::class);
-Route::get('/tree/families/{id}')->do(FamilyController::class, 'show')
-    ->middleware(Auth::class);
-Route::get('/tree/families/{id}/add-parent')->do(FamilyController::class, 'addParent')
-    ->middleware(Auth::class);
-Route::get('/tree/families/{id}/add-child')->do(FamilyController::class, 'addChild')
-    ->middleware(Auth::class);
-Route::get('/tree/info')->do(TreeController::class, 'info')
-    ->middleware(Auth::class);
-Route::get('/tree/people/{id}')->do(PersonController::class, 'show')
-    ->middleware(Auth::class);
-Route::get('/tree/people/{id}/edit')->do(PersonController::class, 'edit')
-    ->middleware(Auth::class);
-Route::post('/tree/people/{id}')->do(PersonController::class, 'update')
+Route::group(
+    Route::get('/')->do(MainController::class, 'index'),
+
+    Route::get('/tree')->do(TreeController::class, 'tree'),
+    Route::get('/tree/info')->do(TreeController::class, 'info'),
+
+    Route::get('/families')->do(FamilyController::class, 'index'),
+    Route::get('/families/{id}')->do(FamilyController::class, 'show'),
+    Route::get('/families/{id}/add-parent')->do(FamilyController::class, 'addParent'),
+    Route::get('/families/{id}/add-child')->do(FamilyController::class, 'addChild'),
+    Route::get('/families/create-child')->do(FamilyController::class, 'createChild'),
+    Route::get('/families/create-spousal')->do(FamilyController::class, 'createSpousal'),
+
+    Route::get('/people/{id}')->do(PersonController::class, 'show'),
+    Route::get('/people/{id}/edit')->do(PersonController::class, 'edit'),
+    Route::post('/people/{id}')->do(PersonController::class, 'update'),
+)
     ->middleware(Auth::class);
 
 Route::get('/login')->do(LoginController::class, 'form');

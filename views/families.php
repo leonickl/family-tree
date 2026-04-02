@@ -1,3 +1,3 @@
 <?php foreach($families as $family): ?>
-    <?= $family ?><br /><br />
+    <?= $family->name() ?><br /><br />
 <?php endforeach ?>

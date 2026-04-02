@@ -1,6 +1,6 @@
 <h1>Edit "<?= $person->name() ?? '---' ?>"</h1>
 
-<form class="person-form" action="/tree/people/<?= $person->id ?>" method="post">
+<form class="person-form" action="/people/<?= $person->id ?>" method="post">
     <label for="name_prefix">Name Prefix</label>
     <input type="text" id="name_prefix" name="name_prefix" value="<?= $person->name_prefix ?>"/>
 

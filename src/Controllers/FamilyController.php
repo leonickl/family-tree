@@ -23,7 +23,7 @@ class FamilyController extends Controller
         ]);
     }
 
-    public function addParent(string $id)
+    public function addParent(int $id)
     {
         $family = Family::find($id);
 
@@ -31,10 +31,10 @@ class FamilyController extends Controller
 
         $family->addParent($parent);
 
-        Router::redirect("/tree/people/$parent->id/edit");
+        Router::redirect("/people/$parent->id/edit");
     }
 
-    public function addChild(string $id)
+    public function addChild(int $id)
     {
         $family = Family::find($id);
 
@@ -42,6 +42,26 @@ class FamilyController extends Controller
 
         $family->addChild($child);
 
-        Router::redirect("/tree/people/$child->id/edit");
+        Router::redirect("/people/$child->id/edit");
+    }
+
+    public function createChild()
+    {
+        $person = Person::find((int)request('person_id'));
+
+        Family::create()
+            ->addParent($person);
+
+        Router::redirect("/people/$person->id");
+    }
+
+    public function createSpousal()
+    {
+        $person = Person::find((int)request('person_id'));
+
+        Family::create()
+            ->addChild($person);
+
+        Router::redirect("/people/$person->id");
     }
 }
