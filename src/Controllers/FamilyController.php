@@ -2,11 +2,8 @@
 
 namespace App\Controllers;
 
-use PXP\Lib\Auth;
-use PXP\Http\Controllers\Controller;
-use PXP\Exceptions\ValidationException;
-use PXP\Router\Router;
 use App\Models\Family;
+use PXP\Http\Controllers\Controller;
 
 class FamilyController extends Controller
 {

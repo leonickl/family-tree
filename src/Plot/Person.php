@@ -12,7 +12,7 @@ class Person
 
         $classes = 'px-1 py-05 rounded text-center-both';
         $styles = "grid-area: $area; z-index: 10";
-        
+
         $show = lnk()->show($this->person);
 
         if ($this->highlight) {

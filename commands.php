@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Models\Family;
-use App\Models\Person;
 use PXP\Console\Command;
 
 Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {

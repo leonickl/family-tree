@@ -29,7 +29,7 @@ class Family extends Model
         )
             ->filter()
             ->sort(fn ($person) => $person->name())
-            ->map(fn ($person) =>"<a href=\"/tree/people/$person->identifier\">".$person->name()."</a>")
+            ->map(fn ($person) => "<a href=\"/tree/people/$person->identifier\">".$person->name().'</a>')
             ->join(', ');
     }
 

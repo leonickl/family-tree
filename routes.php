@@ -1,11 +1,11 @@
 <?php
 
 use App\Controllers\AssetController;
+use App\Controllers\FamilyController;
 use App\Controllers\LoginController;
 use App\Controllers\MainController;
-use App\Controllers\TreeController;
-use App\Controllers\FamilyController;
 use App\Controllers\PersonController;
+use App\Controllers\TreeController;
 use PXP\Http\Middleware\InteractiveAuth as Auth;
 use PXP\Router\Route;
 
