@@ -102,6 +102,10 @@
     min-width: 40rem;
 }
 
+.w-max-60 {
+    max-width: 40rem;
+}
+
 /**
  * Text
  */

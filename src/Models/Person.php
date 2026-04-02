@@ -72,6 +72,12 @@ class Person extends Model
             ->with(...Family::findAllBy('wife_identifier', $this->identifier));
     }
 
+    public function families(): Vector
+    {
+        return $this->childFamilies()
+            ->with(...$this->spousalFamilies());
+    }
+
     public function __toString(): string
     {
         if (trim($this->name()) === '') {
