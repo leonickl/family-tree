@@ -42,4 +42,26 @@ class Family extends Model
         return ChildRelation::findAllBy('family_id', $this->id)
             ->map(fn ($relation) => $relation->child());
     }
+
+    public function addParent(Person $parent): void
+    {
+        if (! $family->husband_id) {
+            $this->husband_id = $parent->id;
+            $this->save();
+            return;
+        }
+
+        if (! $family->wife_id) {
+            $this->wife_id = $parent->id;
+            $this->save();
+            return;
+        }
+
+        throw new Exception("Family with id '$id' already has two parents");
+    }
+
+    public function addChild(Person $child): void
+    {
+        ChildRelation::create(child_id: $child->id, family_id: $this->id);
+    }
 }

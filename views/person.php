@@ -1,6 +1,7 @@
 <div class="row end mb">
     <a href="/" class="btn nowrap">Home</a>
     <a href="/tree?start=<?= $person->id ?>" class="btn nowrap">Tree</a>
+    <a href="/tree/people/<?= $person->id ?>/edit" class="btn nowrap">Edit</a>
 </div>
 
 <h1><?= $person->name() ?></h1>

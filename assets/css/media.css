@@ -21,6 +21,12 @@
         --gap-size: 1rem;
         --column-size: 10rem;
     }
+
+    .person-form {
+        display: grid;
+        grid-template-columns: 200px 1fr 200px 1fr;
+        gap: 2rem;
+    }
 }
 
 /**
@@ -45,5 +51,11 @@
         --gap-size: 0.5rem;
         --column-size: 5rem;
         font-size: .7rem;
+    }
+
+    .person-form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: .5rem;
     }
 }

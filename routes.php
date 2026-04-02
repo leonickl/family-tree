@@ -25,6 +25,10 @@ Route::get('/tree/info')->do(TreeController::class, 'info')
     ->middleware(Auth::class);
 Route::get('/tree/people/{id}')->do(PersonController::class, 'show')
     ->middleware(Auth::class);
+Route::get('/tree/people/{id}/edit')->do(PersonController::class, 'edit')
+    ->middleware(Auth::class);
+Route::post('/tree/people/{id}')->do(PersonController::class, 'update')
+    ->middleware(Auth::class);
 
 Route::get('/login')->do(LoginController::class, 'form');
 Route::post('/login')->do(LoginController::class, 'login');

@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\Family;
+use App\Models\Person;
 use PXP\Http\Controllers\Controller;
+use PXP\Router\Router;
 
 class FamilyController extends Controller
 {
@@ -16,16 +18,30 @@ class FamilyController extends Controller
 
     public function show(int $id)
     {
-        $family = Family::findOrNull($id);
-
-        if ($family === null) {
-            throw new Exception("Family with id '$id' not found");
-        }
-
-        return view('family', compact('family'));
+        return view('family', [
+            'family' => Family::find($id),
+        ]);
     }
 
-    public function addParent(string $id) {}
+    public function addParent(string $id)
+    {
+        $family = Family::find($id);
 
-    public function addChild(string $id) {}
+        $parent = Person::create();
+
+        $family->addParent($parent);
+
+        Router::redirect("/tree/people/$parent->id/edit");
+    }
+
+    public function addChild(string $id)
+    {
+        $family = Family::find($id);
+
+        $child = Person::create();
+
+        $family->addChild($child);
+
+        Router::redirect("/tree/people/$child->id/edit");
+    }
 }
