@@ -3,7 +3,11 @@
 use App\Models\User;
 use PXP\Console\Command;
 
-Command::new('reidentify', function (?string $file = null, ?string $postfix = null) {
+/**
+ * Add a postfix to all ids. Useful when you want to merge
+ * multiple gedcom files.
+ */
+Command::new('postfix-ids', function (?string $file = null, ?string $postfix = null) {
     if ($file === null) {
         exit("Please enter a tree's name\n");
     }
@@ -12,7 +16,7 @@ Command::new('reidentify', function (?string $file = null, ?string $postfix = nu
         exit("Please enter a postfix\n");
     }
 
-    $tree = file_get_contents(path("database/trees/$file.ged"));
+    $tree = file_get_contents(path("database/$file.ged"));
 
     preg_match_all('/@([A-Za-z][A-Za-z0-9_-]*)@/', $tree, $matches);
 
@@ -36,28 +40,90 @@ Command::new('reidentify', function (?string $file = null, ?string $postfix = nu
         }
     }
 
-    file_put_contents(path("database/trees/$file.ged"), $tree);
+    file_put_contents(path("database/$file.ged"), $tree);
 
-    echo "\nnew tree written\n";
+    exit("\nnew tree written\n");
 });
 
-Command::new('convert', function (?string $file = null) {
+/**
+ * The final gedcom file must have numeric ids for theimport.
+ * This function converts to the correct format.
+ */
+Command::new('numerify-ids', function (?string $file = null) {
     if ($file === null) {
         exit("Please enter a tree's name\n");
     }
 
-    $object = App\Converter::read(path("database/trees/$file.ged"))
+    $tree = file_get_contents(path("database/$file.ged"));
+
+    preg_match_all('/@([A-Za-z][A-Za-z0-9_-]*)@/', $tree, $matches);
+
+    $identifiers = array_values(array_unique($matches[1]));
+
+    $counters = [];
+    $new_ids = [];
+
+    foreach ($identifiers as $identifier) {
+        $prefix = $identifier[0];
+
+        if(! array_key_exists($prefix, $counters)) {
+            $counters[$prefix] = 1;
+        }
+
+        $new_id = $counters[$prefix]++;
+
+        if(! array_key_exists($identifier, $new_ids)) {
+            $new_ids[$identifier] = $new_id;
+        }
+    }
+
+    foreach ($new_ids as $old => $new) {
+        $tree = str_replace("@$old@", "@$new@", $tree);
+    }
+
+    file_put_contents(path("database/$file.ged"), $tree);
+
+    exit("ids numerified\n");
+});
+
+/**
+ * This command converts the final gedcom file to a json-based
+ * format used for import.
+ */
+Command::new('to-json', function (?string $file = null) {
+    if ($file === null) {
+        exit("Please enter a tree's name\n");
+    }
+
+    $object = App\Converter::read(path("database/$file.ged"))
         ->convert()
         ->simplify()
         ->get();
 
     file_put_contents(
-        path("database/trees/$file.json"),
+        path("database/$file.json"),
         json_encode($object, JSON_PRETTY_PRINT),
     );
 
-    echo "converted gedcom to json\n";
+    exit("converted gedcom to json\n");
 });
+
+/**
+ * Import the generated json file.
+ */
+Command::new('import', function (?string $file = null) {
+    if ($file === null) {
+        exit("Please enter a tree's name\n");
+    }
+
+    $importer = new \App\Importer($file);
+
+    $importer->people();
+    $importer->families();
+
+    exit("tree imported\n");
+});
+
 
 Command::new('create-user', function (?string $username = null, ?string $password = null) {
     if ($username === null) {
@@ -95,15 +161,4 @@ Command::new('change-password', function (?string $username = null, ?string $pas
     $user->save();
 
     echo "Changed password for $user->username\n";
-});
-
-Command::new('import', function (?string $file = null) {
-    if ($file === null) {
-        exit("Please enter a tree's name\n");
-    }
-
-    $importer = new \App\Importer($file);
-
-    $importer->people();
-    $importer->families();
 });
