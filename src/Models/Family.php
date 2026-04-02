@@ -45,13 +45,13 @@ class Family extends Model
 
     public function addParent(Person $parent): void
     {
-        if (! $family->husband_id) {
+        if (! $this->husband_id) {
             $this->husband_id = $parent->id;
             $this->save();
             return;
         }
 
-        if (! $family->wife_id) {
+        if (! $this->wife_id) {
             $this->wife_id = $parent->id;
             $this->save();
             return;
