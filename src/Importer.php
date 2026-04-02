@@ -9,7 +9,7 @@ class Importer
     public function __construct(string $file)
     {
         $this->tree = json_decode(
-            file_get_contents(path("database/trees/$file.json")),
+            file_get_contents(path("database/$file.json")),
         );
     }
 
@@ -29,7 +29,7 @@ class Importer
                 // TODO: implement "EDUC", "EVEN", "IMMI", "NOTE", "OCCU", "RESI"
 
                 $people[] = \App\Models\Person::new(
-                    identifier: $entity->id,
+                    identifier: trim($entity->id, '@'),
                     name_prefix: @$entity->NAME->PRFX,
                     name_first: @$entity->NAME->GIVN,
                     name_last: @$entity->NAME->SURN,
@@ -113,15 +113,15 @@ class Importer
                 // TODO: implement "DIV", "EVEN", "MARR"
 
                 $families[] = \App\Models\Family::new(
-                    identifier: $entity->id,
-                    husband_identifier: @$entity->HUSB,
-                    wife_identifier: @$entity->WIFE,
+                    identifier: trim($entity->id, '@'),
+                    husband_identifier: trim(@$entity->HUSB, '@'),
+                    wife_identifier: trim(@$entity->WIFE, '@'),
                 );
 
                 foreach (@$entity->CHIL ?? [] as $child) {
                     $child_relationships[] = \App\Models\ChildRelation::new(
-                        child_identifier: $child,
-                        family_identifier: $entity->id,
+                        child_identifier: trim($child, '@'),
+                        family_identifier: trim($entity->id, '@'),
                     );
                 }
             }
