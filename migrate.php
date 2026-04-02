@@ -37,3 +37,7 @@ $db->create('users', [
     'username' => 'text not null',
     'password_hash' => 'text not null',
 ]);
+
+$db->addColumns('users', [
+    'person_identifier' => 'text',
+]);

@@ -15,12 +15,12 @@ class TreeController extends Controller
 {
     public function tree()
     {
-        $start = Person::findByOrNull('identifier', request('start'))
-            ?? Person::findByOrNull('identifier', perma('tree.start'))
-            ?? Person::all()->sample()->first();
-
         if (request('start') === 'random') {
             $start = Person::all()->sample()->first();
+        } else {
+            $start = Person::findByOrNull('identifier', request('start'))
+                ?? Auth::user()?->person()
+                ?? Person::all()->sample()->first();
         }
 
         $plot = new Plot($start);
@@ -34,24 +34,6 @@ class TreeController extends Controller
             'families' => Family::all(),
             'people' => Person::all(),
         ]);
-    }
-
-    public function families()
-    {
-        return view('families', [
-            'families' => Family::all(),
-        ]);
-    }
-
-    public function person(string $id)
-    {
-        $person = Person::findByOrNull('identifier', $id);
-
-        if ($person === null) {
-            throw new Exception("Person with id '$id' not found");
-        }
-
-        return view('person', compact('person'));
     }
 
     public function setStart(string $id)
