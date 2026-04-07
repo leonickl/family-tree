@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "leonickl/pxp-core",
-            "version": "v3.0.9-BETA",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leonickl/pxp-core.git",
-                "reference": "c84506f29745890ff92f4de56055d75135671a00"
+                "reference": "435d106c3df1e7312bc501485965d7c02dfac180"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/c84506f29745890ff92f4de56055d75135671a00",
-                "reference": "c84506f29745890ff92f4de56055d75135671a00",
+                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/435d106c3df1e7312bc501485965d7c02dfac180",
+                "reference": "435d106c3df1e7312bc501485965d7c02dfac180",
                 "shasum": ""
             },
             "require": {
@@ -45,9 +45,9 @@
             "description": "Core functionality for leonickl/pxp",
             "support": {
                 "issues": "https://github.com/leonickl/pxp-core/issues",
-                "source": "https://github.com/leonickl/pxp-core/tree/v3.0.9-BETA"
+                "source": "https://github.com/leonickl/pxp-core/tree/v3.1.0"
             },
-            "time": "2026-04-07T11:39:23+00:00"
+            "time": "2026-04-07T14:44:29+00:00"
         }
     ],
     "packages-dev": [
