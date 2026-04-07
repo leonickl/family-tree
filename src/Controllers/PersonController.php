@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Person;
 use PXP\Http\Controllers\Controller;
 use PXP\Router\Router;
+use PXP\Http\Response\Redirect;
 
 class PersonController extends Controller
 {
@@ -42,9 +43,9 @@ class PersonController extends Controller
         ]);
 
         $person = Person::find($id)
-            ->fill(...(array)$request)
+            ->fill(...$request)
             ->save();
 
-        Router::redirect("/people/$person->id");
+        return Redirect::path("/people/$person->id");
     }
 }

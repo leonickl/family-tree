@@ -46,7 +46,7 @@ class Person extends Model
             'F' => 'female',
             'U' => 'unknown',
             default => $this->gender,
-        };
+        } ?? 'unknown';
     }
 
     public function death(): bool

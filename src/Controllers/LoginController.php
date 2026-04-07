@@ -6,6 +6,7 @@ use PXP\Exceptions\ValidationException;
 use PXP\Http\Controllers\Controller;
 use PXP\Lib\Auth;
 use PXP\Router\Router;
+use PXP\Http\Response\Redirect;
 
 class LoginController extends Controller
 {
@@ -28,13 +29,13 @@ class LoginController extends Controller
 
         Auth::login($request->username, $request->password);
 
-        Router::redirect('/');
+        return Redirect::path('/');
     }
 
     public function logout()
     {
         Auth::logout();
 
-        Router::redirect('/');
+        return Redirect::path('/');
     }
 }

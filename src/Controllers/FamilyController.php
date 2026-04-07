@@ -6,6 +6,7 @@ use App\Models\Family;
 use App\Models\Person;
 use PXP\Http\Controllers\Controller;
 use PXP\Router\Router;
+use PXP\Http\Response\Redirect;
 
 class FamilyController extends Controller
 {
@@ -28,7 +29,7 @@ class FamilyController extends Controller
         Family::find($id)
             ->addParent($parent = Person::create());
 
-        Router::redirect("/people/$parent->id/edit");
+        return Redirect::path("/people/$parent->id/edit");
     }
 
     public function addChild(int $id)
@@ -36,7 +37,7 @@ class FamilyController extends Controller
         Family::find($id)
             ->addChild($child = Person::create());
 
-        Router::redirect("/people/$child->id/edit");
+        return Redirect::path("/people/$child->id/edit");
     }
 
     public function createChild()
@@ -46,7 +47,7 @@ class FamilyController extends Controller
         Family::create()
             ->addChild($person);
 
-        Router::redirect("/people/$person->id");
+        return Redirect::path("/people/$person->id");
     }
 
     public function createSpousal()
@@ -56,6 +57,6 @@ class FamilyController extends Controller
         Family::create()
             ->addParent($person);
 
-        Router::redirect("/people/$person->id");
+        return Redirect::path("/people/$person->id");
     }
 }
