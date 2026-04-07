@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use PXP\Http\Controllers\Controller;
+use Exception;
 
 class AssetController extends Controller
 {

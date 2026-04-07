@@ -4,6 +4,8 @@ namespace App\Plot;
 
 abstract class HorizontalLine
 {
+    protected string $align = '';
+
     public function __construct(private int $y, private int $x, private ?int $xTo = null) {}
 
     public function __toString()

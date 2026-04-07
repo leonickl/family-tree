@@ -27,7 +27,7 @@ class Plot
                 $this->person->id === $family->husband()?->id
                     ? $family->wife() : $family->husband(),
                 y: 2,
-                x: $parent = $x + floor(count($family->children()) / 2),
+                x: $parent = $x + (int) floor(count($family->children()) / 2),
             );
 
             if (count($family->children()) > 0) {
@@ -57,12 +57,12 @@ class Plot
         $objects[] = new Person($this->person, y: 2, x: $x++, highlight: true);
 
         foreach ($childFamilies as $i => $family) {
-            $objects[] = new Person($family->husband(), y: 1, x: $x + floor(count($family->children()) / 2) - 1);
-            $objects[] = new PartnerLine(y: 1, x: $x + floor(count($family->children()) / 2));
+            $objects[] = new Person($family->husband(), y: 1, x: $x + (int) floor(count($family->children()) / 2) - 1);
+            $objects[] = new PartnerLine(y: 1, x: $x + (int) floor(count($family->children()) / 2));
             if ($family->children()->count() > 1) {
-                $objects[] = new VerticalLine(y: 1, x: $x + floor(count($family->children()) / 2) - 1);
+                $objects[] = new VerticalLine(y: 1, x: $x + (int) floor(count($family->children()) / 2) - 1);
             }
-            $objects[] = new Person($family->wife(), y: 1, x: $x + floor(count($family->children()) / 2));
+            $objects[] = new Person($family->wife(), y: 1, x: $x + (int) floor(count($family->children()) / 2));
 
             foreach ($family->children()->filter(fn ($child) => $child->id !== $this->person->id) as $j => $child) {
                 if ($i === 0 || $j > 0) {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use PXP\Data\Model;
 use PXP\Ds\Vector;
 
@@ -59,7 +60,7 @@ class Family extends Model
             return;
         }
 
-        throw new Exception("Family with id '$id' already has two parents");
+        throw new Exception("Family with id '$this->id' already has two parents");
     }
 
     public function addChild(Person $child): void
