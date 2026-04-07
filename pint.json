@@ -1,5 +1,6 @@
 {
     "exclude": [
-        "views"
+        "views",
+        "cache"
     ]
 }
