@@ -5,16 +5,17 @@ namespace App\Controllers;
 use PXP\Exceptions\ValidationException;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
+use PXP\Http\Response\Response;
 use PXP\Lib\Auth;
 
 class LoginController extends Controller
 {
-    public function form()
+    public function form(): Response
     {
         return view('login');
     }
 
-    public function login()
+    public function login(): Response
     {
         $request = request(['username', 'password']);
 
@@ -31,7 +32,7 @@ class LoginController extends Controller
         return Redirect::path('/');
     }
 
-    public function logout()
+    public function logout(): Response
     {
         Auth::logout();
 

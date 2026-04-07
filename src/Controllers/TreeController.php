@@ -6,11 +6,12 @@ use App\Models\Family;
 use App\Models\Person;
 use App\Plot\Plot;
 use PXP\Http\Controllers\Controller;
+use PXP\Http\Response\Response;
 use PXP\Lib\Auth;
 
 class TreeController extends Controller
 {
-    public function tree()
+    public function tree(): Response
     {
         if (request('start') === 'random') {
             $start = Person::all()->sample()->first();
@@ -25,7 +26,7 @@ class TreeController extends Controller
         return view('tree', compact('start', 'plot'));
     }
 
-    public function info()
+    public function info(): Response
     {
         return view('info', [
             'families' => Family::all(),

@@ -2,18 +2,27 @@
 
 namespace App;
 
+use Exception;
+
 class Importer
 {
+    /**
+     * @var array<int, mixed>
+     */
     private array $tree;
 
     public function __construct(string $file)
     {
-        $this->tree = json_decode(
-            file_get_contents(path("database/$file.json")),
-        );
+        $content = file_get_contents(path("database/$file.json"));
+
+        if (! $content) {
+            throw new Exception("'$file.json' invalid has invalid JSON");
+        }
+
+        $this->tree = json_decode($content);
     }
 
-    public function people()
+    public function people(): void
     {
         $attributes = [];
         $people = [];
@@ -100,7 +109,7 @@ class Importer
         }
     }
 
-    public function families()
+    public function families(): void
     {
         $attributes = [];
         $families = [];
@@ -159,11 +168,14 @@ class Importer
         }
     }
 
-    private function keys(object $object, string $prefix = '')
+    /**
+     * @return array<int, string> all nested keys from $object
+     */
+    private function keys(object $object, string $prefix = ''): array
     {
         $keys = [];
 
-        foreach ($object as $key => $value) {
+        foreach ((array)$object as $key => $value) {
             $keys[] = $prefix ? "$prefix/$key" : $key;
 
             if (is_object($value)) {

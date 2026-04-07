@@ -1,0 +1,6 @@
+parameters:
+    paths:
+        - src/
+    excludePaths:
+        - src/Converter.php
+    level: 7

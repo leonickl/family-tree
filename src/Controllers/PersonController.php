@@ -5,24 +5,25 @@ namespace App\Controllers;
 use App\Models\Person;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
+use PXP\Http\Response\Response;
 
 class PersonController extends Controller
 {
-    public function show(int $id)
+    public function show(int $id): Response
     {
         return view('person', [
             'person' => Person::find($id),
         ]);
     }
 
-    public function edit(int $id)
+    public function edit(int $id): Response
     {
         return view('person.edit', [
             'person' => Person::find($id),
         ]);
     }
 
-    public function update(int $id)
+    public function update(int $id): Response
     {
         $request = request([
             'name_prefix',

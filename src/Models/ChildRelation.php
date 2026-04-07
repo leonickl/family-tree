@@ -13,12 +13,12 @@ class ChildRelation extends Model
 {
     protected string $table = 'child_relations';
 
-    public function child()
+    public function child(): Person
     {
         return Person::find($this->child_id);
     }
 
-    public function family()
+    public function family(): Family
     {
         return Family::find($this->family_id);
     }

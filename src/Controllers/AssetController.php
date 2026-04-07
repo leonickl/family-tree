@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use PXP\Http\Controllers\Controller;
 use Exception;
+use PXP\Http\Controllers\Controller;
 
 class AssetController extends Controller
 {
-    public function css(string $file)
+    public function css(string $file): string
     {
         if (! preg_match('/^[a-zA-Z-]+$/', $file)) {
             throw new Exception("Invalid CSS path '$file'");
@@ -15,6 +15,12 @@ class AssetController extends Controller
 
         header('Content-Type: text/css');
 
-        return file_get_contents(path("assets/css/$file.css"));
+        $content = file_get_contents(path("assets/css/$file.css"));
+
+        if (! $content) {
+            throw new Exception("Reading CSS file '$file' unsuccessful");
+        }
+
+        return $content;
     }
 }
