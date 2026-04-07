@@ -4,9 +4,8 @@ namespace App\Controllers;
 
 use PXP\Exceptions\ValidationException;
 use PXP\Http\Controllers\Controller;
-use PXP\Lib\Auth;
-use PXP\Router\Router;
 use PXP\Http\Response\Redirect;
+use PXP\Lib\Auth;
 
 class LoginController extends Controller
 {

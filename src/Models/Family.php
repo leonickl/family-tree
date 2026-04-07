@@ -48,12 +48,14 @@ class Family extends Model
         if (! $this->husband_id) {
             $this->husband_id = $parent->id;
             $this->save();
+
             return;
         }
 
         if (! $this->wife_id) {
             $this->wife_id = $parent->id;
             $this->save();
+
             return;
         }
 

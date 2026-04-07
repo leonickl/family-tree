@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Person;
 use PXP\Http\Controllers\Controller;
-use PXP\Router\Router;
 use PXP\Http\Response\Redirect;
 
 class PersonController extends Controller

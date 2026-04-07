@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\Family;
 use App\Models\Person;
 use PXP\Http\Controllers\Controller;
-use PXP\Router\Router;
 use PXP\Http\Response\Redirect;
 
 class FamilyController extends Controller
@@ -42,7 +41,7 @@ class FamilyController extends Controller
 
     public function createChild()
     {
-        $person = Person::find((int)request('person_id'));
+        $person = Person::find((int) request('person_id'));
 
         Family::create()
             ->addChild($person);
@@ -52,7 +51,7 @@ class FamilyController extends Controller
 
     public function createSpousal()
     {
-        $person = Person::find((int)request('person_id'));
+        $person = Person::find((int) request('person_id'));
 
         Family::create()
             ->addParent($person);
