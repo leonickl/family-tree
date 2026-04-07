@@ -30,11 +30,11 @@
     </a>
 </div>
 
-<h1 class="desktop-only">Family tree of <em><?= $start ?></em></h1>
-<h1 class="mobile-only"><em><?= $start ?></em></h1>
+<h1 class="desktop-only">Family tree of <em>{{ $start }}</em></h1>
+<h1 class="mobile-only"><em>{{ $start }}</em></h1>
 
 <div class="column items-center pb-2">
-    <?= $plot ?>
+    {{ ==$plot }}
 </div>
 
 <p class="mt-2">

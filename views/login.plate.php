@@ -1,8 +1,8 @@
 <h1>Log in to Family Tree</h1>
 
-<?php foreach($errors as $error): ?>
-    <div class="notification"><p class="m-0 p-0"><?= $error ?></p></div>
-<?php endforeach ?>
+{{ each: $errors as $error }}
+    <div class="notification"><p class="m-0 p-0">{{ $error }}</p></div>
+{{ each; }}
 
 <form action="/login" method="post">
     <label for="username" class="required">Username</label>
