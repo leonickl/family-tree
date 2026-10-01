@@ -15,7 +15,7 @@ $db->create('people', [
     'gender' => 'text',
     'birth_date' => 'text',
     'birth_place' => 'text',
-    'death' => 'text',
+    'death' => 'boolean not null default 0',
     'death_date' => 'text',
     'death_place' => 'text',
     'death_cause' => 'text',

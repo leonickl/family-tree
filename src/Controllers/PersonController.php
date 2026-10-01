@@ -45,8 +45,10 @@ class PersonController extends Controller
             'buriage_place',
         ]);
 
+        $data = [...$request, 'death' => isset($request['death'])];
+
         $person = Person::find($id)
-            ->fill(...$request)
+            ->fill(...$data)
             ->save();
 
         return Redirect::path("/people/$person->id");

@@ -14,25 +14,29 @@
 </p>
 
 <p>
-    <b>Birth:</b> {{ $person->birth_date ?? '---' }}
-        at {{ $person->birth_place ?? '---' }}
+    <b>Birth:</b> {{ $person->birth_date ?: '---' }}
+        at {{ $person->birth_place ?: '---' }}
 </p>
 
 <p>
     <b>Death:</b>
 
-    {{ if: $person->death() }}
-        {{ $person->death_date ?? '---' }}
-            at {{ $person->death_place ?? '---' }}
+    {{ if: $person->death }}
+        {{ $person->death_date ?: '---' }}
+            at {{ $person->death_place ?: '---' }}
     {{ else: }}
         <em>alive</em>
     {{ if; }}
 </p>
 
-<p>
-    <b>Buriage:</b> {{ $person->buriage_date ?? '---' }}
-        at {{ $person->buriage_place ?? '---' }}
-</p>
+{{ if: $person->death }}
+    <p>
+        <b>Buriage:</b>
+
+        {{ $person->buriage_date ?: '---' }}
+            at {{ $person->buriage_place ?: '---' }}
+    </p>
+{{ if; }}
 
 <p class="mt-2">
     <b>Families:</b>

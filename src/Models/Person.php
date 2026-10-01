@@ -15,7 +15,7 @@ use PXP\Ds\Vector;
  * @property ?string $gender
  * @property ?string $birth_date
  * @property ?string $birth_place
- * @property ?string $death
+ * @property bool $death
  * @property ?string $death_date
  * @property ?string $death_place
  * @property ?string $death_cause
@@ -47,11 +47,6 @@ class Person extends Model
             'U' => 'unknown',
             default => $this->gender,
         } ?: 'unknown';
-    }
-
-    public function death(): bool
-    {
-        return $this->death === 'Y';
     }
 
     public function childFamilies(): Vector

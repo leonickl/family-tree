@@ -50,7 +50,7 @@ class Importer
                     gender: @$entity->SEX,
                     birth_date: @$entity->BIRT->DATE,
                     birth_place: @$entity->BIRT->PLAC,
-                    death: @$entity->DEAT->{'.'},
+                    death: @$entity->DEAT->{'.'} === 'Y',
                     death_date: @$entity->DEAT->DATE,
                     death_place: @$entity->DEAT->PLAC,
                     death_cause: @$entity->DEAT->CAUS,
