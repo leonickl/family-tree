@@ -1,7 +1,10 @@
 <div class="row end mb">
     <a href="/" class="btn nowrap">Home</a>
     <a href="/tree?start={{ $person->id }}" class="btn nowrap">Tree</a>
-    <a href="/people/{{ $person->id }}/edit" class="btn nowrap">Edit</a>
+
+    {{ if: $canWrite }}
+        <a href="/people/{{ $person->id }}/edit" class="btn nowrap">Edit</a>
+    {{ if; }}
 </div>
 
 <h1>{{ $person->name() }}</h1>
@@ -39,12 +42,14 @@
             <div class="ml-2 row items-center between">
                 <em>{{ % $family->name() }}</em>
 
-                <div class="row end">
-                    {{ if: $family->husband() === null || $family->wife() === null }}    
-                        <a href="/families/{{ $family->id }}/add-parent" class="btn small secondary nowrap">+ Parent</a>
-                    {{ if; }}
-                    <a href="/families/{{ $family->id }}/add-child" class="btn small secondary nowrap">+ Sibling</a>
-                </div>
+                {{ if: $canWrite }}
+                    <div class="row end">
+                        {{ if: $family->husband() === null || $family->wife() === null }}    
+                            <a href="/families/{{ $family->id }}/add-parent" class="btn small secondary nowrap">+ Parent</a>
+                        {{ if; }}
+                        <a href="/families/{{ $family->id }}/add-child" class="btn small secondary nowrap">+ Sibling</a>
+                    </div>
+                {{ if; }}
             </div>
         {{ each; }}
 
@@ -52,17 +57,30 @@
             <div class="ml-2 row items-center between">
                 <em>{{ % $family->name() }}</em>
 
-                <div class="row end">
-                    {{ if: $family->husband() === null || $family->wife() === null }}
-                        <a href="/families/{{ $family->id }}/add-parent" class="btn small secondary nowrap">+ Partner</a>
-                    {{ if; }}
-                    <a href="/families/{{ $family->id }}/add-child" class="btn small secondary nowrap">+ Child</a>
-                </div>
+                {{ if: $canWrite }}
+                    <div class="row end">
+                        {{ if: $family->husband() === null || $family->wife() === null }}
+                            <a href="/families/{{ $family->id }}/add-parent" class="btn small secondary nowrap">+ Partner</a>
+                        {{ if; }}
+                        <a href="/families/{{ $family->id }}/add-child" class="btn small secondary nowrap">+ Child</a>
+                    </div>
+                {{ if; }}
             </div>
         {{ each; }}
 
-        <a href="/families/create-child?person_id={{ $person->id }}" class="btn small secondary nowrap">+ Family as a Child</a>
-        <a href="/families/create-spousal?person_id={{ $person->id }}" class="btn small secondary nowrap">+ Family with a Partner</a>
+        {{ if: $canWrite }}
+            <a href="/families/create-child?person_id={{ $person->id }}" class="btn small secondary nowrap">+ Family as a Child</a>
+            <a href="/families/create-spousal?person_id={{ $person->id }}" class="btn small secondary nowrap">+ Family with a Partner</a>
+        {{ if; }}
     </div>
 </p>
 
+{{ if: $canWrite }}
+    <p class="mt-2">
+        <form action="{{ route('share') }}?person_id={{ $person->id }}" method="post" class="row">
+            <input type="email" name="email" placeholder="max@muster.mann" />
+            <input type="password" name="password" placeholder="password" />
+            <input type="submit" class="btn" value="Share" />
+        </form>
+    </p>
+{{ if; }}

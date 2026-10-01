@@ -16,8 +16,15 @@ use App\Middleware\RequireEditor;
 Route::get('/')->do(MainController::class, 'index')->name('main');
 
 Route::group(
-    Route::get('/tree')->do(TreeController::class, 'tree'),
+    Route::get('/tree')->do(TreeController::class, 'tree')->name('tree'),
+    Route::get('/people/{id}')->do(PersonController::class, 'show'),
+)
+    ->middleware(InteractiveAuth::class)
+    ->middleware(VerifiedEmail::class);
+
+Route::group(
     Route::get('/tree/info')->do(TreeController::class, 'info'),
+    Route::post('/tree/share')->do(TreeController::class, 'share')->name('share'),
 
     Route::get('/families')->do(FamilyController::class, 'index'),
     Route::get('/families/{id}')->do(FamilyController::class, 'show'),
@@ -26,7 +33,6 @@ Route::group(
     Route::get('/families/create-child')->do(FamilyController::class, 'createChild'),
     Route::get('/families/create-spousal')->do(FamilyController::class, 'createSpousal'),
 
-    Route::get('/people/{id}')->do(PersonController::class, 'show'),
     Route::get('/people/{id}/edit')->do(PersonController::class, 'edit'),
     Route::post('/people/{id}')->do(PersonController::class, 'update'),
 )

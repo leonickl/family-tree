@@ -4,10 +4,14 @@ namespace App\Controllers;
 
 use App\Models\Family;
 use App\Models\Person;
+use App\Models\User;
 use App\Plot\Plot;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Response;
 use PXP\Auth\Auth;
+use PXP\Lib\Notification;
+use PXP\Auth\Role;
+use PXP\Http\Response\Redirect;
 
 class TreeController extends Controller
 {
@@ -32,5 +36,33 @@ class TreeController extends Controller
             'families' => Family::all(),
             'people' => Person::all(),
         ]);
+    }
+
+    public function share(): Response
+    {
+        $data = request()->validate(fn ($req) => [
+            $req->person_id->int(),
+            $req->email->string()->email(),
+            $req->password->string()->min(8),
+        ]);
+
+        $person = Person::find($data->person_id);
+
+        if ($user = $person->user()) {
+            Notification::info("Benutzer '$user->name' existiert bereits.");
+
+            return Redirect::route('tree');
+        }
+
+        $user = User::make(o(
+            identifier: $data->email,
+            name: $person->name(),
+            secret: $data->password,
+        ));
+
+        $user->person_id = $data->person_id;
+        $user->save();
+
+        return Redirect::route('tree');
     }
 }

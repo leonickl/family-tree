@@ -6,6 +6,8 @@ use App\Models\Person;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
 use PXP\Http\Response\Response;
+use PXP\Auth\Auth;
+use PXP\Auth\Role;
 
 class PersonController extends Controller
 {
@@ -13,6 +15,7 @@ class PersonController extends Controller
     {
         return view('person', [
             'person' => Person::find($id),
+            'canWrite' => Auth::user()?->role()->atLeast(Role::EDITOR()) ?? false,
         ]);
     }
 

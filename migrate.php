@@ -45,6 +45,9 @@ $db->create('users', [
 $db->sql('create unique index if not exists '.
     'unique_users_email on users(email)');
 
+$db->sql('create unique index if not exists '.
+    'unique_users_person_id on users(person_id)');
+
 $db->create('verification_link', [
     'token' => 'string not null',
     'user_id' => 'int references user(id)',

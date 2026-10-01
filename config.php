@@ -6,8 +6,15 @@ use PXP\Auth\Models\Identity;
 return [
     'title' => 'Family Tree',
 
-    'domain' => env('HOST', 'localhost'),
+    'app-url' => env('APP_URL', 'http://localhost:8085'),
     'port' => env('PORT', 8085),
+
+    'mail' => (object) [
+        'host' => env('MAIL_HOST'),
+        'user' => env('MAIL_USER'),
+        'pass' => env('MAIL_PASS'),
+        'port' => env('MAIL_PORT'),
+    ],
 
     'css' => [
         'media',

@@ -72,6 +72,11 @@ class Person extends Model
             ->with(...$this->spousalFamilies());
     }
 
+    public function user(): ?User
+    {
+        return User::findByOrNull('person_id', $this->id);
+    }
+
     public function __toString(): string
     {
         if (trim($this->name()) === '') {
