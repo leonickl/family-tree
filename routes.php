@@ -1,17 +1,21 @@
 <?php
 
-use App\Controllers\AssetController;
 use App\Controllers\FamilyController;
-use App\Controllers\LoginController;
 use App\Controllers\MainController;
 use App\Controllers\PersonController;
 use App\Controllers\TreeController;
-use PXP\Http\Middleware\InteractiveAuth as Auth;
+use PXP\Auth\Controllers\LoginController;
+use PXP\Auth\Controllers\RegisterController;
+use PXP\Auth\Controllers\VerificationController;
+use PXP\Auth\Middleware\InteractiveAuth;
+use PXP\Auth\Middleware\VerifiedEmail;
+use PXP\Http\Controllers\AssetController;
 use PXP\Router\Route;
+use App\Middleware\RequireEditor;
+
+Route::get('/')->do(MainController::class, 'index')->name('main');
 
 Route::group(
-    Route::get('/')->do(MainController::class, 'index'),
-
     Route::get('/tree')->do(TreeController::class, 'tree'),
     Route::get('/tree/info')->do(TreeController::class, 'info'),
 
@@ -26,12 +30,22 @@ Route::group(
     Route::get('/people/{id}/edit')->do(PersonController::class, 'edit'),
     Route::post('/people/{id}')->do(PersonController::class, 'update'),
 )
-    ->middleware(Auth::class);
+    ->middleware(InteractiveAuth::class)
+    ->middleware(VerifiedEmail::class)
+    ->middleware(RequireEditor::class);
 
-Route::get('/login')->do(LoginController::class, 'form');
-Route::post('/login')->do(LoginController::class, 'login');
+Route::get('/auth/register')->do(RegisterController::class, 'form')->name('register');
+Route::post('/auth/register')->do(RegisterController::class, 'register');
 
-Route::get('/logout')->do(LoginController::class, 'logout');
-Route::post('/logout')->do(LoginController::class, 'logout');
+Route::get('/auth/verify')->do(VerificationController::class, 'verify')->name('verify');
 
-Route::get('/css/{file}')->do(AssetController::class, 'css');
+Route::get('/auth/login')->do(LoginController::class, 'form')->name('login');
+Route::post('/auth/login')->do(LoginController::class, 'login');
+
+Route::group(
+    Route::get('/auth/logout')->do(LoginController::class, 'logout')->name('logout'),
+    Route::post('/auth/logout')->do(LoginController::class, 'logout'),
+)
+    ->middleware(InteractiveAuth::class);
+
+Route::get('/css/{file}')->do(AssetController::class, 'css')->name('css');

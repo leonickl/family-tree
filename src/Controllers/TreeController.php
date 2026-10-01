@@ -7,7 +7,7 @@ use App\Models\Person;
 use App\Plot\Plot;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Response;
-use PXP\Lib\Auth;
+use PXP\Auth\Auth;
 
 class TreeController extends Controller
 {

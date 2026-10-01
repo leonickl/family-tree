@@ -21,7 +21,7 @@
     {{ if: $person->death() }}
         {{ $person->death_date ?? '---' }}
             at {{ $person->death_place ?? '---' }}
-    {{ else }}
+    {{ else: }}
         <em>alive</em>
     {{ if; }}
 </p>
@@ -37,7 +37,7 @@
     <div class="column w-max-60">
         {{ each: $person->childFamilies() as $family }}
             <div class="ml-2 row items-center between">
-                <em>{{ ==$family->name() }}</em>
+                <em>{{ % $family->name() }}</em>
 
                 <div class="row end">
                     {{ if: $family->husband() === null || $family->wife() === null }}    
@@ -50,7 +50,7 @@
 
         {{ each: $person->spousalFamilies() as $family }}
             <div class="ml-2 row items-center between">
-                <em>{{ ==$family->name() }}</em>
+                <em>{{ % $family->name() }}</em>
 
                 <div class="row end">
                     {{ if: $family->husband() === null || $family->wife() === null }}

@@ -1,5 +1,7 @@
 <?php
 
+use App\Converter;
+use App\Importer;
 use App\Models\User;
 use PXP\Console\Command;
 
@@ -95,7 +97,7 @@ Command::new('to-json', function (?string $file = null) {
         exit("Please enter a tree's name\n");
     }
 
-    $object = App\Converter::read(path("database/$file.ged"))
+    $object = Converter::read(path("database/$file.ged"))
         ->convert()
         ->simplify()
         ->get();
@@ -116,7 +118,7 @@ Command::new('import', function (?string $file = null) {
         exit("Please enter a tree's name\n");
     }
 
-    $importer = new \App\Importer($file);
+    $importer = new Importer($file);
 
     $importer->people();
     $importer->families();

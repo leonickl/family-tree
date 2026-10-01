@@ -4,7 +4,8 @@
     "type": "project",
     "require": {
         "ext-pdo": "*",
-        "leonickl/pxp-core": "*"
+        "leonickl/pxp-core": "*",
+        "leonickl/pxp-auth": "*"
     },
     "autoload": {
         "psr-4": {
@@ -25,5 +26,6 @@
         "laravel/pint": "^1.24",
         "phpstan/phpstan": "^2.1"
     },
-    "minimum-stability": "beta"
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }

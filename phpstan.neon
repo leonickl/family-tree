@@ -3,4 +3,4 @@ parameters:
         - src/
     excludePaths:
         - src/Converter.php
-    level: 7
+    level: 8

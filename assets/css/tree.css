@@ -1,0 +1,26 @@
+/**
+ * Desktop Devices
+ */
+@media (min-width: 769px) {
+    main {
+        min-width: 60%;
+        width: max-content;
+    }
+
+    .person-form {
+        display: grid;
+        grid-template-columns: 200px 1fr 200px 1fr;
+        gap: 2rem;
+    }
+}
+
+/**
+ * Mobile Devices
+ */
+@media (max-width: 768px) {
+    .person-form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: .5rem;
+    }
+}

@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Models\ChildRelation;
+use App\Models\Family;
+use App\Models\Person;
 use Exception;
 
 class Importer
@@ -37,7 +40,7 @@ class Importer
 
                 // TODO: implement "EDUC", "EVEN", "IMMI", "NOTE", "OCCU", "RESI"
 
-                $people[] = \App\Models\Person::new(
+                $people[] = Person::new(
                     id: (int) trim($entity->id, '@'),
                     name_prefix: @$entity->NAME->PRFX,
                     name_first: @$entity->NAME->GIVN,
@@ -121,14 +124,14 @@ class Importer
 
                 // TODO: implement "DIV", "EVEN", "MARR"
 
-                $families[] = \App\Models\Family::new(
+                $families[] = Family::new(
                     id: (int) trim($entity->id, '@'),
                     husband_id: (int) trim(@$entity->HUSB, '@'),
                     wife_id: (int) trim(@$entity->WIFE, '@'),
                 );
 
                 foreach (@$entity->CHIL ?? [] as $child) {
-                    $child_relationships[] = \App\Models\ChildRelation::new(
+                    $child_relationships[] = ChildRelation::new(
                         child_id: (int) trim($child, '@'),
                         family_id: (int) trim($entity->id, '@'),
                     );
@@ -175,7 +178,7 @@ class Importer
     {
         $keys = [];
 
-        foreach ((array)$object as $key => $value) {
+        foreach ((array) $object as $key => $value) {
             $keys[] = $prefix ? "$prefix/$key" : $key;
 
             if (is_object($value)) {

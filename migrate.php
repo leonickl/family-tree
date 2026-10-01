@@ -1,8 +1,10 @@
 <?php
 
+use PXP\Data\DB;
+
 require __DIR__.'/vendor/autoload.php';
 
-$db = \PXP\Data\DB::init();
+$db = DB::init();
 
 $db->create('people', [
     'name_prefix' => 'text',
@@ -32,7 +34,18 @@ $db->create('child_relations', [
 ]);
 
 $db->create('users', [
-    'username' => 'text not null',
+    'email' => 'text not null',
     'password_hash' => 'text not null',
+    'role' => 'int not null default 0',
+    'name' => "string not null default ''",
+    'verified' => 'int not null default 0',
     'person_id' => 'int',
+]);
+
+$db->sql('create unique index if not exists '.
+    'unique_users_email on users(email)');
+
+$db->create('verification_link', [
+    'token' => 'string not null',
+    'user_id' => 'int references user(id)',
 ]);

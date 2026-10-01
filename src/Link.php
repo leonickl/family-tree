@@ -12,7 +12,7 @@ class Link
             return '---';
         }
 
-        return "<a href=\"/tree?start=$person->id\">".e($person)."</a>";
+        return "<a href=\"/tree?start=$person->id\">".e($person).'</a>';
     }
 
     public function show(?Person $person): string
