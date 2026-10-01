@@ -1,51 +1,98 @@
-<h1>Edit "{{ $person->name() ?? '---' }}"</h1>
+<h1>Edit "{{ $person->name() ?: '---' }}"</h1>
 
-<form class="person-form" action="/people/{{ $person->id }}" method="post">
-    <label for="name_prefix">Name Prefix</label>
-    <input type="text" id="name_prefix" name="name_prefix" value="{{ $person->name_prefix }}"/>
+<form class="person-form column" action="/people/{{ $person->id }}" method="post">
 
-    <label for="name_first">First Name</label>
-    <input type="text" id="name_first" name="name_first" value="{{ $person->name_first }}"/>
+    <div class="row">
+        <div class="item" style="width: 5rem">
+            <label for="name_prefix">Prefix</label>
+            <input type="text" id="name_prefix" name="name_prefix" value="{{ $person->name_prefix }}"/>
+        </div>
 
-    <label for="name_last">Last Name</label>
-    <input type="text" id="name_last" name="name_last" value="{{ $person->name_last }}"/>
+        <div class="item" style="width: 10rem">
+            <label for="name_first">First Name</label>
+            <input type="text" id="name_first" name="name_first" value="{{ $person->name_first }}"/>
+        </div>
 
-    <label for="name_marriage">Marriage Name</label>
-    <input type="text" id="name_marriage" name="name_marriage" value="{{ $person->name_marriage }}"/>
+        <div class="item" style="width: 10rem">
+            <label for="name_last">Last Name</label>
+            <input type="text" id="name_last" name="name_last" value="{{ $person->name_last }}"/>
+        </div>
 
-    <label for="name_suffix">Name Suffix</label>
-    <input type="text" id="name_suffix" name="name_suffix" value="{{ $person->name_suffix }}"/>
+        <div class="item" style="width: 10rem">
+            <label for="name_marriage">Marriage Name</label>
+            <input type="text" id="name_marriage" name="name_marriage" value="{{ $person->name_marriage }}"/>
+        </div>
 
-    <label for="gender">Gender</label>
-    <input type="text" id="gender" name="gender" value="{{ $person->gender }}"/>
+        <div class="item" style="width: 5rem">
+            <label for="name_suffix">Suffix</label>
+            <input type="text" id="name_suffix" name="name_suffix" value="{{ $person->name_suffix }}"/>
+        </div>
+    </div>
 
-    <label for="birth_date">Birth Date</label>
-    <input type="text" id="birth_date" name="birth_date" value="{{ $person->birth_date }}"/>
+    <div class="row">
+        <div class="item" style="width: 5rem">
+            <label for="gender">Gender</label>
+            <input type="text" id="gender" name="gender" value="{{ $person->gender }}"/>
+        </div>
 
-    <label for="birth_place">Birth Place</label>
-    <input type="text" id="birth_place" name="birth_place" value="{{ $person->birth_place }}"/>
+        <div class="item" style="width: 7rem">
+            <label for="birth_date">Birth Date</label>
+            <input type="text" id="birth_date" name="birth_date" value="{{ $person->birth_date }}"/>
+        </div>
 
-    <label for="death">Dead</label>
-    <input type="text" id="death" name="death" value="{{ $person->death }}"/>
+        <div class="item" style="width: 10rem">
+            <label for="birth_place">Birth Place</label>
+            <input type="text" id="birth_place" name="birth_place" value="{{ $person->birth_place }}"/>
+        </div>
 
-    <label for="death_date">Death Date</label>
-    <input type="text" id="death_date" name="death_date" value="{{ $person->death_date }}"/>
+        <div class="item" style="width: 5rem">
+            <label for="death">Dead</label>
+            <input type="text" id="death" name="death" value="{{ $person->death }}"/>
+        </div>
 
-    <label for="death_place">Death Place</label>
-    <input type="text" id="death_place" name="death_place" value="{{ $person->death_place }}"/>
+        <div class="item" style="width: 7rem">
+            <label for="death_date">Death Date</label>
+            <input type="text" id="death_date" name="death_date" value="{{ $person->death_date }}"/>
+        </div>
 
-    <label for="death_cause">Death Cause</label>
-    <input type="text" id="death_cause" name="death_cause" value="{{ $person->death_cause }}"/>
+        <div class="item" style="width: 10rem">
+            <label for="death_place">Death Place</label>
+            <input type="text" id="death_place" name="death_place" value="{{ $person->death_place }}"/>
+        </div>
 
-    <label for="buriage_date">Buriage Date</label>
-    <input type="text" id="buriage_date" name="buriage_date" value="{{ $person->buriage_date }}"/>
+        <div class="item" style="width: 10rem">
+            <label for="death_cause">Death Cause</label>
+            <input type="text" id="death_cause" name="death_cause" value="{{ $person->death_cause }}"/>
+        </div>
 
-    <label for="buriage_place">Buriage Place</label>
-    <input type="text" id="buriage_place" name="buriage_place" value="{{ $person->buriage_place }}"/>
+        <div class="item" style="width: 7rem">
+            <label for="buriage_date">Buri. Date</label>
+            <input type="text" id="buriage_date" name="buriage_date" value="{{ $person->buriage_date }}"/>
+        </div>
 
-    <div></div>
-    <div></div>
-    <div></div>
+        <div class="item" style="width: 10rem">
+            <label for="buriage_place">Buriage Place</label>
+            <input type="text" id="buriage_place" name="buriage_place" value="{{ $person->buriage_place }}"/>
+        </div>
+    </div>
 
-    <input type="submit" class="btn" value="Save" />
+    <div class="row">
+        <input type="submit" class="btn" value="Save" />
+    </div>
+
 </form>
+
+<style>
+    form > div {
+        flex-wrap: wrap;
+    }
+
+    form > div > .item {
+        display: block;
+        flex-grow: 1;
+    }
+
+    label {
+        margin: 0;
+    }
+</style>
