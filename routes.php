@@ -4,6 +4,7 @@ use App\Controllers\FamilyController;
 use App\Controllers\MainController;
 use App\Controllers\PersonController;
 use App\Controllers\TreeController;
+use App\Middleware\RequireEditor;
 use PXP\Auth\Controllers\LoginController;
 use PXP\Auth\Controllers\RegisterController;
 use PXP\Auth\Controllers\VerificationController;
@@ -11,7 +12,6 @@ use PXP\Auth\Middleware\InteractiveAuth;
 use PXP\Auth\Middleware\VerifiedEmail;
 use PXP\Http\Controllers\AssetController;
 use PXP\Router\Route;
-use App\Middleware\RequireEditor;
 
 Route::get('/')->do(MainController::class, 'index')->name('main');
 

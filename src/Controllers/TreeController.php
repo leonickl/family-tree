@@ -6,12 +6,11 @@ use App\Models\Family;
 use App\Models\Person;
 use App\Models\User;
 use App\Plot\Plot;
-use PXP\Http\Controllers\Controller;
-use PXP\Http\Response\Response;
 use PXP\Auth\Auth;
-use PXP\Lib\Notification;
-use PXP\Auth\Role;
+use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
+use PXP\Http\Response\Response;
+use PXP\Lib\Notification;
 
 class TreeController extends Controller
 {

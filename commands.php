@@ -2,7 +2,6 @@
 
 use App\Converter;
 use App\Importer;
-use App\Models\User;
 use PXP\Console\Command;
 
 /**

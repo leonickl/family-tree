@@ -3,11 +3,11 @@
 namespace App\Controllers;
 
 use App\Models\Person;
+use PXP\Auth\Auth;
+use PXP\Auth\Role;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
 use PXP\Http\Response\Response;
-use PXP\Auth\Auth;
-use PXP\Auth\Role;
 
 class PersonController extends Controller
 {
