@@ -48,7 +48,7 @@ Command::new('postfix-ids', function (?string $file = null, ?string $postfix = n
 });
 
 /**
- * The final gedcom file must have numeric ids for theimport.
+ * The final gedcom file must have numeric ids for the import.
  * This function converts to the correct format.
  */
 Command::new('numerify-ids', function (?string $file = null) {
