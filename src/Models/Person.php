@@ -31,11 +31,11 @@ class Person extends Model
     {    
         return v(
             $this->name_prefix,
-            $this->name_first,
+            $this->name_first ?: '---',
             $this->name_marriage,
             trim($this->name_marriage ?? '') !== ''
                 ? '(geb. '.($this->name_last ?? '---').')'
-                : $this->name_last,
+                : ($this->name_last ?: '---'),
             $this->name_suffix,
         )
             ->filter(fn ($name) => $name !== null && trim($name) !== '')
