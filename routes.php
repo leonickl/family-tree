@@ -26,7 +26,7 @@ Route::group(
     Route::get('/tree/info')->do(TreeController::class, 'info'),
     Route::post('/tree/share')->do(TreeController::class, 'share')->name('share'),
 
-    Route::get('/families')->do(FamilyController::class, 'index'),
+    Route::get('/families')->do(FamilyController::class, 'index')->name('families'),
     Route::get('/families/{id}')->do(FamilyController::class, 'show'),
     Route::get('/families/{id}/add-parent')->do(FamilyController::class, 'addParent'),
     Route::get('/families/{id}/add-child')->do(FamilyController::class, 'addChild'),

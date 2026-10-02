@@ -1,3 +1,6 @@
 <h1>Welcome to Family Tree</h1>
 
-<p><a href="/tree">To the tree</a></p>
+<p>
+    <a href="{{ route('tree') }}" class="btn">Tree</a>
+    <a href="{{ route('families') }}" class="btn">Families</a>
+</p>
