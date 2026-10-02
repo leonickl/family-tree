@@ -12,6 +12,13 @@ use App\Gender;
 
 class PersonController extends Controller
 {
+    public function index(): Response
+    {
+        return view('people', [
+            'people' => Person::all(),
+        ]);
+    }
+
     public function show(int $id): Response
     {
         return view('person', [

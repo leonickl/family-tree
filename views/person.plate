@@ -15,7 +15,7 @@
 
 <p>
     <b>Birth:</b> {{ $person->birth_date ?: '---' }}
-        at {{ $person->birth_place ?: '---' }}
+        in {{ $person->birth_place ?: '---' }}
 </p>
 
 <p>
@@ -23,7 +23,7 @@
 
     {{ if: $person->death }}
         {{ $person->death_date ?: '---' }}
-            at {{ $person->death_place ?: '---' }}
+            in {{ $person->death_place ?: '---' }}
     {{ else: }}
         <em>alive</em>
     {{ if; }}
@@ -34,7 +34,7 @@
         <b>Buriage:</b>
 
         {{ $person->buriage_date ?: '---' }}
-            at {{ $person->buriage_place ?: '---' }}
+            in {{ $person->buriage_place ?: '---' }}
     </p>
 {{ if; }}
 

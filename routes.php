@@ -33,6 +33,7 @@ Route::group(
     Route::get('/families/create-child')->do(FamilyController::class, 'createChild'),
     Route::get('/families/create-spousal')->do(FamilyController::class, 'createSpousal'),
 
+    Route::get('/people')->do(PersonController::class, 'index')->name('people'),
     Route::get('/people/{id}/edit')->do(PersonController::class, 'edit'),
     Route::post('/people/{id}')->do(PersonController::class, 'update'),
 )
