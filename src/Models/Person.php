@@ -4,6 +4,7 @@ namespace App\Models;
 
 use PXP\Data\Model;
 use PXP\Ds\Vector;
+use App\Gender;
 
 /**
  * @property int $id
@@ -27,26 +28,23 @@ class Person extends Model
     protected string $table = 'people';
 
     public function name(): string
-    {
+    {    
         return v(
             $this->name_prefix,
             $this->name_first,
-            $this->name_last,
             $this->name_marriage,
+            trim($this->name_marriage ?? '') !== ''
+                ? '(geb. '.($this->name_last ?? '---').')'
+                : $this->name_last,
             $this->name_suffix,
         )
             ->filter(fn ($name) => $name !== null && trim($name) !== '')
             ->join(' ');
     }
 
-    public function gender(): string
+    public function gender(): Gender
     {
-        return match ($this->gender) {
-            'M' => 'male',
-            'F' => 'female',
-            'U' => 'unknown',
-            default => $this->gender,
-        } ?: 'unknown';
+        return Gender::make($this->gender);
     }
 
     public function childFamilies(): Vector

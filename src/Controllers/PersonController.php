@@ -8,6 +8,7 @@ use PXP\Auth\Role;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
 use PXP\Http\Response\Response;
+use App\Gender;
 
 class PersonController extends Controller
 {
@@ -23,6 +24,7 @@ class PersonController extends Controller
     {
         return view('person.edit', [
             'person' => Person::find($id),
+            'genders' => Gender::all(),
         ]);
     }
 

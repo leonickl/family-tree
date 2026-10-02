@@ -32,7 +32,12 @@
     <div class="row">
         <div class="item" style="width: 5rem">
             <label for="gender">Gender</label>
-            <input type="text" id="gender" name="gender" value="{{ $person->gender }}"/>
+
+            <select id="gender" name="gender">
+                {{ each: $genders as $value => $label }}
+                    <option value="{{ $value }}" {{ $person->gender()->value === $value ? 'selected' : '' }}>{{ $label }}</option>
+                {{ each; }}
+            </select>
         </div>
 
         <div class="item" style="width: 7rem">
