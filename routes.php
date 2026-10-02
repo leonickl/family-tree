@@ -17,7 +17,7 @@ Route::get('/')->do(MainController::class, 'index')->name('main');
 
 Route::group(
     Route::get('/tree')->do(TreeController::class, 'tree')->name('tree'),
-    Route::get('/people/{id}')->do(PersonController::class, 'show'),
+    Route::get('/people/{id}')->do(PersonController::class, 'show')->name('person'),
 )
     ->middleware(InteractiveAuth::class)
     ->middleware(VerifiedEmail::class);

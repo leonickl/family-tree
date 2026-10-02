@@ -27,7 +27,7 @@
             {{ each: $people as $person }}
                 <tr>
                     <td>
-                        <a href="{{ route('people', $person->id) }}">#{{ $person->id }}</a>
+                        <a href="{{ route('person', id: $person->id) }}">#{{ $person->id }}</a>
                     </td>
                     <td>{{ $person->name() }}</td>
                     <td>{{ $person->gender()->label() }}</td>
